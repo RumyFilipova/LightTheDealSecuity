@@ -12,25 +12,23 @@
     <!-- HEADER -->
     <div th:replace="~{fragments/header :: appHeader}"></div>
 
-    <!-- HERO: background image set inline here, between header and footer -->
-    <main class="hero" style="background-image: url('/pics/PicBackground.jpg');">
+    <!-- HERO: background image as a real div, not on main -->
+    <main class="main-content">
+        <div class="hero-bg" style="background-image: url('/pics/PicBackground.jpg');"></div>
+
+        <!-- Prominent logo above the card -->
+        <div class="hero-logo-wrap">
+            <img th:src="@{/pics/logo.png}" src="/pics/logo.png"
+                 alt="Light the Deal logo" class="hero-logo"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <span class="hero-logo-fallback" style="display:none;">L</span>
+            <div class="hero-brand-text">
+                <span class="hero-brand-name">Light the Deal</span>
+                <span class="hero-brand-tagline">Find the best deals first</span>
+            </div>
+        </div>
 
         <section class="auth-card">
-
-            <!-- Logo + title block inside the card -->
-            <div class="card-brand">
-                <img th:src="@{/pics/logo.png}" src="/pics/logo.png"
-                     alt="Light the Deal logo" class="card-logo"
-                     onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                <span class="card-logo-fallback" style="display:none;">L</span>
-                <div class="card-brand-text">
-                    <span class="card-brand-name">Light the Deal</span>
-                    <span class="card-brand-tagline">Find the best deals first</span>
-                </div>
-            </div>
-
-            <div class="card-divider"></div>
-
             <h2>Sign In</h2>
             <div class="auth-switch" aria-label="Authentication options">
                 <a href="/home"     class="auth-option active">Sign In</a>
@@ -48,11 +46,9 @@
                 <button type="submit" class="sign-in-btn spaced-btn">Sign In</button>
             </form>
         </section>
-
     </main>
 
     <div th:replace="~{fragments/footer :: appFooter}">
-        <!-- fallback for static preview only -->
         <footer class="site-footer">
             <p>&copy; 2025 Light the Deal. All rights reserved.</p>
         </footer>

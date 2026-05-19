@@ -20,10 +20,10 @@ public class AssistanceService {
 
     public static void createDefaultAssistanceList(User user) {
 
-        Assistance.builder()
-                .name(AssistanceServiceRequest.name())
-                .description(AssistanceServiceRequest.)
-                .pricePerUnit()
-                .build();
+        // Assistance.builder()
+        //  .name(AssistanceServiceRequest.name())
+        //  .description(AssistanceServiceRequest.)
+//.pricePerUnit()
+        //.build();
     }
 }
