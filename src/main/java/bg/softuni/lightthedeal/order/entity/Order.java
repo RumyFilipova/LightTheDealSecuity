@@ -5,21 +5,16 @@ import bg.softuni.lightthedeal.offer.entity.Offer;
 import bg.softuni.lightthedeal.premise.entity.Premise;
 import bg.softuni.lightthedeal.user.entity.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.boot.webmvc.autoconfigure.WebMvcProperties;
-
+import lombok.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Builder
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
 @Entity
 @Table(name = "orders")
 public class Order {
@@ -45,7 +40,7 @@ public class Order {
 
     //ManyOrderOneUser
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
 
     //ManyOrderOnePremise
@@ -53,6 +48,8 @@ public class Order {
     @JoinColumn(name = "premise_id", nullable = false)
     private Premise premise;
 
+
+    // always linked to the offer that created it
     @OneToOne
     @JoinColumn(name = "offer_id", nullable = false, unique = true)
     private Offer offer;

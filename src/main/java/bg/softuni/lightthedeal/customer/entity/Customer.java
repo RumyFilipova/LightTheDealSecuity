@@ -3,20 +3,17 @@ package bg.softuni.lightthedeal.customer.entity;
 import bg.softuni.lightthedeal.premise.entity.Premise;
 import bg.softuni.lightthedeal.user.entity.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Builder
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
 @Entity
 @Table(name = "customers")
 public class Customer {
@@ -46,7 +43,7 @@ public class Customer {
 
     // OneCustomerManuPremise
 
-    @OneToMany(fetch = FetchType.EAGER,mappedBy = "customer")
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "customer")
     private List<Premise> premises = new ArrayList<>();
 
 }

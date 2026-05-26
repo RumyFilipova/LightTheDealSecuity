@@ -4,20 +4,17 @@ import bg.softuni.lightthedeal.customer.entity.Customer;
 import bg.softuni.lightthedeal.offer.entity.Offer;
 import bg.softuni.lightthedeal.user.entity.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Builder
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
 @Entity
 @Table(name = "premises")
 public class Premise {
@@ -26,16 +23,21 @@ public class Premise {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+
     @Column(nullable = false)
-    private String location;
+    private String name;           // e.g. "Main apartment", "Office floor 2"
 
-    //OnePremiseManyUser
-    @OneToMany(mappedBy = "premise")
-    private List<User> users = new ArrayList<>();
+    @Column
+    private String address;
 
-    //OnePremiseManyOffers
+    @Column
+    private String description;    // type: apartment / office / new build etc.
 
-    @OneToMany(mappedBy = "premise")
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @OneToMany(mappedBy = "premise", fetch = FetchType.LAZY)
     private List<Offer> offers = new ArrayList<>();
 
     @ManyToOne

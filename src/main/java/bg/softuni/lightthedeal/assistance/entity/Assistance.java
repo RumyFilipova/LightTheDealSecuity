@@ -1,8 +1,10 @@
 package bg.softuni.lightthedeal.assistance.entity;
 
+import bg.softuni.lightthedeal.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Builder
@@ -26,6 +28,10 @@ public class Assistance {
     private String description;
 
     @Column(name = "price_per_unit",nullable = false)
-    private Double pricePerUnit;
+    private BigDecimal pricePerUnit;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }

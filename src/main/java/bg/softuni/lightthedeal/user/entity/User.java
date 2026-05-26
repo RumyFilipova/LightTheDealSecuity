@@ -1,11 +1,14 @@
 package bg.softuni.lightthedeal.user.entity;
+import bg.softuni.lightthedeal.assistance.entity.Assistance;
 import bg.softuni.lightthedeal.customer.entity.Customer;
+import bg.softuni.lightthedeal.materials.entities.Material;
 import bg.softuni.lightthedeal.offer.entity.Offer;
 import bg.softuni.lightthedeal.order.entity.Order;
 import bg.softuni.lightthedeal.premise.entity.Premise;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,6 +20,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "users")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -24,16 +28,16 @@ public class User {
     @Column(name = "user_name", nullable = false, unique = true)
     private String userName;
 
-    @Column (nullable = false)
+    @Column(nullable = false)
     private String password;
 
-    @Column (nullable = false,unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column (name = "first_name",nullable = false)
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column (name = "last_name",nullable = false)
+    @Column(name = "last_name")
     private String lastName;
 
     @Column(name = "phone_number", nullable = false)
@@ -42,30 +46,30 @@ public class User {
     @Column(name = "profile_picture")
     private String profilePicture;
 
-    @Column
     @Enumerated(EnumType.STRING)
+    @Column
     private Role role;
 
-    @ManyToMany (fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "user_customer",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns =@JoinColumn(name = "customer_id")
-    )
-    private List<Customer> customers;
+    // Each customer belongs to this user (technician)
+    @ManyToMany
+    private List <Customer> customers = new ArrayList<>();
 
-    @ManyToOne
-    @JoinColumn(name = "premise_id")
-    private Premise premise;
+    // User's personal catalogue of assistance services
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Assistance> assistanceList = new ArrayList<>();
 
+    // User's personal catalogue of materials
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Material> materialList = new ArrayList<>();
 
-    //OneUserManyOffers
-    @OneToMany
-    private List<Offer> offers;
+    // Offers created by this user
+    @OneToMany(mappedBy = "user")
+    private List<Offer> offers = new ArrayList<>();
 
-    //OneUserManyOrders
-    @OneToMany
-    private List<Order> orders;
+    // Orders created by this user
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders = new ArrayList<>();
 
-
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Premise> premises = new ArrayList<>();
 }

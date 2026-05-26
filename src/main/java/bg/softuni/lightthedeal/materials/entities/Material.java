@@ -1,18 +1,17 @@
 package bg.softuni.lightthedeal.materials.entities;
 
+import bg.softuni.lightthedeal.user.entity.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
+@Builder
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
 @Entity
 @Table(name = "materials")
 public class Material {
@@ -32,6 +31,10 @@ public class Material {
     @Column
     private String brand;// Schneider, Siemens, Muller
 
-    @Column(name = "single_price")
-    private Double singlePrice;
+    @Column(name = "single_price",nullable = false)
+    private BigDecimal singlePrice;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 }

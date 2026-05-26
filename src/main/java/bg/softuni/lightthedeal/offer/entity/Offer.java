@@ -1,22 +1,22 @@
 package bg.softuni.lightthedeal.offer.entity;
 
 import bg.softuni.lightthedeal.assistance.entity.OfferAssistance;
+import bg.softuni.lightthedeal.customer.entity.Customer;
 import bg.softuni.lightthedeal.order.entity.Order;
 import bg.softuni.lightthedeal.premise.entity.Premise;
 import bg.softuni.lightthedeal.user.entity.User;
 import bg.softuni.lightthedeal.materials.entities.OfferMaterial;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Builder
 @Getter
 @Setter
 @AllArgsConstructor
@@ -40,7 +40,7 @@ public class Offer {
     private LocalDate deadline;
 
     @Column(name = "total_amount")
-    private Double totalAmount;
+    private BigDecimal totalAmount;
 
     @Column(name = "status_offer")
     @Enumerated(EnumType.STRING)
@@ -49,11 +49,17 @@ public class Offer {
 
     //OneOfferOneUser
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     //OneOfferOneCustomer
     @ManyToOne
-    private Premise premise;
+    @JoinColumn(name = "customer_id")
+    private Customer customer; // who ordered the work
+
+    @ManyToOne
+    @JoinColumn(name = "premise_id")
+    private Premise premise;// where the work is done
 
     @OneToOne(mappedBy = "offer")
     private Order order;
