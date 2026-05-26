@@ -20,7 +20,7 @@ private final  MaterialRepository materialRepository;
     }
 
 
-    public void createAssistance(MaterialServiceRequest materialServiceRequest, User user) {
+    public void createMaterial(MaterialServiceRequest materialServiceRequest, User user) {
     Material material = Material.builder()
             .name(materialServiceRequest.name())
             .type(materialServiceRequest.type())
