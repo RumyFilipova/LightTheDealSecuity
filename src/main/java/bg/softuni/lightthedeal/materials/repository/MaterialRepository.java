@@ -14,5 +14,5 @@ public interface MaterialRepository extends JpaRepository<Material, UUID> {
 
     List<Material> findAllByUser(User user);
 
-    Optional<Material> findByIdAndUser(UUID id, User user);
+    Optional <Material> findByIdAndUser(UUID id, User user);
 }

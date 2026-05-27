@@ -84,15 +84,19 @@ public class UserService {
     public List<Material> getAllMaterialForUser(User user) {
         return materialRepository.findAllByUser(user);
     }
+
     public List<Assistance> getAllAssistanceForUser(User user){
         return assistanceRepository.findAllByUser(user);
     }
+
     public List<Customer> getAllCustomerForUser(User user) {
-        return customerRepository.findAllByUser(user);
+        return customerRepository.findAllByUsers(user);
     }
+
     public List<Offer> getAllOffersForUSer(User user){
-        return offerRepository.findAllByUser(user);
+        return offerRepository.findByUser(user);
     }
+
     public List<Order> getAllOrdersForUSer(User user){
         return orderRepository.findAllByUser(user);
     }
@@ -111,7 +115,12 @@ public class UserService {
 
     }
 
+public void deleteUser(UUID id,User user){
 
+        User user1 = userRepository.findById(id).get();
+
+        userRepository.delete(user1);
+}
 
 
 

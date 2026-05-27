@@ -70,10 +70,6 @@ public class PremiseService {
     public void  deletePremise(UUID id, User user){
         Premise premise = getByIdAndUser(id, user);
 
-        // Detach from user before deleting
-        user.setPremise(null);
-        userRepository.save(user);
-
       premiseRepository.delete(premise);
 
     }
