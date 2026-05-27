@@ -1,63 +1,41 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home · Light the Deal</title>
-    <link rel="stylesheet" th:href="@{/css/home.css}" href="/css/home.css">
+    <title>HOME ·Light the Deal</title>
+    <link rel="stylesheet" href="home.css">
 </head>
+
 <body>
-<div class="page-shell">
+<header class="header">
 
-    <!-- HEADER -->
-    <div th:replace="~{fragments/header :: appHeader}"></div>
-
-    <!-- HERO: background image set inline here, between header and footer -->
-    <main class="hero" style="background-image: url('/pics/PicBackground.jpg');">
-
-        <section class="auth-card">
-
-            <!-- Logo + title block inside the card -->
-            <div class="card-brand">
-                <img th:src="@{/pics/logo.png}" src="/pics/logo.png"
-                     alt="Light the Deal logo" class="card-logo"
-                     onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                <span class="card-logo-fallback" style="display:none;">L</span>
-                <div class="card-brand-text">
-                    <span class="card-brand-name">Light the Deal</span>
-                    <span class="card-brand-tagline">Find the best deals first</span>
-                </div>
-            </div>
-
-            <div class="card-divider"></div>
-
-            <h2>Sign In</h2>
-            <div class="auth-switch" aria-label="Authentication options">
-                <a href="/home"     class="auth-option active">Sign In</a>
-                <a href="/register" class="auth-option">Register</a>
-            </div>
-            <form action="/login" method="post">
-                <div class="field">
-                    <label for="username">Username or email</label>
-                    <input id="username" name="username" type="text" required>
-                </div>
-                <div class="field">
-                    <label for="password">Password</label>
-                    <input id="password" name="password" type="password" required>
-                </div>
-                <button type="submit" class="sign-in-btn spaced-btn">Sign In</button>
-            </form>
-        </section>
-
-    </main>
-
-    <div th:replace="~{fragments/footer :: appFooter}">
-        <!-- fallback for static preview only -->
-        <footer class="site-footer">
-            <p>&copy; 2025 Light the Deal. All rights reserved.</p>
-        </footer>
+<nav class="nav">
+    <ul class="nav_list">
+        <li class="item">
+            <button class="btn" name="log">LogIn</button>
+        </li>
+        <li class="item">
+            <button class="btn" name="reg">Register</button>
+        </li>
+    </ul>
+</nav>
+</header>
+<main>
+<section class="hero">
+    <div class="imgBack"></div>
+    <div class="filter"></div>
+</section>
+</main>
+<footer class="footer">
+    <div class="content">
+        <img src="pics/logo.png" alt="logo" class="logo">
+        <span class="rights">
+            © Copyright Light the Deal 2026. All Rights reserved.
+        </span>
     </div>
 
-</div>
+</footer>
 </body>
+
 </html>

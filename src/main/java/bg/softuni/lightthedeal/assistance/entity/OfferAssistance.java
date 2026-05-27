@@ -1,6 +1,7 @@
 package bg.softuni.lightthedeal.assistance.entity;
 
 import bg.softuni.lightthedeal.offer.entity.Offer;
+import bg.softuni.lightthedeal.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -33,6 +34,10 @@ public class OfferAssistance {
     @ManyToOne
     @JoinColumn(name = "assistance_id", nullable = false)
     private Assistance assistance;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     public BigDecimal subtotal() {
         return priceAtTimeOfOffer.multiply(BigDecimal.valueOf(quantity));

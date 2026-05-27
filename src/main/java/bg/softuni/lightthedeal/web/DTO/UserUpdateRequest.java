@@ -1,6 +1,10 @@
 package bg.softuni.lightthedeal.web.DTO;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.Builder;
+import lombok.Data;
+
+@Builder
 
 public record UserUpdateRequest(
 @NotBlank(message = "* required")

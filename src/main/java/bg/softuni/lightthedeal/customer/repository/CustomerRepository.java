@@ -15,15 +15,11 @@ import java.util.UUID;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, UUID> {
 
-    Optional<Customer> findByEmail(@NotBlank @UniqueElements(message = "Customer with this e-mail already exist") String email);
-
-    // All customers linked to a given user
-    List<Customer> findAllByUsers(User user);
+    Optional<Customer> findByEmail(@NotBlank String email);
 
     // Customer that is in belonging of the user
-    Optional<Customer> findByIdAndUser(UUID id, User user);
-
-    List<Customer> findAllByUser(User user);
-
     Optional<Customer> findByIdAndUsers(UUID id, User user);
+
+    List<Customer> findAllByUsers(User user);
+
 }

@@ -8,7 +8,6 @@ import jakarta.validation.constraints.Size;
         confirmPassword = "confirmPassword",
         message = "Passwords do not match"
 )*/
-
 public record ChangePasswordRequest(
 
         @NotBlank(message = "Current password is required")
