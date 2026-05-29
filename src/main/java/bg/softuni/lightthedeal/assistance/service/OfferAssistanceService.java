@@ -7,11 +7,13 @@ import bg.softuni.lightthedeal.assistance.repository.OfferAssistanceRepository;
 import bg.softuni.lightthedeal.offer.entity.Offer;
 import bg.softuni.lightthedeal.user.entity.User;
 import bg.softuni.lightthedeal.web.DTO.OfferAssistanceLine;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class OfferAssistanceService {
 
     private final AssistanceRepository assistanceRepository;
@@ -69,6 +71,7 @@ public class OfferAssistanceService {
 
     // remove assistance
 
+
     public void removeAssistanceLine(UUID id, User user){
         OfferAssistance line = offerAssistanceRepository.findById(id)
                 .orElseThrow(()-> new RuntimeException("The particular assistance %s was not found in the offer and it is not possible to be delete".formatted(id)));
@@ -78,9 +81,10 @@ public class OfferAssistanceService {
     // calculate the offer
     public BigDecimal calculateTotal(Offer offer){
 
-        return assistanceRepository.findAllByOffer(offer)
+        return offerAssistanceRepository.findAllByOffer(offer)
                 .stream()
                 .map(OfferAssistance::subtotal)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+                .reduce(BigDecimal.ZERO,
+                        BigDecimal::add);
     }
 }

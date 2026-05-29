@@ -18,5 +18,5 @@ public interface AssistanceRepository extends JpaRepository<Assistance, UUID> {
 
     Optional<Assistance> findByIdAndUser(UUID id, User user);
 
-    List <OfferAssistance> findAllByOffer(Offer offer);
+
 }

@@ -8,11 +8,13 @@ import bg.softuni.lightthedeal.offer.entity.Offer;
 import bg.softuni.lightthedeal.offer.repository.OfferRepository;
 import bg.softuni.lightthedeal.user.entity.User;
 import bg.softuni.lightthedeal.web.DTO.OfferMaterialLine;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class OfferMaterialService {
 
 private final MaterialRepository materialRepository;

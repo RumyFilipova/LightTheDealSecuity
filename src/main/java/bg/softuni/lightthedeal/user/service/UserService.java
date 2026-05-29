@@ -101,7 +101,7 @@ public class UserService {
         return orderRepository.findAllByUser(user);
     }
 
-    // UPDATE OFFER
+    // UPDATE USER
     public User updateUser(UserUpdateRequest request,User user){
 
         user.setUserName(request.userName());

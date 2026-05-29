@@ -9,10 +9,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 
-public class UserLoginRequest {
+public record UserLoginRequest(
     @Size(min = 6, message = "Username must be at least 6 characters")
-    private String username;
+    String username,
 
     @Size(min = 6, message = "password must be at least 6 characters")
-    private  String password;
+    String password
+
+) {
 }
