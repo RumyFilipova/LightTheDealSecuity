@@ -5,6 +5,6 @@ import java.util.UUID;
 
 public record OfferMaterialLine(
         UUID materialId,
-        BigDecimal quantity
+        Double quantity
 ) {
 }

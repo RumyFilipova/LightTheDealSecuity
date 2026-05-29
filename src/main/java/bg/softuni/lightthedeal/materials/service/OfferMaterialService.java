@@ -7,6 +7,7 @@ import bg.softuni.lightthedeal.materials.repository.OfferMaterialRepository;
 import bg.softuni.lightthedeal.offer.entity.Offer;
 import bg.softuni.lightthedeal.offer.repository.OfferRepository;
 import bg.softuni.lightthedeal.user.entity.User;
+import bg.softuni.lightthedeal.web.DTO.OfferMaterialLine;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -25,19 +26,19 @@ private final OfferMaterialRepository offerMaterialRepository;
 
     //builds OfferMaterial lines from the request
 
-    public List<OfferMaterial> createMaterialLines(Offer offer, List<OfferMaterial>lines, User user){
+    public List<OfferMaterial> createMaterialLines(Offer offer, List<OfferMaterialLine>lines, User user){
 
         List<OfferMaterial> offerMaterials = lines.stream()
                 .map(line ->{
-                    Material materialToAdd = materialRepository.findByIdAndUser(line.getMaterial().getId(), user)
-                            .orElseThrow(()-> new RuntimeException("Material %s not found for user %s".formatted(line.getMaterial().getId(),user.getUserName())));
+                    Material materialToAdd = materialRepository.findByIdAndUser(line.materialId(), user)
+                            .orElseThrow(()-> new RuntimeException("Material %s not found for user %s".formatted(line.materialId(),user.getUserName())));
 
                     return OfferMaterial.builder()
                             .offer(offer)
                             .user(user)
-                            .material(line.getMaterial())
-                            .quantity(line.getQuantity())
-                            .priceAtTimeOfOffer(line.getMaterial().getSinglePrice())
+                            .material(materialToAdd)
+                            .quantity(line.quantity())
+                            .priceAtTimeOfOffer(materialToAdd.getSinglePrice())
                             .build();
                 })
                 .toList();

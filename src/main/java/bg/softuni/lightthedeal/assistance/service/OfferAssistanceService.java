@@ -6,6 +6,7 @@ import bg.softuni.lightthedeal.assistance.repository.AssistanceRepository;
 import bg.softuni.lightthedeal.assistance.repository.OfferAssistanceRepository;
 import bg.softuni.lightthedeal.offer.entity.Offer;
 import bg.softuni.lightthedeal.user.entity.User;
+import bg.softuni.lightthedeal.web.DTO.OfferAssistanceLine;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -25,18 +26,19 @@ public class OfferAssistanceService {
     // build assistance for the offer
 
     public List<OfferAssistance> createAssistanceLine(
-        Offer offer, List<OfferAssistance> lines, User user){
+            Offer offer, List<OfferAssistanceLine> lines, User user){
 
         List<OfferAssistance> offeredAssistanceLine = lines.stream()
                 .map(line->{
-                    Assistance assistanceToAdd = assistanceRepository.findByIdAndUser(line.getId(),user)
-                            .orElseThrow(()-> new RuntimeException("Assistance %s is not supported for the user %s".formatted(line.getId(),user.getUserName())));
+                    Assistance assistanceToAdd = assistanceRepository.findByIdAndUser(line.assistanceId(),user)
+                            .orElseThrow(()-> new RuntimeException("Assistance %s is not supported for the user %s".formatted(line.assistanceId(),user.getUserName())));
 
                     return OfferAssistance.builder()
                             .offer(offer)
                             .user(user)
-                            .quantity(line.getQuantity())
-                            .priceAtTimeOfOffer(line.getPriceAtTimeOfOffer())
+                            .assistance(assistanceToAdd)
+                            .quantity(line.quantity().doubleValue())
+                            .priceAtTimeOfOffer(assistanceToAdd.getPricePerUnit())
                             .build();
                 })
                 .toList();

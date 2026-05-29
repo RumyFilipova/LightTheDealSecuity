@@ -1,6 +1,6 @@
 package bg.softuni.lightthedeal.order.entity;
 
-public enum statusOrder {
+public enum StatusOrder {
     COMPLETED,
     IN_PROGRESS,
     ON_HOLD,

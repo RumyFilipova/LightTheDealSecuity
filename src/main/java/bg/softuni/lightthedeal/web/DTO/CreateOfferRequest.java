@@ -8,8 +8,9 @@ public record CreateOfferRequest(
         UUID premiseId,
         UUID customerId,
         LocalDate deadline,
+
         List<OfferMaterialLine> materials,
-        List<OfferAssistanceLine> assistances
+        List<OfferAssistanceLine> assistants
 ) {
 }
 

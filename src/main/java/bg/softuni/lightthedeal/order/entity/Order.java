@@ -27,7 +27,7 @@ public class Order {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status_order")
-    private statusOrder stausOrder;
+    private StatusOrder stausOrder;
 
     @Column(name = "deadline")
     private LocalDate deadline;
@@ -53,4 +53,8 @@ public class Order {
     @OneToOne
     @JoinColumn(name = "offer_id", nullable = false, unique = true)
     private Offer offer;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer;
 }
