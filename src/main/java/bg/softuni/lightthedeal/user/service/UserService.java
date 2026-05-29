@@ -20,6 +20,7 @@ import bg.softuni.lightthedeal.user.entity.User;
 import bg.softuni.lightthedeal.user.repository.UserRepository;
 import bg.softuni.lightthedeal.web.DTO.AssistanceServiceRequest;
 import bg.softuni.lightthedeal.web.DTO.RegisterRequestUser;
+import bg.softuni.lightthedeal.web.DTO.UserDto;
 import bg.softuni.lightthedeal.web.DTO.UserUpdateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -56,7 +57,7 @@ public class UserService {
 
     }
 
-    public void register (RegisterRequestUser registerRequestUser) {
+    public UserDto register (RegisterRequestUser registerRequestUser) {
 
         Optional<User> optionalUser = userRepository.findByUserName(registerRequestUser.username());
 
