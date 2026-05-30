@@ -3,12 +3,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-
+@Builder
 public record RegisterRequestUser(
 
       // i chose record ,because it is immutable and i can save the data for my user more securely that it can not be modified

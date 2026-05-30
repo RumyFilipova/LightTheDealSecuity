@@ -6,9 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Builder
-@Data
-
 public record UserLoginRequest(
     @Size(min = 6, message = "Username must be at least 6 characters")
     String username,
