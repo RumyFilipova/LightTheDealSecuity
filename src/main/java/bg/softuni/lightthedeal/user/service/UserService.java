@@ -18,10 +18,7 @@ import bg.softuni.lightthedeal.order.service.OrderService;
 import bg.softuni.lightthedeal.user.entity.Role;
 import bg.softuni.lightthedeal.user.entity.User;
 import bg.softuni.lightthedeal.user.repository.UserRepository;
-import bg.softuni.lightthedeal.web.DTO.AssistanceServiceRequest;
-import bg.softuni.lightthedeal.web.DTO.RegisterRequestUser;
-import bg.softuni.lightthedeal.web.DTO.UserDto;
-import bg.softuni.lightthedeal.web.DTO.UserUpdateRequest;
+import bg.softuni.lightthedeal.web.DTO.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -37,11 +34,10 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    // DOUBTS
     private final AssistanceRepository assistanceRepository;
     private final MaterialRepository materialRepository;
-   private final CustomerRepository customerRepository;
-   private final OfferRepository offerRepository;
+    private final CustomerRepository customerRepository;
+    private final OfferRepository offerRepository;
     private final OrderRepository orderRepository;
 
     @Autowired
@@ -57,16 +53,16 @@ public class UserService {
 
     }
 
-    public UserDto register (RegisterRequestUser registerRequestUser) {
+    public void register(RegisterRequestUser registerRequestUser) {
 
-        Optional<User> optionalUser = userRepository.findByUserName(registerRequestUser.username());
+        Optional<User> optionalUser = userRepository.findByUsername(registerRequestUser.username());
 
         if (optionalUser.isPresent()) {
             throw new RuntimeException("User with [%s] username already exists".formatted(registerRequestUser.username()));
         }
 
         User user = User.builder()
-                .userName(registerRequestUser.username())
+                .username(registerRequestUser.username())
                 .password(passwordEncoder.encode(registerRequestUser.password()))
                 .email(registerRequestUser.email())
                 .phoneNumber(registerRequestUser.phoneNumber())
@@ -77,16 +73,35 @@ public class UserService {
 
     }
 
+    public User login(UserLoginRequest logReg){
+
+        Optional<User> optUser = userRepository.findByUsername(logReg.username());
+
+        if(optUser.isEmpty()){
+            throw new RuntimeException("The user does not exist");
+        }
+
+        String rawPass =  logReg.password();
+        String hashedPass = optUser.get().getPassword();
+
+        if(!passwordEncoder.matches(rawPass,hashedPass)){
+            throw  new RuntimeException("Incorrect username or password");
+        }
+
+
+        return optUser.get();
+    }
+
     private Optional<User> getByUsername(User user) {
 
-        return userRepository.findByUserName(user.getUserName());
+        return userRepository.findByUsername(user.getUsername());
     }
 
     public List<Material> getAllMaterialForUser(User user) {
         return materialRepository.findAllByUser(user);
     }
 
-    public List<Assistance> getAllAssistanceForUser(User user){
+    public List<Assistance> getAllAssistanceForUser(User user) {
         return assistanceRepository.findAllByUser(user);
     }
 
@@ -94,18 +109,18 @@ public class UserService {
         return customerRepository.findAllByUsers(user);
     }
 
-    public List<Offer> getAllOffersForUSer(User user){
+    public List<Offer> getAllOffersForUSer(User user) {
         return offerRepository.findByUser(user);
     }
 
-    public List<Order> getAllOrdersForUSer(User user){
+    public List<Order> getAllOrdersForUSer(User user) {
         return orderRepository.findAllByUser(user);
     }
 
     // UPDATE USER
-    public User updateUser(UserUpdateRequest request,User user){
+    public User updateUser(UserUpdateRequest request, User user) {
 
-        user.setUserName(request.userName());
+        user.setUsername(request.userName());
         user.setEmail(request.email());
         user.setFirstName(request.firstName());
         user.setLastName(request.lastName());
@@ -116,13 +131,16 @@ public class UserService {
 
     }
 
-public void deleteUser(UUID id,User user){
+    public void deleteUser(UUID id, User user) {
 
         User user1 = userRepository.findById(id).get();
 
         userRepository.delete(user1);
-}
+    }
 
 
+    public List<User> getAll() {
 
+        return userRepository.findAll();
+    }
 }

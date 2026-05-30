@@ -33,7 +33,7 @@ private final OfferMaterialRepository offerMaterialRepository;
         List<OfferMaterial> offerMaterials = lines.stream()
                 .map(line ->{
                     Material materialToAdd = materialRepository.findByIdAndUser(line.materialId(), user)
-                            .orElseThrow(()-> new RuntimeException("Material %s not found for user %s".formatted(line.materialId(),user.getUserName())));
+                            .orElseThrow(()-> new RuntimeException("Material %s not found for user %s".formatted(line.materialId(),user.getUsername())));
 
                     return OfferMaterial.builder()
                             .offer(offer)
