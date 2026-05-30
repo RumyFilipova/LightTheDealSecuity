@@ -9,26 +9,5 @@ import org.springframework.web.servlet.ModelAndView;
 public class HomeController {
 
 
-    @GetMapping("/")
-        public String index(){
-        return "home";
-    }
-
-    @GetMapping("/login")
-    public String getLoginPage(){
-
-        /*UserLoginRequest userLoginRequest = new UserLoginRequest();
-
-        ModelAndView mv = new ModelAndView();
-        mv.setViewName("login");
-        mv.addObject("userLoginRequest",userLoginRequest());*/
-        return "login";
-
-    }
-
-    @GetMapping("/register")
-    public String getRegisterPage(){
-        return "register";
-    }
 
 }
