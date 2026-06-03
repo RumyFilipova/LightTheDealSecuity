@@ -1,16 +1,72 @@
 package bg.softuni.lightthedeal.web;
 
 import bg.softuni.lightthedeal.user.entity.User;
+import bg.softuni.lightthedeal.user.service.UserService;
+import bg.softuni.lightthedeal.web.DTO.UserUpdateRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.UUID;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/profile")
 public class UserController {
+private final UserService userService;
 
-  /*  public User getUser() {}
-    public String updateUserDetails(){}
-    public String updateUserPassword(){}*/
+@Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @GetMapping("/{id}")
+    public ModelAndView getUserProfilePage(@PathVariable UUID id) {
+
+    User user = userService.getById(id);
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("profile");
+    modelAndView.addObject("currentUser", user);
+
+    return modelAndView;
+    }
+
+    @GetMapping("/{id}/edit-profile")
+    public ModelAndView getEditUserDetailsPage(@PathVariable UUID id) {
+
+    User user = userService.getById(id);
+    ModelAndView modelAndView = new ModelAndView();
+
+    modelAndView.setViewName("edit-profile");
+    modelAndView.addObject("currentUser", user);
+
+        return modelAndView;
+    }
+
+
+    @PostMapping("/{id}/edit-profile")
+    public String saveEditProfile(@PathVariable UUID id,
+                                  @ModelAttribute UserUpdateRequest dto) {
+        userService.updateUser(dto, id);
+        return "redirect:/profile/" + id + "/edit-profile";
+    }
+
+    @PostMapping("/{id}/edit-profile/contact")
+    public String saveContactDetails(@PathVariable UUID id,
+                                     @ModelAttribute UserUpdateRequest dto) {
+        userService.updateUser(dto, id);
+        return "redirect:/profile/" + id + "/edit-profile";
+    }
+
+    @PostMapping("/{id}/edit-profile/avatar/remove")
+    public String removeAvatar(@PathVariable UUID id) {
+        userService.removeProfilePicture(id);
+        return "redirect:/profile/" + id + "/edit-profile";
+    }
+
+
+  /*
+    public String editUserPassword(){}*/
 
 
 }

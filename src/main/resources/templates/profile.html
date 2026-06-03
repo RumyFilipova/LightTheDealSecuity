@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Light the Deal — User Profile</title>
+  <link rel="stylesheet"  th:href="@{/css/profile.css}"/>
+  <link rel="stylesheet"  th:href="@{/css/footer.css}"/>
+</head>
+<body>
+
+<!-- ── HEADER ─────────────────────────────────────── -->
+<header class="site-header">
+  <div class="header-logo">
+
+     <img th:src="@{/pics/logo.png}" alt="Light the Deal" />
+     <div class="header-brand">
+       Light the Deal
+       <span>technician dashboard</span>
+     </div>
+
+  </div>
+  <nav class="header-nav">
+    <button class="nav-btn">Dashboard</button>
+    <button class="nav-btn">Reports</button>
+    <button class="nav-btn">Settings</button>
+    <button class="nav-btn" style="border-color:var(--gold-dim);color:var(--gold);" th:onclick="|window.location.href='@{/}'|">Log Out</button>
+  </nav>
+</header>
+
+<!-- ── MAIN ───────────────────────────────────────── -->
+<main class="dashboard">
+
+  <!-- ── LEFT COLUMN ─────────────────────────────── -->
+  <aside class="profile-col">
+
+    <!-- Profile Card -->
+    <div class="profile-card">
+      <div class="profile-card-top">
+        <div class="avatar-ring">
+          <img alt="pic" class="avatar-image" th:src="${#strings.isEmpty(currentUser.profilePicture) ? 'https://tse1.mm.bing.net/th/id/OIP.ibsYnKduSPTAr9WPXcwSqAHaHa?pid=Api&h=220&P=0' : currentUser.profilePicture}" />
+        </div>
+        <div class="user-name" th:text="${currentUser.getUsername()}">Filip Filipov</div>
+        <div class="user-role-badge" th:text="${currentUser.getRole()}">⚡ TECHNICIAN</div>
+      </div>
+
+      <div class="profile-fields">
+        <div class="field-row">
+          <div class="field-icon">@</div>
+          <div class="field-info">
+            <div class="field-label">Username</div>
+            <div class="field-value" th:text="${currentUser.getUsername()}">filip.filipov</div>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field-icon">✉</div>
+          <div class="field-info">
+            <div class="field-label">Email</div>
+            <div class="field-value" th:text="${#strings.isEmpty(currentUser.email)? 'Add your r-mail to your profile': currentUser.email }">filip.filipov1995@gmail.com</div>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field-icon">☎</div>
+          <div class="field-info">
+            <div class="field-label">Phone</div>
+            <div class="field-value" th:text="${currentUser.getPhoneNumber()}">+359 88 123 4567</div>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field-icon">#</div>
+          <div class="field-info">
+            <div class="field-label" >User ID</div>
+            <div class="field-value" th:text="${currentUser.getId()}" style="font-family:var(--mono);font-size:0.72rem;color:var(--text-dim);">a3f1-…-7e2d</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-actions">
+        <a class="btn-edit-profile" th:href="@{/profile/{id}/edit-profile(id=${currentUser.id})}">⚙ Edit Profile</a>
+      </div>
+    </div>
+
+    <!-- Stats Card
+   - <div class="stats-card">
+      <div class="card-label">Activity Summary</div>
+      <div class="stats-grid">
+        <div class="stat-box" th:onclick="|window.location.href='@{/customer}'|">
+          <div class="stat-num">12</div>
+          <div class="stat-name">Customers</div>
+        </div>
+        <div class="stat-box" th:onclick="|window.location.href='@{/offer}'|">
+          <div class="stat-num">8</div>
+          <div class="stat-name">Offers</div>
+        </div>
+        <div class="stat-box" th:onclick="|window.location.href='@{/order}'|">
+          <div class="stat-num">5</div>
+          <div class="stat-name">Orders</div>
+        </div>
+        <div class="stat-box" th:onclick="|window.location.href='@{/premises}'|">
+          <div class="stat-num">3</div>
+          <div class="stat-name">Premises</div>
+        </div>
+        <div class="stat-box" th:onclick="|window.location.href='@{/material}'|">
+          <div class="stat-num">24</div>
+          <div class="stat-name">Materials</div>
+        </div>
+        <div class="stat-box" th:onclick="|window.location.href='@{/assistance}'|">
+          <div class="stat-num">9</div>
+          <div class="stat-name">Assistance</div>
+        </div>
+      </div>
+    </div>-->
+    <!-- Summary Bar -->
+    <div class="summary-card">
+      <div class="card-label">Overview at a Glance</div>
+      <div class="summary-grid">
+        <div class="summary-item">
+          <div class="summary-count">₿ 3</div>
+          <div class="summary-name">Active Offers</div>
+          <div class="summary-trend">▲ 2 this week</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-count">2</div>
+          <div class="summary-name">Pending Orders</div>
+          <div class="summary-trend" style="color:var(--gold-dim);">— unchanged</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-count">12</div>
+          <div class="summary-name">Total Customers</div>
+          <div class="summary-trend">▲ 1 new</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-count">24</div>
+          <div class="summary-name">Materials in Catalogue</div>
+          <div class="summary-trend">▲ 3 added</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-count">9</div>
+          <div class="summary-name">Assistance Services</div>
+          <div class="summary-trend" style="color:var(--text-dim);">— no change</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-count">3</div>
+          <div class="summary-name">Registered Premises</div>
+          <div class="summary-trend">▲ 1 new</div>
+        </div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ── RIGHT COLUMN ─────────────────────────────── -->
+  <div class="main-col">
+
+    <!-- Entity Quick Access -->
+    <div>
+      <div class="card-label" style="font-family:var(--mono);font-size:0.62rem;color:var(--text-dim);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px;">
+        Manage Entities
+        <span style="flex:1;height:1px;background:var(--panel-border);display:inline-block;"></span>
+      </div>
+      <div class="entity-grid">
+
+        <a th:href="@{/offer}" class="entity-btn">
+          <div class="entity-icon">📋</div>
+          <div class="entity-name">Offers</div>
+          <div class="entity-desc">Create & manage proposals</div>
+          <div class="entity-actions-count">CREATE · UPDATE · VIEW</div>
+        </a>
+
+        <a th:href="@{/order}" class="entity-btn">
+          <div class="entity-icon">📦</div>
+          <div class="entity-name">Orders</div>
+          <div class="entity-desc">Track & process orders</div>
+          <div class="entity-actions-count">CREATE · UPDATE · VIEW</div>
+        </a>
+
+        <a th:href="@{/customer}" class="entity-btn">
+          <div class="entity-icon">👥</div>
+          <div class="entity-name">Customers</div>
+          <div class="entity-desc">Client management</div>
+          <div class="entity-actions-count">CREATE · UPDATE · VIEW</div>
+        </a>
+
+        <a th:href="@{/material}" class="entity-btn">
+          <div class="entity-icon">🔩</div>
+          <div class="entity-name">Materials</div>
+          <div class="entity-desc">Parts & supply catalogue</div>
+          <div class="entity-actions-count">CREATE · UPDATE · VIEW</div>
+        </a>
+
+        <a th:href="@{/assistance}" class="entity-btn">
+          <div class="entity-icon">🛠</div>
+          <div class="entity-name">Assistance</div>
+          <div class="entity-desc">Service catalogue</div>
+          <div class="entity-actions-count">CREATE · UPDATE · VIEW</div>
+        </a>
+
+        <a th:href="@{/premise}" class="entity-btn">
+          <div class="entity-icon">🏢</div>
+          <div class="entity-name">Premises</div>
+          <div class="entity-desc">Locations & sites</div>
+          <div class="entity-actions-count">CREATE · UPDATE · VIEW</div>
+        </a>
+
+      </div>
+    </div>
+
+
+
+    <!-- To-Do List -->
+    <div class="todo-card">
+      <div class="todo-header">
+        <div class="card-label" style="margin-bottom:0;">Task List</div>
+        <button class="todo-add-btn" onclick="toggleTodoInput()">+ Add Task</button>
+      </div>
+
+      <div class="todo-input-row" id="todoInputRow">
+        <input class="todo-input" id="todoInput" placeholder="Enter task description…" onkeydown="if(event.key==='Enter') addTodo()" />
+        <button class="todo-confirm-btn" onclick="addTodo()">ADD</button>
+      </div>
+
+      <div class="todo-list" id="todoList">
+        <!-- default tasks -->
+        <div class="todo-item" onclick="toggleTodo(this)">
+          <div class="todo-checkbox">✓</div>
+          <span class="todo-text">Create offer for Client Petrov — solar installation</span>
+          <button class="todo-del" onclick="deleteTodo(event,this)">✕</button>
+        </div>
+        <div class="todo-item done" onclick="toggleTodo(this)">
+          <div class="todo-checkbox">✓</div>
+          <span class="todo-text">Add new materials: cable 6mm², junction boxes</span>
+          <button class="todo-del" onclick="deleteTodo(event,this)">✕</button>
+        </div>
+        <div class="todo-item" onclick="toggleTodo(this)">
+          <div class="todo-checkbox"></div>
+          <span class="todo-text">Update assistance service rates for Q3</span>
+          <button class="todo-del" onclick="deleteTodo(event,this)">✕</button>
+        </div>
+        <div class="todo-item" onclick="toggleTodo(this)">
+          <div class="todo-checkbox"></div>
+          <span class="todo-text">Register new premise — warehouse Sofia-North</span>
+          <button class="todo-del" onclick="deleteTodo(event,this)">✕</button>
+        </div>
+        <div class="todo-item done" onclick="toggleTodo(this)">
+          <div class="todo-checkbox">✓</div>
+          <span class="todo-text">Follow up with Customer Ivanova on order #1042</span>
+          <button class="todo-del" onclick="deleteTodo(event,this)">✕</button>
+        </div>
+      </div>
+
+      <div class="todo-progress">
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" id="progressFill" style="width:40%"></div>
+        </div>
+        <div class="progress-label" id="progressLabel">2 / 5 done</div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- ── FOOTER ─────────────────────────────────────── -->
+
+<div th:insert="~{fragments/footer::footer}"> </div>
+
+
+<script>
+  function toggleTodoInput() {
+    const row = document.getElementById('todoInputRow');
+    row.classList.toggle('active');
+    if (row.classList.contains('active')) document.getElementById('todoInput').focus();
+  }
+
+  function addTodo() {
+    const input = document.getElementById('todoInput');
+    const text = input.value.trim();
+    if (!text) return;
+    const list = document.getElementById('todoList');
+    const item = document.createElement('div');
+    item.className = 'todo-item';
+    item.onclick = function() { toggleTodo(this); };
+    item.innerHTML = `
+      <div class="todo-checkbox"></div>
+      <span class="todo-text">${text}</span>
+      <button class="todo-del" onclick="deleteTodo(event,this)">✕</button>`;
+    list.appendChild(item);
+    input.value = '';
+    updateProgress();
+    document.getElementById('todoInputRow').classList.remove('active');
+  }
+
+  function toggleTodo(item) {
+    item.classList.toggle('done');
+    const cb = item.querySelector('.todo-checkbox');
+    cb.textContent = item.classList.contains('done') ? '✓' : '';
+    updateProgress();
+  }
+
+  function deleteTodo(e, btn) {
+    e.stopPropagation();
+    btn.closest('.todo-item').remove();
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const items = document.querySelectorAll('.todo-item');
+    const done = document.querySelectorAll('.todo-item.done');
+    const pct = items.length ? Math.round((done.length / items.length) * 100) : 0;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressLabel').textContent = `${done.length} / ${items.length} done`;
+  }
+
+</script>
+</body>
+</html>

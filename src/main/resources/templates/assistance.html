@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Light the Deal — Assistance</title>
+    <link rel="stylesheet" th:href="@{/css/entities.css}"/>
+</head>
+<body>
+
+<header class="site-header">
+    <a th:href="@{/profile}" class="header-logo">
+        <img th:src="@{/pics/logo.png}" alt="Light the Deal"/>
+        <div class="header-brand">Light the Deal <span>technician dashboard</span></div>
+    </a>
+    <a th:href="@{/profile}" class="back-btn">← Back to Profile</a>
+</header>
+
+<div class="page-hero">
+    <div class="page-title-block">
+        <div class="page-eyebrow">Entity Management · Assistance</div>
+        <div class="page-title">🛠 Assistance</div>
+        <div class="page-subtitle">Your personal catalogue of service types & labour rates</div>
+    </div>
+    <img th:src="@{/pics/logo.png}" class="page-logo-accent" alt=""/>
+</div>
+
+<div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('create',this)">Add Service</button>
+    <button class="tab-btn" onclick="switchTab('list',this)">All Services</button>
+    <button class="tab-btn" onclick="switchTab('update',this)">Update Service</button>
+</div>
+
+<div class="content-area">
+
+    <!-- CREATE -->
+    <div class="tab-panel active" id="tab-create">
+        <div class="section-label">New Assistance Service</div>
+        <div class="form-card">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label">Service Name</label>
+                    <input class="form-input" placeholder="e.g. Electrical installation per hour"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Service Code</label>
+                    <input class="form-input" placeholder="e.g. SRV-ELEC-H"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Category</label>
+                    <select class="form-select">
+                        <option>Installation</option>
+                        <option>Inspection</option>
+                        <option>Repair</option>
+                        <option>Consultation</option>
+                        <option>Maintenance</option>
+                        <option>Design</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Billing Unit</label>
+                    <select class="form-select">
+                        <option>per hour</option>
+                        <option>per day</option>
+                        <option>flat rate</option>
+                        <option>per m²</option>
+                        <option>per point</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Rate (BGN)</label>
+                    <input class="form-input" type="number" step="0.01" placeholder="0.00"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Est. Duration</label>
+                    <input class="form-input" placeholder="e.g. 2h, 1 day"/>
+                </div>
+                <div class="form-group span2">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-textarea"
+                              placeholder="What this service covers, requirements, notes…"></textarea>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-primary">⚡ Add Service</button>
+                <button class="btn btn-secondary">Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LIST -->
+    <div class="tab-panel" id="tab-list">
+        <div class="section-label">All Services</div>
+        <div class="data-table-wrap">
+            <table class="data-table">
+                <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Rate</th>
+                    <th>Unit</th>
+                    <th>Duration</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td style="font-family:var(--mono);color:var(--text-dim);">SRV-ELEC-H</td>
+                    <td>Electrical installation</td>
+                    <td>Installation</td>
+                    <td style="font-family:var(--mono);">45.00 BGN</td>
+                    <td><span class="badge badge-gray">per hour</span></td>
+                    <td style="font-family:var(--mono);color:var(--text-dim);">variable</td>
+                    <td>
+                        <div class="table-actions">
+                            <button class="tbl-btn"
+                                    onclick="switchTab('update',document.querySelectorAll('.tab-btn')[2])">Edit
+                            </button>
+                            <button class="tbl-btn del">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="+font-family:var(--mono);color:var(--text-dim);">SRV-INSP</td>
+                    <td>Safety inspection</td>
+                    <td>Inspection</td>
+                    <td style="font-family:var(--mono);">120.00 BGN</td>
+                    <td><span class="badge badge-gray">flat rate</span></td>
+                    <td style="font-family:var(--mono);color:var(--text-dim);">2–3h</td>
+                    <td>
+                        <div class="table-actions">
+                            <button class="tbl-btn"
+                                    onclick="switchTab('update',document.querySelectorAll('.tab-btn')[2])">Edit
+                            </button>
+                            <button class="tbl-btn del">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-family:var(--mono);color:var(--text-dim);">SRV-SOL-M</td>
+                    <td>Solar panel mounting</td>
+                    <td>Installation</td>
+                    <td style="font-family:var(--mono);">35.00 BGN</td>
+                    <td><span class="badge badge-gray">per m²</span></td>
+                    <td style="font-family:var(--mono);color:var(--text-dim);">1 day</td>
+                    <td>
+                        <div class="table-actions">
+                            <button class="tbl-btn"
+                                    onclick="switchTab('update',document.querySelectorAll('.tab-btn')[2])">Edit
+                            </button>
+                            <button class="tbl-btn del">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- UPDATE -->
+    <div class="tab-panel" id="tab-update">
+        <div class="section-label">Update Service</div>
+        <div class="form-card">
+            <div class="form-grid single" style="margin-bottom:16px;">
+                <div class="form-group">
+                    <label class="form-label">Select Service to Edit</label>
+                    <select class="form-select">
+                        <option value="">— Pick a service —</option>
+                        <option>SRV-ELEC-H · Electrical installation</option>
+                        <option>SRV-INSP · Safety inspection</option>
+                        <option>SRV-SOL-M · Solar panel mounting</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label">Service Name</label>
+                    <input class="form-input"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Rate (BGN)</label>
+                    <input class="form-input" type="number" step="0.01"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Category</label>
+                    <select class="form-select">
+                        <option>Installation</option>
+                        <option>Inspection</option>
+                        <option>Repair</option>
+                        <option>Consultation</option>
+                        <option>Maintenance</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Billing Unit</label>
+                    <select class="form-select">
+                        <option>per hour</option>
+                        <option>per day</option>
+                        <option>flat rate</option>
+                        <option>per m²</option>
+                    </select>
+                </div>
+                <div class="form-group span2">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-textarea"></textarea>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-primary">💾 Save Changes</button>
+                <button class="btn btn-secondary">Cancel</button>
+                <button class="btn btn-danger" style="margin-left:auto;">Delete Service</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div th:insert="~{fragments/footer::footer}"> </div>
+
+
+<script>
+    function switchTab(id, btn) {
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('tab-' + id).classList.add('active');
+        if (btn) btn.classList.add('active');
+    }
+</script>
+</body>
+</html>

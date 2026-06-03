@@ -1,0 +1,188 @@
+/* ── PROFILE EDIT LAYOUT ─────────────────────────── */
+.profile-edit-layout {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.avatar-preview-card {
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 220px;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.avatar-preview-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+
+/* ── AVATAR RING ─────────────────────────────────── */
+.avatar-ring-lg {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+.avatar-ring-lg::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: conic-gradient(var(--gold) 0deg, var(--gold-dim) 120deg, transparent 200deg, var(--gold) 360deg);
+  animation: spin 6s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.avatar-placeholder-lg {
+  position: relative;
+  z-index: 1;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: var(--dark);
+  border: 3px solid var(--dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--display);
+  font-size: 2.2rem;
+  color: var(--gold);
+  text-shadow: 0 0 20px var(--gold-glow);
+}
+
+.avatar-name {
+  font-family: var(--display);
+  font-size: 1rem;
+  color: var(--gold-bright);
+  text-align: center;
+  letter-spacing: 0.04em;
+}
+
+.avatar-role-badge {
+  background: rgba(245,168,0,0.12);
+  border: 1px solid var(--gold-dim);
+  color: var(--gold);
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  padding: 4px 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* ── AVATAR UPLOAD ───────────────────────────────── */
+.avatar-upload-layout {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+.avatar-upload-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.file-drop-zone {
+  border: 1px dashed var(--panel-border);
+  background: var(--dark);
+  padding: 28px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.file-drop-zone:hover {
+  border-color: var(--gold-dim);
+  background: rgba(245,168,0,0.03);
+}
+
+.drop-icon { font-size: 2rem; opacity: 0.5; }
+
+.drop-text {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--text-mid);
+  letter-spacing: 0.08em;
+}
+
+.drop-hint {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+}
+
+/* ── ALERTS ──────────────────────────────────────── */
+.alert {
+  padding: 11px 16px;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  margin-bottom: 16px;
+  border: 1px solid;
+}
+
+.alert-success {
+  background: rgba(64,192,112,0.08);
+  border-color: var(--success);
+  color: var(--success);
+}
+
+.alert-danger, .alert-error {
+  background: rgba(224,64,64,0.08);
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+/* ── HEADER NAV as links ─────────────────────────── */
+.header-nav {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.nav-btn {
+  background: transparent;
+  border: 1px solid var(--panel-border);
+  color: var(--text-dim);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  padding: 7px 14px;
+  cursor: pointer;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.2s;
+}
+
+.nav-btn:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(245,168,0,0.06);
+}
+
+/* ── RESPONSIVE ──────────────────────────────────── */
+@media (max-width: 760px) {
+  .profile-edit-layout { flex-direction: column; }
+  .avatar-preview-card { width: 100%; }
+  .avatar-upload-layout { flex-direction: column; }
+}

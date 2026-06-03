@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Light the Deal — Edit Profile</title>
+  <link rel="stylesheet" th:href="@{/css/entities.css}"/>
+  <link rel="stylesheet" th:href="@{/css/edit-profile.css}"/>
+</head>
+<body>
+
+<!-- ── HEADER ─────────────────────────────────────── -->
+<header class="site-header">
+  <a th:href="@{/profile}" class="header-logo">
+    <img th:src="@{/pics/logo.png}" alt="Light the Deal" />
+    <div class="header-brand">Light the Deal <span>technician dashboard</span></div>
+  </a>
+  <nav class="header-nav">
+    <a th:href="@{/dashboard}" class="nav-btn">Dashboard</a>
+    <a th:href="@{/profile}" class="nav-btn">Profile</a>
+    <a th:href="@{/home}"
+       class="nav-btn"
+       style="border-color:var(--gold-dim);color:var(--gold);">Log Out</a>
+  </nav>
+</header>
+
+<!-- ── PAGE HERO ───────────────────────────────────── -->
+<div class="page-hero">
+  <div class="page-title-block">
+    <div class="page-eyebrow">Profile · Settings</div>
+    <div class="page-title">⚙ Edit Profile</div>
+    <div class="page-subtitle">Update your personal information and preferences</div>
+  </div>
+  <img th:src="@{/pics/logo.png}" class="page-logo-accent" alt="" />
+</div>
+
+<!-- ── TAB BAR ─────────────────────────────────────── -->
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('info', this)">Personal Info</button>
+  <button class="tab-btn" onclick="switchTab('contact', this)">Contact</button>
+  <button class="tab-btn" onclick="switchTab('avatar', this)">Profile Picture</button>
+</div>
+
+<!-- ── CONTENT ─────────────────────────────────────── -->
+<div class="content-area">
+
+  <!-- PERSONAL INFO -->
+  <div class="tab-panel active" id="tab-info">
+    <div class="section-label">Personal Information</div>
+
+    <div class="profile-edit-layout">
+
+      <!-- Avatar Preview -->
+      <div class="avatar-preview-card">
+        <div class="avatar-ring-lg">
+          <div class="avatar-placeholder-lg" id="avatarPreview">JD</div>
+        </div>
+        <div class="avatar-name" id="avatarName">John Doe</div>
+        <div class="avatar-role-badge">⚡ TECHNICIAN</div>
+        <a th:href="@{/profile/{id}/change-password(id=${currentUser.id})}" class="btn btn-secondary"
+           style="width:100%;text-align:center;margin-top:12px;text-decoration:none;display:block;">
+          🔐 Change Password
+        </a>
+      </div>
+
+      <!-- Info Form -->
+      <div class="form-card" style="flex:1;">
+        <form th:action="@{/profile/{id}/edit-profile(id=${currentUser.id})}" method="post">
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">First Name</label>
+              <input class="form-input"
+                     type="text"
+                     name="firstName"
+                     th:value="${currentUser.firstName}"
+                     placeholder="First name"
+                     oninput="updatePreview()" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Last Name</label>
+              <input class="form-input"
+                     type="text"
+                     name="lastName"
+                     th:value="${currentUser.lastName}"
+                     placeholder="Last name"
+                     oninput="updatePreview()" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Username</label>
+              <input class="form-input"
+                     type="text"
+                     name="username"
+                     th:value="${currentUser.username}"
+                     placeholder="Username" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Role</label>
+              <input class="form-input"
+                     type="text"
+                     th:value="${currentUser.role}"
+                     disabled
+                     style="opacity:0.4;cursor:not-allowed;" />
+            </div>
+          </div>
+
+          <!-- Success / Error messages -->
+          <div th:if="${successMessage}" class="alert alert-success">
+            ✓ <span th:text="${successMessage}"></span>
+          </div>
+          <div th:if="${errorMessage}" class="alert alert-danger">
+            ✕ <span th:text="${errorMessage}"></span>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">💾 Save Changes</button>
+            <a th:href="@{/profile}" class="btn btn-secondary">Cancel</a>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="tab-panel" id="tab-contact">
+    <div class="section-label">Contact Details</div>
+    <div class="form-card">
+      <form th:action="@{/profile/{id}/edit-profile/contact(id=${currentUser.id})}" method="post">
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input class="form-input"
+                   type="email"
+                   name="email"
+                   th:value="${currentUser.email}"
+                   placeholder="your@email.com" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone Number</label>
+            <input class="form-input"
+                   type="tel"
+                   name="phoneNumber"
+                   th:value="${currentUser.phoneNumber}"
+                   placeholder="+359 88 …" />
+          </div>
+
+        </div>
+
+        <div th:if="${contactSuccess}" class="alert alert-success">
+          ✓ Contact info updated successfully.
+        </div>
+        <div th:if="${contactError}" class="alert alert-danger">
+          ✕ <span th:text="${contactError}"></span>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">💾 Save Contact</button>
+          <a th:href="@{/profile}" class="btn btn-secondary">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- AVATAR -->
+  <div class="tab-panel" id="tab-avatar">
+    <div class="section-label">Profile Picture</div>
+    <div class="form-card">
+      <div class="avatar-upload-layout">
+
+        <div class="avatar-upload-preview">
+          <div class="avatar-ring-lg">
+            <div class="avatar-placeholder-lg">JD</div>
+          </div>
+          <div style="font-family:var(--mono);font-size:0.65rem;color:var(--text-dim);margin-top:10px;letter-spacing:0.1em;">
+            CURRENT PICTURE
+          </div>
+        </div>
+
+        <div style="flex:1;">
+          <form th:action="@{/profile/{id}/edit-profile/avatar(id=${currentUser.id})}" method="post" enctype="multipart/form-data">
+
+
+            <div class="form-group" style="margin-bottom:16px;">
+              <label class="form-label">Upload New Photo</label>
+              <div class="file-drop-zone" id="dropZone"
+                   ondragover="event.preventDefault()" ondrop="handleDrop(event)">
+                <div class="drop-icon">📷</div>
+                <div class="drop-text">Drag & drop or click to browse</div>
+                <div class="drop-hint">JPG, PNG, WEBP · max 2MB</div>
+                <input type="file" name="profilePicture" id="fileInput"
+                       accept="image/*" style="display:none"
+                       onchange="previewFile(this)" />
+              </div>
+              <button type="button" class="btn btn-secondary"
+                      style="margin-top:10px;width:100%;"
+                      onclick="document.getElementById('fileInput').click()">
+                Browse Files
+              </button>
+            </div>
+
+            <div th:if="${avatarSuccess}" class="alert alert-success">
+              ✓ Profile picture updated.
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">⚡ Upload Photo</button>
+              <button type="button" class="btn btn-danger"
+                      th:formaction="@{/profile/{id}/edit-profile/avatar/remove(id=${currentUser.id})}">
+                Remove Photo
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── FOOTER ─────────────────────────────────────── -->
+<div th:insert="~{fragments/footer::footer}"></div>
+
+<script>
+  function switchTab(id, btn) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    if (btn) btn.classList.add('active');
+  }
+
+  function updatePreview() {
+    const first = document.querySelector('input[name="firstName"]').value || '';
+    const last  = document.querySelector('input[name="lastName"]').value  || '';
+    const initials = (first[0] || '') + (last[0] || '');
+    document.getElementById('avatarPreview').textContent = initials.toUpperCase() || '?';
+    document.getElementById('avatarName').textContent =
+      (first + ' ' + last).trim() || 'Your Name';
+  }
+
+  function handleDrop(e) {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    if (file) previewFile({ files: [file] });
+  }
+
+  function previewFile(input) {
+    const file = input.files[0];
+    if (!file) return;
+    const zone = document.getElementById('dropZone');
+    zone.querySelector('.drop-text').textContent = file.name;
+    zone.querySelector('.drop-hint').textContent =
+      (file.size / 1024).toFixed(0) + ' KB · ready to upload';
+    zone.style.borderColor = 'var(--gold)';
+  }
+</script>
+</body>
+</html>

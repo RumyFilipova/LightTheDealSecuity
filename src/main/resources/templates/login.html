@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In · Light the Deal</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+<body>
+<div class="auth-wrapper">
+    <div class="card">
+
+        <div class="brand">
+            <a class="logo" th:href="@{/}">
+                <img th:src="@{/pics/logo.png}" alt="Light the Deal logo">
+            </a>
+            <span class="brand-fallback" style="display:none;">L</span>
+            <span class="brand-name">Light the Deal</span>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" id="tab-login"    onclick="switchTab('login')">Sign in</button>
+            <button class="tab"        id="tab-register" onclick="switchTab('register')">Create account</button>
+        </div>
+
+        <!-- SIGN IN -->
+        <div class="panel active" id="panel-login">
+
+            <div class="alert alert-error hidden"   id="login-error">✕ &nbsp;Invalid username or password. Please try again.</div>
+            <div class="alert alert-success hidden"  id="login-logout">✓ &nbsp;You have been signed out successfully.</div>
+
+            <form action="/login" method="post">
+                <div class="fg">
+                    <label for="login-username">Username or email</label>
+                    <div class="input-wrap">
+                        <span class="input-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+                        <input type="text" id="login-username" name="username" placeholder="you@example.com" autocomplete="username" required />
+                    </div>
+                </div>
+                <div class="fg">
+                    <label for="login-password">Password</label>
+                    <div class="input-wrap">
+                        <span class="input-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+                        <input type="password" id="login-password" name="password" placeholder="••••••••" autocomplete="current-password" required />
+                    </div>
+                </div>
+                <div class="row-opts">
+                    <label class="cb-label"><input type="checkbox" name="remember-me" /> Remember me</label>
+                    <a href="/forgot-password" class="link-btn">Forgot password?</a>
+                </div>
+                <button type="submit" class="btn-submit">Sign in</button>
+            </form>
+
+        </div>
+
+        <!-- REGISTER -->
+        <div class="panel" id="panel-register">
+
+            <div class="alert alert-error hidden" id="reg-error">✕ &nbsp;This email is already registered.</div>
+
+            <form action="/register" method="post" novalidate>
+                <div class="fg">
+                    <label for="reg-username">Username</label>
+                    <div class="input-wrap">
+                        <span class="input-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+                        <input type="text" id="reg-username" name="username" placeholder="johndoe" autocomplete="username" minlength="3" required />
+                    </div>
+                    <div class="field-hint" id="hint-username">At least 3 characters, no spaces.</div>
+                </div>
+                <div class="fg">
+                    <label for="reg-email">Email address</label>
+                    <div class="input-wrap">
+                        <span class="input-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></span>
+                        <input type="email" id="reg-email" name="email" placeholder="you@example.com" autocomplete="email" required />
+                    </div>
+                    <div class="field-hint" id="hint-email">Enter a valid email address.</div>
+                </div>
+                <div class="fg">
+                    <label for="reg-password">Password</label>
+                    <div class="input-wrap">
+                        <span class="input-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+                        <input type="password" id="reg-password" name="password" placeholder="Min. 8 characters" autocomplete="new-password" minlength="8" required oninput="checkStrength(this.value)" />
+                    </div>
+                    <div class="strength-bar"><div class="strength-seg" id="s1"></div><div class="strength-seg" id="s2"></div><div class="strength-seg" id="s3"></div><div class="strength-seg" id="s4"></div></div>
+                    <div class="strength-label" id="strength-label"></div>
+                    <div class="field-hint" id="hint-password">Must be at least 8 characters.</div>
+                </div>
+                <div class="fg">
+                    <label for="reg-confirm">Confirm password</label>
+                    <div class="input-wrap">
+                        <span class="input-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+                        <input type="password" id="reg-confirm" name="confirmPassword" placeholder="Repeat your password" autocomplete="new-password" required />
+                    </div>
+                    <div class="field-hint" id="hint-confirm">Passwords do not match.</div>
+                </div>
+                <p class="terms">By creating an account you agree to our <a href="/terms">Terms of Service</a> and <a href="/privacy">Privacy Policy</a>.</p>
+                <button type="submit" class="btn-submit" onclick="return validateRegister()">Create account</button>
+            </form>
+
+            <div class="switch-row">Already have an account? <button onclick="switchTab('login')">Sign in</button></div>
+        </div>
+
+    </div>
+</div>
+
+<script src="/js/login.js"></script>
+</body>
+</html>

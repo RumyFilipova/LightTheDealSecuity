@@ -1,0 +1,27 @@
+/* ── FOOTER ──────────────────────────────────────────── */
+.site-footer,.footer-container {
+    border-top: 1px solid var(--panel-border);
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(10,10,10,0.8);
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.footer-logo img {
+    height: 32px;
+    filter: drop-shadow(0 0 6px var(--gold-glow));
+}
+
+.footer-text {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+}

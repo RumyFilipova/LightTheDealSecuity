@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Light the Deal — Offers</title>
+  <link rel="stylesheet" th:href="@{/css/entities.css}" />
+</head>
+<body>
+
+<header class="site-header">
+  <a th:href="@{/profile}" class="header-logo">
+    <img th:src="@{/pics/logo.png}" alt="Light the Deal" />
+    <div class="header-brand">Light the Deal <span>technician dashboard</span></div>
+  </a>
+  <a th:href="@{/profile}" class="back-btn">← Back to Profile</a>
+</header>
+
+<div class="page-hero">
+  <div class="page-title-block">
+    <div class="page-eyebrow">Entity Management · Offers</div>
+    <div class="page-title">📋 Offers</div>
+    <div class="page-subtitle">Create, view and update your service proposals</div>
+  </div>
+  <img th:src="@{/pics/logo.png}" class="page-logo-accent" alt="" />
+</div>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('create',this)">Create Offer</button>
+  <button class="tab-btn" onclick="switchTab('list',this)">All Offers</button>
+  <button class="tab-btn" onclick="switchTab('update',this)">Update Offer</button>
+</div>
+
+<div class="content-area">
+
+  <!-- CREATE -->
+  <div class="tab-panel active" id="tab-create">
+    <div class="section-label">New Offer</div>
+    <div class="form-card">
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Offer Title</label>
+          <input class="form-input" placeholder="e.g. Solar installation – Petrov" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Customer</label>
+          <select class="form-select">
+            <option value="">— Select customer —</option>
+            <option>Petrov Ivan</option>
+            <option>Ivanova Maria</option>
+            <option>Georgi Stoychev</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Valid From</label>
+          <input class="form-input" type="date" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Valid Until</label>
+          <input class="form-input" type="date" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Total Amount (BGN)</label>
+          <input class="form-input" type="number" placeholder="0.00" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Status</label>
+          <select class="form-select">
+            <option>DRAFT</option>
+            <option>SENT</option>
+            <option>ACCEPTED</option>
+            <option>REJECTED</option>
+          </select>
+        </div>
+        <div class="form-group span2">
+          <label class="form-label">Notes</label>
+          <textarea class="form-textarea" placeholder="Additional details, conditions, remarks…"></textarea>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-primary">⚡ Create Offer</button>
+        <button class="btn btn-secondary">Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIST -->
+  <div class="tab-panel" id="tab-list">
+    <div class="section-label">All Offers</div>
+    <div class="data-table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Customer</th>
+            <th>Amount</th>
+            <th>Valid Until</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-family:var(--mono);color:var(--text-dim);">001</td>
+            <td>Solar installation – Petrov</td>
+            <td>Petrov Ivan</td>
+            <td style="font-family:var(--mono);">4,200 BGN</td>
+            <td style="font-family:var(--mono);color:var(--text-dim);">2025-08-01</td>
+            <td><span class="badge badge-gold">SENT</span></td>
+            <td><div class="table-actions">
+              <button class="tbl-btn" onclick="switchTab('update',document.querySelectorAll('.tab-btn')[2])">Edit</button>
+              <button class="tbl-btn del">Delete</button>
+            </div></td>
+          </tr>
+          <tr>
+            <td style="font-family:var(--mono);color:var(--text-dim);">002</td>
+            <td>Rewiring – Ivanova</td>
+            <td>Ivanova Maria</td>
+            <td style="font-family:var(--mono);">1,850 BGN</td>
+            <td style="font-family:var(--mono);color:var(--text-dim);">2025-07-15</td>
+            <td><span class="badge badge-green">ACCEPTED</span></td>
+            <td><div class="table-actions">
+              <button class="tbl-btn" onclick="switchTab('update',document.querySelectorAll('.tab-btn')[2])">Edit</button>
+              <button class="tbl-btn del">Delete</button>
+            </div></td>
+          </tr>
+          <tr>
+            <td style="font-family:var(--mono);color:var(--text-dim);">003</td>
+            <td>Panel upgrade – Stoychev</td>
+            <td>Georgi Stoychev</td>
+            <td style="font-family:var(--mono);">3,100 BGN</td>
+            <td style="font-family:var(--mono);color:var(--text-dim);">2025-09-30</td>
+            <td><span class="badge badge-gray">DRAFT</span></td>
+            <td><div class="table-actions">
+              <button class="tbl-btn" onclick="switchTab('update',document.querySelectorAll('.tab-btn')[2])">Edit</button>
+              <button class="tbl-btn del">Delete</button>
+            </div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- UPDATE -->
+  <div class="tab-panel" id="tab-update">
+    <div class="section-label">Update Offer</div>
+    <div class="form-card">
+      <div class="form-grid single" style="margin-bottom:16px;">
+        <div class="form-group">
+          <label class="form-label">Select Offer to Edit</label>
+          <select class="form-select">
+            <option value="">— Pick an offer —</option>
+            <option>001 · Solar installation – Petrov</option>
+            <option>002 · Rewiring – Ivanova</option>
+            <option>003 · Panel upgrade – Stoychev</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Offer Title</label>
+          <input class="form-input" placeholder="Title" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Status</label>
+          <select class="form-select">
+            <option>DRAFT</option><option>SENT</option><option>ACCEPTED</option><option>REJECTED</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Total Amount (BGN)</label>
+          <input class="form-input" type="number" placeholder="0.00" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Valid Until</label>
+          <input class="form-input" type="date" />
+        </div>
+        <div class="form-group span2">
+          <label class="form-label">Notes</label>
+          <textarea class="form-textarea" placeholder="Update notes…"></textarea>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-primary">💾 Save Changes</button>
+        <button class="btn btn-secondary">Cancel</button>
+        <button class="btn btn-danger" style="margin-left:auto;">Delete Offer</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div th:insert="~{fragments/footer::footer}"> </div>
+
+
+<script>
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+</script>
+</body>
+</html>

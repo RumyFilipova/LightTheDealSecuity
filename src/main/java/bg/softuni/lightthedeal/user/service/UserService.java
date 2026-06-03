@@ -63,7 +63,7 @@ public class UserService {
 
         User user = User.builder()
                 .username(registerRequestUser.username())
-                .password(passwordEncoder.encode(registerRequestUser.password()))
+                .pasasword(passwordEncoder.encode(registerRequestUser.password()))
                 .email(registerRequestUser.email())
                 .phoneNumber(registerRequestUser.phoneNumber())
                 .role(Role.USER)
@@ -82,7 +82,7 @@ public class UserService {
         }
 
         String rawPass =  logReg.password();
-        String hashedPass = optUser.get().getPassword();
+        String hashedPass = optUser.get().getPasasword();
 
         if(!passwordEncoder.matches(rawPass,hashedPass)){
             throw  new RuntimeException("Incorrect username or password");
@@ -92,10 +92,7 @@ public class UserService {
         return optUser.get();
     }
 
-    private Optional<User> getByUsername(User user) {
 
-        return userRepository.findByUsername(user.getUsername());
-    }
 
     public List<Material> getAllMaterialForUser(User user) {
         return materialRepository.findAllByUser(user);
@@ -118,7 +115,10 @@ public class UserService {
     }
 
     // UPDATE USER
-    public User updateUser(UserUpdateRequest request, User user) {
+    public User updateUser(UserUpdateRequest request, UUID id) {
+
+        User user = userRepository.findById(id)
+                        .orElseThrow(() -> new RuntimeException("User not found"));
 
         user.setUsername(request.userName());
         user.setEmail(request.email());
@@ -142,5 +142,26 @@ public class UserService {
     public List<User> getAll() {
 
         return userRepository.findAll();
+    }
+
+    public User getByUsername(String username) {
+
+        return userRepository.findByUsername(username)
+                .orElseThrow(()-> new RuntimeException("User with %s username does not exist".formatted(username)));
+    }
+
+    public User getById(UUID id) {
+
+        return userRepository.findById(id)
+                .orElseThrow(()-> new RuntimeException("User with id %s does not exist".formatted(id)));
+    }
+
+    public void removeProfilePicture(UUID id) {
+
+        User user = userRepository.findById(id)
+                .orElseThrow(()-> new RuntimeException("User with id %s does not exist".formatted(id)));
+
+        user.setProfilePicture(null);
+        userRepository.save(user);
     }
 }
