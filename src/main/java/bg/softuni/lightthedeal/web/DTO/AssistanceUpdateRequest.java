@@ -2,17 +2,24 @@ package bg.softuni.lightthedeal.web.DTO;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 import java.math.BigDecimal;
+@Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 
-public record AssistanceUpdateRequest(
+public class AssistanceUpdateRequest{
+
         @NotBlank(message = "* required")
-        String name,
+        private String name;
 
-        String activityDescription,
+        private String activityDescription;
 
-        @NotBlank(message = "Price is required")
+        @NotNull(message = "Price is required")
         @DecimalMin(value = "0.01", message = "Price must be positive")
-        BigDecimal pricePerUnit
-) {
+        private BigDecimal pricePerUnit;
 }

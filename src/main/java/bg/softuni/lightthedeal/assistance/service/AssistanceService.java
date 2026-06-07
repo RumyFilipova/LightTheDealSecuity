@@ -22,12 +22,15 @@ public class AssistanceService {
     }
 
     public  void createAssistance(AssistanceServiceRequest assistanceServiceRequest, User user) {
+
         Assistance assistance = Assistance.builder()
-                .name(assistanceServiceRequest.name())
-                .description(assistanceServiceRequest.activityDescription())
-                .pricePerUnit(assistanceServiceRequest.pricePerUnit())
+                .user(user)
+                .name(assistanceServiceRequest.getName())
+                .description(assistanceServiceRequest.getActivityDescription())
+                .pricePerUnit(assistanceServiceRequest.getPricePerUnit())
                         .build();
-assistanceRepository.save(assistance);
+
+        assistanceRepository.save(assistance);
     }
 
     public List<Assistance> getAllAssistanceForUSer(User user) {
@@ -37,6 +40,7 @@ assistanceRepository.save(assistance);
     public Assistance getByIdAndUser(UUID id, User user) {
         Assistance assistance = assistanceRepository.findById(id)
                 .orElseThrow(()->new RuntimeException("Assistance %s not found".formatted(id)));
+
         return assistance;
     }
 
