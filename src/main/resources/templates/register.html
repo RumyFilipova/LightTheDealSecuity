@@ -12,7 +12,6 @@
     <!-- HEADER -->
     <div ></div>
 
-    <!-- HERO: same background as home, form centred with generous breathing room -->
     <main class="hero">
 
         <section class="auth-card">
@@ -21,22 +20,26 @@
                 <a th:href="@{/login}" class="auth-option">Sign In</a>
                 <a th:href="@{/register}" class="auth-option active">Register</a>
             </div>
-            <form action="/register" method="post">
+            <form th:action="@{/register}" th:method="post" th:object="${registerRequestUser}">
                 <div class="field">
                     <label for="reg-username">Username</label>
-                    <input id="reg-username" name="username" type="text" required>
-                </div>
-                <div class="field">
-                    <label for="reg-email">Email</label>
-                    <input id="reg-email" name="email" type="email" required>
+                    <input type="text" required id="reg-username" placeholder="Username" th:field="*{username}">
                 </div>
                 <div class="field">
                     <label for="reg-password">Password</label>
-                    <input id="reg-password" name="password" type="password" required>
+                    <input type="password" required id="reg-password" placeholder="Password" th:field="*{password}">
                 </div>
                 <div class="field">
                     <label for="reg-confirm-password">Confirm Password</label>
-                    <input id="reg-confirm-password" name="confirmPassword" type="password" required>
+                    <input type="password" required id="reg-confirm-password" placeholder="Confirm password" th:field="*{confirmPassword}">
+                </div>
+                <div class="field">
+                    <label for="reg-email">Email</label>
+                    <input type="email" required id="reg-email" placeholder="Email" th:field="*{email}">
+                </div>
+                <div class="field">
+                    <label for="reg-phone">Phone Number</label>
+                    <input type="text" required id="reg-phone" placeholder="Phone number" th:field="*{phoneNumber}">
                 </div>
                 <button type="submit" class="sign-in-btn spaced-btn">Register</button>
             </form>
