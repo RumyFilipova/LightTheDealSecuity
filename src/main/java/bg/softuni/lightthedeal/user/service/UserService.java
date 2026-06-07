@@ -55,17 +55,17 @@ public class UserService {
 
     public void register(RegisterRequestUser registerRequestUser) {
 
-        Optional<User> optionalUser = userRepository.findByUsername(registerRequestUser.username());
+        Optional<User> optionalUser = userRepository.findByUsername(registerRequestUser.getUsername());
 
         if (optionalUser.isPresent()) {
-            throw new RuntimeException("User with [%s] username already exists".formatted(registerRequestUser.username()));
+            throw new RuntimeException("User with [%s] username already exists".formatted(registerRequestUser.getUsername()));
         }
 
         User user = User.builder()
-                .username(registerRequestUser.username())
-                .pasasword(passwordEncoder.encode(registerRequestUser.password()))
-                .email(registerRequestUser.email())
-                .phoneNumber(registerRequestUser.phoneNumber())
+                .username(registerRequestUser.getUsername())
+                .pasasword(passwordEncoder.encode(registerRequestUser.getPassword()))
+                .email(registerRequestUser.getEmail())
+                .phoneNumber(registerRequestUser.getPhoneNumber())
                 .role(Role.USER)
                 .build();
 
@@ -75,13 +75,13 @@ public class UserService {
 
     public User login(UserLoginRequest logReg){
 
-        Optional<User> optUser = userRepository.findByUsername(logReg.username());
+        Optional<User> optUser = userRepository.findByUsername(logReg.getUsername());
 
         if(optUser.isEmpty()){
             throw new RuntimeException("The user does not exist");
         }
 
-        String rawPass =  logReg.password();
+        String rawPass =  logReg.getPassword();
         String hashedPass = optUser.get().getPasasword();
 
         if(!passwordEncoder.matches(rawPass,hashedPass)){
@@ -133,7 +133,7 @@ public class UserService {
 
     public void deleteUser(UUID id, User user) {
 
-        User user1 = userRepository.findById(id).get();
+        User user1 = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
 
         userRepository.delete(user1);
     }

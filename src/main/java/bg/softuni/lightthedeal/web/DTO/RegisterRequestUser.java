@@ -6,24 +6,30 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 @Builder
-public record RegisterRequestUser(
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 
-      // i chose record ,because it is immutable and i can save the data for my user more securely that it can not be modified
+public class RegisterRequestUser {
     @NotBlank
     @Size(min = 6, message = "Username must be more than 6 symbols")
-    String username,
+    private String username;
 
     @NotBlank
     @Size(min = 8)
-    String password,
+    private String password;
+
+    @NotBlank
+    @Size(min = 8)
+    private String confirmPassword;
 
     @NotBlank
     @Email
-    String email,
+    private String email;
 
     @NotBlank
     @Size(min = 10, max = 10, message = "The number must be exactly 10 characters")
-    String phoneNumber
-) {
+    private String phoneNumber;
 
 }
