@@ -3,6 +3,7 @@ package bg.softuni.lightthedeal.web;
 import bg.softuni.lightthedeal.user.entity.User;
 import bg.softuni.lightthedeal.user.property.UserProperties;
 import bg.softuni.lightthedeal.user.service.UserService;
+import bg.softuni.lightthedeal.web.DTO.RegisterRequestUser;
 import bg.softuni.lightthedeal.web.DTO.UserLoginRequest;
 import jakarta.servlet.ServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,14 +38,23 @@ public class HomeController {
     }
 
     @GetMapping("/login")
-    public String getLoginPage() {
-        return "login";
+    public ModelAndView getLoginPage() {
+
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.addObject("userLoginRequest", new UserLoginRequest());
+        modelAndView.setViewName("login");
+        return modelAndView;
     }
 
     @GetMapping("/register")
-    public String getRegisterPage() {
+    public ModelAndView getRegisterPage() {
 
-        return "register";
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("registerRequestUser",new RegisterRequestUser());
+        modelAndView.setViewName("register");
+        modelAndView.setViewName("login");
+        return modelAndView;
     }
 
     @GetMapping("/profile")
