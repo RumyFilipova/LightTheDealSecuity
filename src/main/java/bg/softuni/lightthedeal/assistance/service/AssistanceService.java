@@ -48,9 +48,9 @@ public class AssistanceService {
     public Assistance updateAssistance(AssistanceUpdateRequest assistanceUpdateRequest, UUID id,User user) {
         Assistance assistance = getByIdAndUser(id,user);
 
-        assistance.setName(assistanceUpdateRequest.name());
-        assistance.setDescription(assistanceUpdateRequest.activityDescription());
-        assistance.setPricePerUnit(assistanceUpdateRequest.pricePerUnit());
+        assistance.setName(assistanceUpdateRequest.getName());
+        assistance.setDescription(assistanceUpdateRequest.getActivityDescription());
+        assistance.setPricePerUnit(assistanceUpdateRequest.getPricePerUnit());
 
         return assistanceRepository.save(assistance);
     }
