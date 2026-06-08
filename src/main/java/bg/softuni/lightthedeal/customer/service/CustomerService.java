@@ -21,18 +21,32 @@ public class CustomerService {
 
     @Autowired
     public CustomerService(CustomerRepository customerRepository) {
+
         this.customerRepository = customerRepository;
     }
 
-    public static void getAllCustomersForUSer(User user) {
+    public List<Customer> getAllCustomersForUSer(User user) {
 
+        List<Customer> customers = customerRepository.findAllByUsers(user);
+        if(customers.isEmpty()){
+            throw  new RuntimeException("The user do not have customers");
+        }
+
+        return customers;
     }
 
     public void createCustomer(CustomerServiceRequest customerServiceRequest, User user) {
 
+        if (customerRepository.findByPhoneNumber(customerServiceRequest.getPhoneNumber()).isEmpty()) {
+            throw new RuntimeException("Customer with this phone already exists");
+        }
+        if (customerRepository.findByEmail(customerServiceRequest.getEmail()).isEmpty()) {
+            throw new RuntimeException("Customer with this email already exists");
+        }
 
         Optional<Customer> optionalCustomer = customerRepository.findByEmail
-                (customerServiceRequest.email());
+                (customerServiceRequest.getEmail());
+
 
         if (optionalCustomer.isPresent()) {
 
@@ -50,11 +64,11 @@ public class CustomerService {
 
             Customer customer = Customer.builder()
                     .users(new ArrayList<>(List.of(user)))
-                    .firstName(customerServiceRequest.firstName())
-                    .lastName(customerServiceRequest.lastName())
-                    .phoneNumber(customerServiceRequest.phoneNumber())
-                    .email(customerServiceRequest.email())
-                    .address(customerServiceRequest.address())
+                    .firstName(customerServiceRequest.getFirstName())
+                    .lastName(customerServiceRequest.getLastName())
+                    .phoneNumber(customerServiceRequest.getPhoneNumber())
+                    .email(customerServiceRequest.getEmail())
+                    .address(customerServiceRequest.getAddress())
                     .build();
 
             customerRepository.save(customer);
@@ -73,11 +87,11 @@ public Customer updateCustomer (CustomerUpdateRequest request, UUID id, User use
 
         Customer customer = getByIdAndUser(id,user);
 
-        customer.setFirstName(request.firstName());
-        customer.setLastName(request.lastName());
-        customer.setPhoneNumber(request.phoneNumber());
-        customer.setEmail(request.email());
-        customer.setAddress(request.address());
+        customer.setFirstName(request.getFirstName());
+        customer.setLastName(request.getLastName());
+        customer.setPhoneNumber(request.getPhoneNumber());
+        customer.setEmail(request.getEmail());
+        customer.setAddress(request.getAddress());
 
         return customerRepository.save(customer);
 }
