@@ -1,23 +1,30 @@
 package bg.softuni.lightthedeal.web.DTO;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 import java.math.BigDecimal;
 
-public record MaterialUpdateRequest(
+@Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class MaterialUpdateRequest {
 
         @NotBlank(message = "* required")
-        String name,
+        private String name;
 
         @NotBlank(message = "* required")
-        String type,
+        private String type;
 
-        String description,
-
-        @NotBlank(message = "* required")
-        String brand,
+        String description;
 
         @NotBlank(message = "* required")
-        BigDecimal singlePrice
-) {
+        private String brand;
+
+        @NotNull(message = "* required")
+        private BigDecimal singlePrice;
+
 }

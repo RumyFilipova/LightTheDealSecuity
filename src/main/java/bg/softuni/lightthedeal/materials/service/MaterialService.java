@@ -22,11 +22,12 @@ private final  MaterialRepository materialRepository;
 
     public void createMaterial(MaterialServiceRequest materialServiceRequest, User user) {
     Material material = Material.builder()
-            .name(materialServiceRequest.name())
-            .type(materialServiceRequest.type())
-            .description(materialServiceRequest.description())
-            .brand(materialServiceRequest.brand())
-            .singlePrice(materialServiceRequest.singlePrice())
+            .user(user)
+            .name(materialServiceRequest.getName())
+            .type(materialServiceRequest.getType())
+            .description(materialServiceRequest.getDescription())
+            .brand(materialServiceRequest.getBrand())
+            .singlePrice(materialServiceRequest.getSinglePrice())
             .build();
 
         materialRepository.save(material);
@@ -54,11 +55,11 @@ private final  MaterialRepository materialRepository;
 
         Material material = getByIdAndUser(id,user);
 
-        material.setName(request.name());
-        material.setType(request.type());
-        material.setBrand(request.brand());
-        material.setDescription(request.description());
-        material.setSinglePrice(request.singlePrice());
+        material.setName(request.getName());
+        material.setType(request.getType());
+        material.setBrand(request.getBrand());
+        material.setDescription(request.getDescription());
+        material.setSinglePrice(request.getSinglePrice());
 
        return  materialRepository.save(material);
     }
