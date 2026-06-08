@@ -26,13 +26,14 @@ public class PremiseService {
 
     public Premise cretatePremise(PremiseServiceRequest premiseServiceRequest, User user) {
 
-        Customer customer = customerService.getByIdAndUser(premiseServiceRequest.customerId(),user);
+        Customer customer = customerService.getByIdAndUser(premiseServiceRequest.getCustomerId(),user);
 
         Premise premise = Premise.builder()
                 .customer(customer)
-                .name(premiseServiceRequest.name())
-                .address(premiseServiceRequest.address())
-                .description(premiseServiceRequest.description())
+                .name(premiseServiceRequest.getName())
+                .address(premiseServiceRequest.getAddress())
+                .description(premiseServiceRequest.getDescription())
+                .user(user)
         .build();
 
         return premiseRepository.save(premise);
@@ -54,15 +55,19 @@ public class PremiseService {
         return premise;
     }
 
+    public List<Premise> getAllForUser(User user){
+        return premiseRepository.findAllByUser(user);
+    }
+
     // UPDATE
 
     public Premise updatePremise(PremiseUpdateRequest updateRequest, UUID id, User user){
 
         Premise premise = getByIdAndUser(id, user);
 
-        premise.setName(updateRequest.name());
-        premise.setAddress(updateRequest.address());
-        premise.setDescription(updateRequest.description());
+        premise.setName(updateRequest.getName());
+        premise.setAddress(updateRequest.getAddress());
+        premise.setDescription(updateRequest.getDescription());
 
         return premiseRepository.save(premise);
     }

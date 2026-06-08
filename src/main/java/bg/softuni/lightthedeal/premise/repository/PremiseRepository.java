@@ -15,4 +15,6 @@ public interface PremiseRepository extends JpaRepository<Premise, UUID> {
     List<Premise> findAllByCustomer(Customer customer);
 
     Optional<Premise> findByIdAndUser(UUID uuid, User user);
+
+    List<Premise> findAllByUser(User user);
 }

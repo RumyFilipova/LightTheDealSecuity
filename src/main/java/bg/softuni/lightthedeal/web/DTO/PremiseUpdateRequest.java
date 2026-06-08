@@ -1,12 +1,19 @@
 package bg.softuni.lightthedeal.web.DTO;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.*;
 
-public record PremiseUpdateRequest(
+@Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+
+public class PremiseUpdateRequest{
+
 
         @NotBlank(message = "* requered")
-        String name,
-        String address,
-        String description
-) {
+        private String name;
+        private String address;
+        private String description;
 }
