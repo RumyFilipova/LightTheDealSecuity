@@ -15,6 +15,7 @@ import bg.softuni.lightthedeal.offer.service.OfferService;
 import bg.softuni.lightthedeal.order.entity.Order;
 import bg.softuni.lightthedeal.order.repository.OrderRepository;
 import bg.softuni.lightthedeal.order.service.OrderService;
+import bg.softuni.lightthedeal.premise.entity.Premise;
 import bg.softuni.lightthedeal.user.entity.Role;
 import bg.softuni.lightthedeal.user.entity.User;
 import bg.softuni.lightthedeal.user.repository.UserRepository;
@@ -163,5 +164,13 @@ public class UserService {
 
         user.setProfilePicture(null);
         userRepository.save(user);
+    }
+
+    public List<Premise> getAllPremisesForTheUser(User user) {
+
+        List<Premise> premises;
+        premises = userRepository.getAllPremises(user.getCustomers().stream().toList());
+
+        return premises;
     }
 }
