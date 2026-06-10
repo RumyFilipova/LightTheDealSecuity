@@ -27,11 +27,18 @@ public class Premise {
     @Column(nullable = false)
     private String name;           // e.g. "Main apartment", "Office floor 2"
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private PremiseType type;
+
     @Column
     private String address;
 
     @Column
     private String description;    // type: apartment / office / new build etc.
+
+    @Column
+    private Double area;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

@@ -17,8 +17,10 @@ public class PremiseServiceRequest {
 
         @NotBlank(message = "* requered")
         private String name;
+        private String type;
         private String address;
         private String description;
+        private Double area;
 
         @NotNull(message = "Please select a customer")
         private UUID customerId;
