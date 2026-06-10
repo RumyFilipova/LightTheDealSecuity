@@ -5,10 +5,13 @@ import bg.softuni.lightthedeal.user.property.UserProperties;
 import bg.softuni.lightthedeal.user.service.UserService;
 import bg.softuni.lightthedeal.web.DTO.RegisterRequestUser;
 import bg.softuni.lightthedeal.web.DTO.UserLoginRequest;
+import jakarta.persistence.ManyToMany;
 import jakarta.servlet.ServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -43,19 +46,11 @@ public class HomeController {
         ModelAndView modelAndView = new ModelAndView();
 
         modelAndView.addObject("userLoginRequest", new UserLoginRequest());
+        modelAndView.addObject("registerRequestUser", new RegisterRequestUser());
         modelAndView.setViewName("login");
         return modelAndView;
     }
 
-    @GetMapping("/register")
-    public ModelAndView getRegisterPage() {
-
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("registerRequestUser",new RegisterRequestUser());
-        modelAndView.setViewName("register");
-        modelAndView.setViewName("login");
-        return modelAndView;
-    }
 
     @GetMapping("/profile")
     public ModelAndView getUserInitialPage() {
@@ -66,6 +61,13 @@ public class HomeController {
         modelAndView.addObject("currentUser", currentUser);
 
         return modelAndView;
+    }
+
+    @PostMapping("/register")
+    public String register(@ModelAttribute RegisterRequestUser registerRequestUser) {
+        userService.register(registerRequestUser);
+
+        return "redirect:/login";
     }
 
 }

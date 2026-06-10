@@ -38,64 +38,58 @@
   <div class="tab-panel active" id="tab-create">
     <div class="section-label">New Premise</div>
     <div class="form-card">
+
+      <form th:action="@{/premise}" th:method="POST" th:object="${premiseRequest}">
+        <input type="hidden" th:value="${userId}" name="userId" />
+
       <div class="form-grid">
         <div class="form-group">
           <label class="form-label">Premise Name</label>
-          <input class="form-input" placeholder="e.g. Warehouse Sofia-North" />
+          <input class="form-input" th:field="*{name}" placeholder="e.g. Warehouse Sofia-North" />
         </div>
         <div class="form-group">
           <label class="form-label">Type</label>
-          <select class="form-select">
-            <option>RESIDENTIAL</option>
-            <option>COMMERCIAL</option>
-            <option>INDUSTRIAL</option>
-            <option>WAREHOUSE</option>
-            <option>OFFICE</option>
-            <option>OTHER</option>
+          <select class="form-select" th:field="*{type}" >
+            <option value="">— Select type —</option>
+            <option th:each="t: ${premiseTypes}"
+                    th:value="${t}"
+            th:text="${t}">
+
+            </option>
+
           </select>
         </div>
         <div class="form-group span2">
           <label class="form-label">Address</label>
-          <input class="form-input" placeholder="Street, number, city, postcode" />
+          <input class="form-input" th:field="*{address}" placeholder="Street, number, city, postcode" />
         </div>
-        <div class="form-group">
-          <label class="form-label">City</label>
-          <input class="form-input" placeholder="e.g. Sofia" />
-        </div>
-        <div class="form-group">
-          <label class="form-label">Postcode</label>
-          <input class="form-input" placeholder="e.g. 1000" />
-        </div>
+
         <div class="form-group">
           <label class="form-label">Linked Customer</label>
-          <select class="form-select">
+          <select class="form-select" th:field="*{customerId}">
             <option value="">— Select customer (optional) —</option>
-            <option>Petrov Ivan</option>
-            <option>Ivanova Maria</option>
-            <option>Georgi Stoychev</option>
+            <option th:each="c : ${customers}"
+                    th:value="${c.id}"
+                    th:text="${c.firstName+''+c.lastName}">
+            </option>
           </select>
         </div>
+
         <div class="form-group">
           <label class="form-label">Area (m²)</label>
-          <input class="form-input" type="number" placeholder="0" />
+          <input class="form-input" type="number" placeholder="0" th:field="*{area}"/>
         </div>
-        <div class="form-group">
-          <label class="form-label">Floors</label>
-          <input class="form-input" type="number" placeholder="1" />
-        </div>
-        <div class="form-group">
-          <label class="form-label">Access Notes</label>
-          <input class="form-input" placeholder="Key pickup, intercom code, contact…" />
-        </div>
+
         <div class="form-group span2">
           <label class="form-label">Description</label>
-          <textarea class="form-textarea" placeholder="Layout details, electrical specification, special requirements…"></textarea>
+          <textarea class="form-textarea" placeholder="Layout details, electrical specification, special requirements…" th:field="*{description}" ></textarea>
         </div>
       </div>
       <div class="form-actions">
         <button class="btn btn-primary">⚡ Add Premise</button>
         <button class="btn btn-secondary">Reset</button>
       </div>
+      </form>
     </div>
   </div>
 

@@ -56,6 +56,10 @@ public class UserService {
 
     public void register(RegisterRequestUser registerRequestUser) {
 
+        if(!registerRequestUser.getPassword().equals(registerRequestUser.getConfirmPassword())) {
+            throw new RuntimeException("Passwords do not match");
+
+        }
         Optional<User> optionalUser = userRepository.findByUsername(registerRequestUser.getUsername());
 
         if (optionalUser.isPresent()) {
@@ -166,11 +170,5 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public List<Premise> getAllPremisesForTheUser(User user) {
 
-        List<Premise> premises;
-        premises = userRepository.getAllPremises(user.getCustomers().stream().toList());
-
-        return premises;
-    }
 }
