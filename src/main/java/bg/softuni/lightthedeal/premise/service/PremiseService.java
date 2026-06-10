@@ -72,6 +72,11 @@ public class PremiseService {
         return premiseRepository.save(premise);
     }
 
+    public List<Premise> getAllPremisesForTheUser(User user) {
+
+        return premiseRepository.findAllByUser(user);
+    }
+
     public void  deletePremise(UUID id, User user){
         Premise premise = getByIdAndUser(id, user);
 
