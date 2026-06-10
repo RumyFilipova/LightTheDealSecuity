@@ -37,43 +37,49 @@
   <div class="tab-panel active" id="tab-create">
     <div class="section-label">New Customer</div>
     <div class="form-card">
+      <form th:action="@{/customer}" method="post" th:object="${customerRequest}">
       <div class="form-grid">
         <div class="form-group">
           <label class="form-label">First Name</label>
-          <input class="form-input" placeholder="Ivan" />
+          <input class="form-input" placeholder="Ivan" th:field="*{firstName}" />
         </div>
         <div class="form-group">
           <label class="form-label">Last Name</label>
-          <input class="form-input" placeholder="Petrov" />
+          <input class="form-input" placeholder="Petrov" th:field="*{lastName}" />
         </div>
         <div class="form-group">
           <label class="form-label">Phone Number</label>
-          <input class="form-input" type="tel" placeholder="+359 88 …" />
+          <input class="form-input" type="tel" placeholder="+359 88 …" th:field="*{phoneNumber}" />
         </div>
         <div class="form-group">
           <label class="form-label">Email</label>
-          <input class="form-input" type="email" placeholder="customer@email.com" />
+          <input class="form-input" type="email" placeholder="customer@email.com" th:field="*{email}" />
         </div>
         <div class="form-group">
           <label class="form-label">Customer Type</label>
-          <select class="form-select">
-            <option>INDIVIDUAL</option>
-            <option>BUSINESS</option>
+          <select class="form-select" th:field="*{customerType}">
+            <option value="">— Select type —</option>
+            <option th:each="t: ${customerTypes}"
+            th:value="${t}"
+            th:text="${t}">
+
+            </option>
           </select>
         </div>
         <div class="form-group">
           <label class="form-label">Company (optional)</label>
-          <input class="form-input" placeholder="Company name" />
+          <input class="form-input" placeholder="Company name" th:field="*{companyName}" />
         </div>
         <div class="form-group span2">
           <label class="form-label">Address</label>
-          <input class="form-input" placeholder="Street, City, Postcode" />
+          <input class="form-input" placeholder="Street, City, Postcode" th:field="*{address}" />
         </div>
         <div class="form-group span2">
           <label class="form-label">Notes</label>
-          <textarea class="form-textarea" placeholder="Additional info about this customer…"></textarea>
+          <textarea class="form-textarea" placeholder="Additional info about this customer…" th:field="*{customerDetails}" ></textarea>
         </div>
       </div>
+      </form>
       <div class="form-actions">
         <button class="btn btn-primary">⚡ Add Customer</button>
         <button class="btn btn-secondary">Reset</button>
