@@ -1,5 +1,6 @@
 package bg.softuni.lightthedeal.web;
 
+import bg.softuni.lightthedeal.customer.entity.CustomerType;
 import bg.softuni.lightthedeal.customer.service.CustomerService;
 import bg.softuni.lightthedeal.user.entity.User;
 import bg.softuni.lightthedeal.user.service.UserService;
@@ -37,6 +38,7 @@ public class CustomerController {
         modelAndView.addObject("customerRequest", new CustomerServiceRequest());
         modelAndView.addObject("customerUpdateRequest", new CustomerUpdateRequest());
         modelAndView.addObject("customersList", customerService.getAllCustomersForUSer(user));
+        modelAndView.addObject("customerTypes", CustomerType.values());
         modelAndView.addObject("user",user.getId());
         return modelAndView;
     }

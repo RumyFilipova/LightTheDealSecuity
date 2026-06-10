@@ -37,6 +37,16 @@ public class Customer {
     @Column
     private String address;
 
+    @Column
+    private String companyName;
+
+    @Column
+    private String customerDetails;
+
+    @Enumerated(EnumType.STRING)
+    @Column
+    private CustomerType customerType;
+
     //OneCustomerManyUsers
     @ManyToMany(mappedBy = "customers")
     private List<User> users = new ArrayList<>();

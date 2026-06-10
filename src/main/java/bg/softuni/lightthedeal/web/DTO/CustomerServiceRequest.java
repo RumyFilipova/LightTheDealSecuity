@@ -30,4 +30,9 @@ public class CustomerServiceRequest {
 
         @NotBlank
         private String address;
+
+        private String companyName;
+
+        private String customerDetails;
+        private String customerType;
 }
