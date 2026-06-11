@@ -1,23 +1,24 @@
 package bg.softuni.lightthedeal.web.DTO;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 @Builder
-
-public record UserUpdateRequest(
-@NotBlank(message = "* required")
-        String userName,
-@NotBlank(message = "* required")
-        String email,
-@NotBlank(message = "* required")
-        String firstName,
-@NotBlank(message = "* required")
-        String lastName,
-@NotBlank(message = "* required")
-        String phoneNumber,
-@NotBlank(message = "* required")
-        String profilePicture
-        ) {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserUpdateRequest{
+        @NotBlank(message = "* required")
+        private String userName;
+        @NotBlank(message = "* required")
+        private String email;
+        @NotBlank(message = "* required")
+        private String firstName;
+        @NotBlank(message = "* required")
+        private String lastName;
+        @NotBlank(message = "* required")
+        private String phoneNumber;
+        @NotBlank(message = "* required")
+        private String profilePicture;
 }

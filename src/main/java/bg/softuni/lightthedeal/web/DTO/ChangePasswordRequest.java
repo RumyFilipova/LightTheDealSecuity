@@ -8,16 +8,14 @@ import jakarta.validation.constraints.Size;
         confirmPassword = "confirmPassword",
         message = "Passwords do not match"
 )*/
-public record ChangePasswordRequest(
-
+public class ChangePasswordRequest{
         @NotBlank(message = "Current password is required")
-        String currentPassword,
+        private String currentPassword;
 
         @NotBlank(message = "New password is required")
         @Size(min = 6, message = "New password must be at least 6 characters")
-        String newPassword,
+        private String newPassword;
 
         @NotBlank(message = "Please confirm your new password")
-        String confirmPassword
-) {
+        private String confirmPassword;
 }

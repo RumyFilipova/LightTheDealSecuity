@@ -1,17 +1,24 @@
 package bg.softuni.lightthedeal.web.DTO;
 
+import lombok.*;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
-public record CreateOfferRequest(
-        UUID premiseId,
-        UUID customerId,
-        LocalDate deadline,
+@Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 
-        List<OfferMaterialLine> materials,
-        List<OfferAssistanceLine> assistants
-) {
+public class CreateOfferRequest{
+       private UUID premiseId;
+       private UUID customerId;
+       private LocalDate deadline;
+
+       private List<OfferMaterialLine> materials;
+       private List<OfferAssistanceLine> assistants;
 }
 
 
