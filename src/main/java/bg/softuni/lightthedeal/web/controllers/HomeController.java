@@ -1,18 +1,15 @@
-package bg.softuni.lightthedeal.web;
+package bg.softuni.lightthedeal.web.controllers;
 
 import bg.softuni.lightthedeal.user.entity.User;
 import bg.softuni.lightthedeal.user.property.UserProperties;
 import bg.softuni.lightthedeal.user.service.UserService;
 import bg.softuni.lightthedeal.web.DTO.RegisterRequestUser;
 import bg.softuni.lightthedeal.web.DTO.UserLoginRequest;
-import jakarta.persistence.ManyToMany;
-import jakarta.servlet.ServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -28,32 +25,29 @@ public class HomeController {
         this.userProperties = userProperties;
     }
 
-    @GetMapping("/")
+    @GetMapping({"/","/home"})
     public String getHomePage() {
 
         return "home";
     }
 
 
-    @GetMapping("/home")
-    public String getMyHomePage() {
-        return "home";
-    }
-
     @GetMapping("/login")
     public ModelAndView getLoginPage() {
+        ModelAndView mv = new ModelAndView();
 
-        ModelAndView modelAndView = new ModelAndView();
+        mv.setViewName("login");
+        mv.addObject("user", new User());
+        mv.addObject("userLoginRequest", new UserLoginRequest());
+        mv.addObject("registerRequestUser", new RegisterRequestUser());
 
-        modelAndView.addObject("userLoginRequest", new UserLoginRequest());
-        modelAndView.addObject("registerRequestUser", new RegisterRequestUser());
-        modelAndView.setViewName("login");
-        return modelAndView;
+        return mv;
     }
 
 
     @GetMapping("/profile")
     public ModelAndView getUserInitialPage() {
+        
         User currentUser = userService.getByUsername(userProperties.getDefaultUser().getUsername());
 
         ModelAndView modelAndView = new ModelAndView();
@@ -61,6 +55,13 @@ public class HomeController {
         modelAndView.addObject("currentUser", currentUser);
 
         return modelAndView;
+    }
+
+    @PostMapping("/login")
+    public String login (@ModelAttribute UserLoginRequest userLoginRequest) {
+
+        User user = userService.getByUsername(userProperties.getDefaultUser().getUsername());
+        return "redirect:/profile";
     }
 
     @PostMapping("/register")
