@@ -1,14 +1,18 @@
-package bg.softuni.lightthedeal.web;
+package bg.softuni.lightthedeal.web.controllers;
 
-import bg.softuni.lightthedeal.assistance.entity.Assistance;
+import bg.softuni.lightthedeal.assistance.entity.Category;
+import bg.softuni.lightthedeal.assistance.entity.Unit;
 import bg.softuni.lightthedeal.assistance.service.AssistanceService;
 import bg.softuni.lightthedeal.user.entity.User;
+import bg.softuni.lightthedeal.user.property.UserProperties;
 import bg.softuni.lightthedeal.user.service.UserService;
 import bg.softuni.lightthedeal.web.DTO.AssistanceServiceRequest;
 import bg.softuni.lightthedeal.web.DTO.AssistanceUpdateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -19,11 +23,13 @@ import java.util.UUID;
 public class AssistanceController {
     private final AssistanceService assistanceService;
     private final UserService userService;
+    private final UserProperties userProperties;
 
     @Autowired
-    public AssistanceController(AssistanceService assistanceService, UserService userService) {
+    public AssistanceController(AssistanceService assistanceService, UserService userService, UserProperties userProperties) {
         this.assistanceService = assistanceService;
         this.userService = userService;
+        this.userProperties = userProperties;
     }
 
 
@@ -32,7 +38,7 @@ public class AssistanceController {
     public ModelAndView getAssistanceInitialPage() {
 
         // TODO: replace hardcoded UUID with logged-in user from session/security
-        User user =userService.getById(UUID.fromString("my-user-id"));
+        User user = userService.getByUsername(userProperties.getDefaultUser().getUsername());
 
         ModelAndView modelAndView = new ModelAndView();
 
@@ -40,12 +46,21 @@ public class AssistanceController {
         modelAndView.addObject("assistanceRequest", new AssistanceServiceRequest());
         modelAndView.addObject("assistanceUpdateRequest", new AssistanceUpdateRequest());
         modelAndView.addObject("assistanceList", assistanceService.getAllAssistanceForUSer(user));
-        modelAndView.addObject("user",user.getId());
+        modelAndView.addObject("category", Category.values());
+        modelAndView.addObject("unit", Unit.values());
+        modelAndView.addObject("user", user.getId());
 
         return modelAndView;
     }
 
+    @PostMapping
+    public String addAssistance(@ModelAttribute("assistanceRequest") AssistanceServiceRequest assistanceServiceRequest) {
 
+        User user = userService.getByUsername(userProperties.getDefaultUser().getUsername());
+
+        assistanceService.createAssistance(assistanceServiceRequest , user);
+        return "redirect:/assistance";
+    }
    /*
     public String addAssistance(){}
     public String updateAssistance(){}

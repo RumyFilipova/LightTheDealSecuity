@@ -1,5 +1,4 @@
 package bg.softuni.lightthedeal.assistance.service;
-
 import bg.softuni.lightthedeal.assistance.entity.Assistance;
 import bg.softuni.lightthedeal.assistance.repository.AssistanceRepository;
 import bg.softuni.lightthedeal.user.entity.User;
@@ -26,7 +25,9 @@ public class AssistanceService {
         Assistance assistance = Assistance.builder()
                 .user(user)
                 .name(assistanceServiceRequest.getName())
-                .description(assistanceServiceRequest.getActivityDescription())
+                .category(assistanceServiceRequest.getCategory())
+                .description(assistanceServiceRequest.getDescription())
+                .unit(assistanceServiceRequest.getUnit())
                 .pricePerUnit(assistanceServiceRequest.getPricePerUnit())
                         .build();
 

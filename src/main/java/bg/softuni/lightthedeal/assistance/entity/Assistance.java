@@ -30,6 +30,14 @@ public class Assistance {
     @Column(name = "price_per_unit",nullable = false)
     private BigDecimal pricePerUnit;
 
+    @Enumerated(EnumType.STRING)
+    @Column
+    private Category category;
+
+    @Enumerated(EnumType.STRING)
+    @Column
+    private Unit unit;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

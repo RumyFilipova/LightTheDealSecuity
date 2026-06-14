@@ -38,55 +38,55 @@
         <div class="section-label">New Assistance Service</div>
 
         <div class="form-card">
-            <div class="form-grid">
-                <div class="form-group" th:action="@{/assistance}" th:method="post" th:object="${assistanceRequest}">
-                    <label class="form-label">Service Name</label>
-                    <input class="form-input" placeholder="e.g. Electrical installation per hour" th:field="*{name}"/>
+            <form th:action="@{/assistance}" th:method="POST" th:object="${assistanceRequest}">
+                <div class="form-grid">
+                    <div class="form-group" >
+                        <label class="form-label">Service Name</label>
+                        <input class="form-input" placeholder="e.g. Electrical installation per hour"
+                               th:field="*{name}"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Category</label>
+                        <select class="form-select" th:field="*{category}">
+                            <option value="">— Select category —</option>
+                            <option th:each="t: ${category}"
+                            th:value="${t}"
+                            th:text="${t}">
+
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Billing Unit</label>
+                        <select class="form-select" th:field="*{unit}">
+                            <option value="">— Select units —</option>
+                            <option th:each="t: ${unit}"
+                            th:value="${t}"
+                            th:text="${t}">
+
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Rate (EUR)</label>
+                        <input class="form-input" type="number" step="0.01" placeholder="0.00" th:field="*{pricePerUnit}"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Est. Duration</label>
+                        <input class="form-input" placeholder="e.g. 2h, 1 day"/>
+                    </div>
+                    <div class="form-group span2">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-textarea"
+                                  placeholder="What this service covers, requirements, notes…"></textarea>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Service Code</label>
-                    <input class="form-input" placeholder="e.g. SRV-ELEC-H"/>
+                <div class="form-actions">
+                    <button class="btn btn-primary">⚡ Add Service</button>
+                    <button class="btn btn-secondary">Reset</button>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Category</label>
-                    <select class="form-select">
-                        <option>Installation</option>
-                        <option>Inspection</option>
-                        <option>Repair</option>
-                        <option>Consultation</option>
-                        <option>Maintenance</option>
-                        <option>Design</option>
-                        <option>Other</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Billing Unit</label>
-                    <select class="form-select">
-                        <option>per hour</option>
-                        <option>per day</option>
-                        <option>flat rate</option>
-                        <option>per m²</option>
-                        <option>per point</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Rate (EUR)</label>
-                    <input class="form-input" type="number" step="0.01" placeholder="0.00" th:field="*{price}"/>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Est. Duration</label>
-                    <input class="form-input" placeholder="e.g. 2h, 1 day"/>
-                </div>
-                <div class="form-group span2">
-                    <label class="form-label">Description</label>
-                    <textarea class="form-textarea"
-                              placeholder="What this service covers, requirements, notes…"></textarea>
-                </div>
-            </div>
-            <div class="form-actions">
-                <button class="btn btn-primary">⚡ Add Service</button>
-                <button class="btn btn-secondary">Reset</button>
-            </div>
+            </form>
         </div>
     </div>
 
@@ -218,7 +218,7 @@
 
 </div>
 
-<div th:insert="~{fragments/footer::footer}"> </div>
+<div th:insert="~{fragments/footer::footer}"></div>
 
 
 <script>
