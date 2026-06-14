@@ -3,103 +3,83 @@ package bg.softuni.lightthedeal.customer.service;
 import bg.softuni.lightthedeal.customer.entity.Customer;
 import bg.softuni.lightthedeal.customer.repository.CustomerRepository;
 import bg.softuni.lightthedeal.user.entity.User;
+import bg.softuni.lightthedeal.user.repository.UserRepository;
 import bg.softuni.lightthedeal.web.DTO.CustomerServiceRequest;
 import bg.softuni.lightthedeal.web.DTO.CustomerUpdateRequest;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class CustomerService {
+
     private final CustomerRepository customerRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public CustomerService(CustomerRepository customerRepository) {
-
+    public CustomerService(CustomerRepository customerRepository, UserRepository userRepository) {
         this.customerRepository = customerRepository;
+        this.userRepository = userRepository;
     }
 
-    public List<Customer> getAllCustomersForUSer(User user) {
-
+    public List<Customer> getAllCustomersForUser(User user) {
         List<Customer> customers = customerRepository.findAllByUsers(user);
-        if(customers.isEmpty()){
-            throw  new RuntimeException("The user do not have customers");
-        }
 
         return customers;
     }
 
     public void createCustomer(CustomerServiceRequest customerServiceRequest, User user) {
 
-        if (customerRepository.findByPhoneNumber(customerServiceRequest.getPhoneNumber()).isEmpty()) {
+        if(customerRepository.findByPhoneNumber(customerServiceRequest.getPhoneNumber()).isPresent()){
             throw new RuntimeException("Customer with this phone already exists");
         }
-        if (customerRepository.findByEmail(customerServiceRequest.getEmail()).isEmpty()) {
-            throw new RuntimeException("Customer with this email already exists");
+
+        if(customerRepository.findByEmail(customerServiceRequest.getEmail()).isPresent()){
+            throw new RuntimeException("Customer with this e-mail already exists");
         }
 
-        Optional<Customer> optionalCustomer = customerRepository.findByEmail
-                (customerServiceRequest.getEmail());
+        Customer customer = Customer.builder()
+                .users(new ArrayList<>(List.of(user)))
+                .firstName(customerServiceRequest.getFirstName())
+                .lastName(customerServiceRequest.getLastName())
+                .phoneNumber(customerServiceRequest.getPhoneNumber())
+                .email(customerServiceRequest.getEmail())
+                .address(customerServiceRequest.getAddress())
+                .build();
 
-
-        if (optionalCustomer.isPresent()) {
-
-            // customer exists - just link this user to them
-
-            Customer customer = optionalCustomer.get();
-            if (!customer.getUsers().contains(user)) {
-                customer.getUsers().add(user);
-                customerRepository.save(customer);
-            }
-
-        } else {
-
-            // create the customer and link it with the user
-
-            Customer customer = Customer.builder()
-                    .users(new ArrayList<>(List.of(user)))
-                    .firstName(customerServiceRequest.getFirstName())
-                    .lastName(customerServiceRequest.getLastName())
-                    .phoneNumber(customerServiceRequest.getPhoneNumber())
-                    .email(customerServiceRequest.getEmail())
-                    .address(customerServiceRequest.getAddress())
-                    .build();
-
-            customerRepository.save(customer);
-        }
-
+        customerRepository.save(customer);
+        user.getCustomers().add(customer);
+        userRepository.save(user);
     }
 
     public Customer getByIdAndUser(UUID id, User user) {
 
         Customer customer = customerRepository.findById(id)
-                .orElseThrow(()->new RuntimeException("Customer %s not found".formatted(id)));
+                .orElseThrow(() -> new RuntimeException("Customer $s does not exist".formatted(user.getId())));
+
         return customer;
     }
 
-public Customer updateCustomer (CustomerUpdateRequest request, UUID id, User user) {
+    public Customer updateCustomer(CustomerUpdateRequest customerUpdateRequest, UUID id, User user) {
 
-        Customer customer = getByIdAndUser(id,user);
+        Customer customer = getByIdAndUser(id, user);
 
-        customer.setFirstName(request.getFirstName());
-        customer.setLastName(request.getLastName());
-        customer.setPhoneNumber(request.getPhoneNumber());
-        customer.setEmail(request.getEmail());
-        customer.setAddress(request.getAddress());
+        customer.setFirstName(customerUpdateRequest.getFirstName());
+        customer.setLastName(customerUpdateRequest.getLastName());
+        customer.setPhoneNumber(customerUpdateRequest.getPhoneNumber());
+        customer.setEmail(customerUpdateRequest.getEmail());
+        customer.setAddress(customerUpdateRequest.getAddress());
 
         return customerRepository.save(customer);
-}
+    }
 
-public void deleteCustomerForUser(UUID id, User user){
-    Customer customer = getByIdAndUser(id,user);
-    customerRepository.delete(customer);
+    public void deleteById(UUID id, User user) {
+        Customer customer = getByIdAndUser(id, user);
+        customerRepository.delete(customer);
+    }
 
-}
 
 }
