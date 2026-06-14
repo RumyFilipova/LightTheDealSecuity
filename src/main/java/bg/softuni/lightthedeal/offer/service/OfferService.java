@@ -1,17 +1,15 @@
 package bg.softuni.lightthedeal.offer.service;
 
-import bg.softuni.lightthedeal.assistance.repository.OfferAssistanceRepository;
 import bg.softuni.lightthedeal.assistance.service.OfferAssistanceService;
 import bg.softuni.lightthedeal.customer.entity.Customer;
 import bg.softuni.lightthedeal.customer.repository.CustomerRepository;
 import bg.softuni.lightthedeal.materials.service.OfferMaterialService;
 import bg.softuni.lightthedeal.offer.entity.Offer;
 import bg.softuni.lightthedeal.offer.repository.OfferRepository;
-import bg.softuni.lightthedeal.order.repository.OrderRepository;
 import bg.softuni.lightthedeal.premise.entity.Premise;
 import bg.softuni.lightthedeal.premise.repository.PremiseRepository;
 import bg.softuni.lightthedeal.user.entity.User;
-import bg.softuni.lightthedeal.web.DTO.CreateOfferRequest;
+import bg.softuni.lightthedeal.web.DTO.OfferServiceRequest;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -38,13 +36,13 @@ public class OfferService {
     }
 
     // create offer
-    public Offer createOffer(CreateOfferRequest request, User user) {
+    public Offer createOffer(OfferServiceRequest request, User user) {
 
-        Customer customer = customerRepository.findByIdAndUsers(request.customerId(), user)
-                .orElseThrow(() -> new RuntimeException("Customer %s not found".formatted(request.customerId())));
+        Customer customer = customerRepository.findByIdAndUsers(request.getCustomerId(), user)
+                .orElseThrow(() -> new RuntimeException("Customer %s not found".formatted(request.getCustomerId())));
 
-        Premise premise = premiseRepository.findByIdAndUser(request.premiseId(), user)
-                .orElseThrow(() -> new RuntimeException("Premise %s not found".formatted(request.premiseId())));
+        Premise premise = premiseRepository.findByIdAndUser(request.getPremiseId(), user)
+                .orElseThrow(() -> new RuntimeException("Premise %s not found".formatted(request.getPremiseId())));
 
         Offer offer = Offer.builder()
                 .user(user)
@@ -56,8 +54,8 @@ public class OfferService {
                 .build();
         offer = offerRepository.save(offer);
 
-        offerMaterialService.createMaterialLines(offer, request.materials(), user);
-        offerAssistanceService.createAssistanceLine(offer, request.assistants(), user);
+        offerMaterialService.createMaterialLines(offer, request.getMaterials(), user);
+        offerAssistanceService.createAssistanceLine(offer, request.getAssistants(), user);
 
         BigDecimal materialsTotal = offerMaterialService.calculateTotal(offer);
         BigDecimal assistanceTotal = offerAssistanceService.calculateTotal(offer);
