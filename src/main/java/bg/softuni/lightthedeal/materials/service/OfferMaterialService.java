@@ -32,16 +32,17 @@ private final OfferMaterialRepository offerMaterialRepository;
 
         List<OfferMaterial> offerMaterials = lines.stream()
                 .map(line ->{
-                    Material materialToAdd = materialRepository.findByIdAndUser(line.materialId(), user)
-                            .orElseThrow(()-> new RuntimeException("Material %s not found for user %s".formatted(line.materialId(),user.getUsername())));
+                    Material materialToAdd = materialRepository.findByIdAndUser(line.getMaterialId(), user)
+                            .orElseThrow(()-> new RuntimeException("Material %s not found for user %s".formatted(line.getMaterialId(),user.getUsername())));
 
                     return OfferMaterial.builder()
                             .offer(offer)
                             .user(user)
                             .material(materialToAdd)
-                            .quantity(line.quantity())
+                            .quantity(line.getQuantity())
                             .priceAtTimeOfOffer(materialToAdd.getSinglePrice())
                             .build();
+
                 })
                 .toList();
 
