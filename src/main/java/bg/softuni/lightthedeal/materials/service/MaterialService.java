@@ -25,9 +25,12 @@ private final  MaterialRepository materialRepository;
             .user(user)
             .name(materialServiceRequest.getName())
             .type(materialServiceRequest.getType())
+            .quantity(materialServiceRequest.getQuantity())
             .description(materialServiceRequest.getDescription())
             .brand(materialServiceRequest.getBrand())
             .singlePrice(materialServiceRequest.getSinglePrice())
+            .category(materialServiceRequest.getCategory())
+            .unit(materialServiceRequest.getUnit())
             .build();
 
         materialRepository.save(material);
@@ -56,7 +59,6 @@ private final  MaterialRepository materialRepository;
         Material material = getByIdAndUser(id,user);
 
         material.setName(request.getName());
-        material.setType(request.getType());
         material.setBrand(request.getBrand());
         material.setDescription(request.getDescription());
         material.setSinglePrice(request.getSinglePrice());

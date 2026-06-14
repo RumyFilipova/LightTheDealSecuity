@@ -23,7 +23,7 @@ public class Material {
     private String name;// name(cable, circuit breaker)
 
     @Column(nullable = false)
-    private String type;// type(1,5 sq mm , 16A,2A )
+    private String type;// type(3A, 16A)
 
     @Column
     private String description;//additional clarification such as type of assembly
@@ -33,6 +33,17 @@ public class Material {
 
     @Column(name = "single_price",nullable = false)
     private BigDecimal singlePrice;
+
+    @Column(name = "quantity",nullable = false)
+    private Double quantity;
+
+    @Enumerated(EnumType.STRING)
+    @Column
+    private Unit unit;
+
+    @Enumerated(EnumType.STRING)
+    @Column
+    private Category category;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
