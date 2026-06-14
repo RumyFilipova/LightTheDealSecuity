@@ -68,7 +68,7 @@ public class UserService {
 
         User user = User.builder()
                 .username(registerRequestUser.getUsername())
-                .pasasword(passwordEncoder.encode(registerRequestUser.getPassword()))
+                .password(passwordEncoder.encode(registerRequestUser.getPassword()))
                 .email(registerRequestUser.getEmail())
                 .phoneNumber(registerRequestUser.getPhoneNumber())
                 .role(Role.USER)
@@ -87,7 +87,7 @@ public class UserService {
         }
 
         String rawPass =  logReg.getPassword();
-        String hashedPass = optUser.get().getPasasword();
+        String hashedPass = optUser.get().getPassword();
 
         if(!passwordEncoder.matches(rawPass,hashedPass)){
             throw  new RuntimeException("Incorrect username or password");
@@ -125,12 +125,12 @@ public class UserService {
         User user = userRepository.findById(id)
                         .orElseThrow(() -> new RuntimeException("User not found"));
 
-        user.setUsername(request.userName());
-        user.setEmail(request.email());
-        user.setFirstName(request.firstName());
-        user.setLastName(request.lastName());
-        user.setPhoneNumber(request.phoneNumber());
-        user.setProfilePicture(request.profilePicture());
+        user.setUsername(request.getUserName());
+        user.setEmail(request.getEmail());
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setPhoneNumber(request.getPhoneNumber());
+        user.setProfilePicture(request.getProfilePicture());
 
         return userRepository.save(user);
 

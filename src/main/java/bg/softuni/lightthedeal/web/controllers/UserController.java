@@ -1,4 +1,4 @@
-package bg.softuni.lightthedeal.web;
+package bg.softuni.lightthedeal.web.controllers;
 
 import bg.softuni.lightthedeal.user.entity.User;
 import bg.softuni.lightthedeal.user.service.UserService;
@@ -20,13 +20,15 @@ private final UserService userService;
         this.userService = userService;
     }
 
-    @GetMapping("/{id}")
+
+    @GetMapping("/{id}/profile")
     public ModelAndView getUserProfilePage(@PathVariable UUID id) {
 
     User user = userService.getById(id);
+
     ModelAndView modelAndView = new ModelAndView();
     modelAndView.setViewName("profile");
-    modelAndView.addObject("currentUser", user);
+    modelAndView.addObject("user", user);
 
     return modelAndView;
     }
@@ -64,9 +66,6 @@ private final UserService userService;
         return "redirect:/profile/" + id + "/edit-profile";
     }
 
-
-  /*
-    public String editUserPassword(){}*/
 
 
 }
