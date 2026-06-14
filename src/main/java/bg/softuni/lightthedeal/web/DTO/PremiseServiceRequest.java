@@ -1,6 +1,7 @@
 package bg.softuni.lightthedeal.web.DTO;
 
 import bg.softuni.lightthedeal.customer.entity.Customer;
+import bg.softuni.lightthedeal.premise.entity.PremiseType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -15,9 +16,10 @@ import java.util.UUID;
 
 public class PremiseServiceRequest {
 
-        @NotBlank(message = "* requered")
+        @NotBlank(message = "* required")
         private String name;
-        private String type;
+
+        private PremiseType type;
         private String address;
         private String description;
         private Double area;
