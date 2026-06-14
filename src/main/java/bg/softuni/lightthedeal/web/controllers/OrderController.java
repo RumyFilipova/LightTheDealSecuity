@@ -1,4 +1,4 @@
-package bg.softuni.lightthedeal.web;
+package bg.softuni.lightthedeal.web.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

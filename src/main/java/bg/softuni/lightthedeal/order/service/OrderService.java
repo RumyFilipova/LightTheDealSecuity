@@ -26,7 +26,7 @@ private final OfferRepository offerRepository;
     //createOrder form offer
     public Order createOrder(CreateOrderRequest request, User user) {
 
-        Offer offer = offerRepository.findByIdAndUser(request.offerId(),user)
+        Offer offer = offerRepository.findByIdAndUser(request.getOfferId(),user)
                 .orElseThrow(()-> new RuntimeException("Offer not found"));
 
         if(offer.getStatusOffer().equals(StatusOffer.CONFIRMED)){
@@ -39,7 +39,7 @@ private final OfferRepository offerRepository;
                 .customer(offer.getCustomer())
                 .premise(offer.getPremise())
                 .offer(offer)
-                .deadline(request.deadline())
+                .deadline(request.getDeadline())
                 .createdOn(LocalDateTime.now())
                 .build();
         return orderRepository.save(order);
