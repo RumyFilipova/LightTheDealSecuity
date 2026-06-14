@@ -39,6 +39,9 @@ public class Offer {
     @Column
     private LocalDate deadline;
 
+    @Column(name = "valid_until", nullable = false)
+    private LocalDate validUntil;
+
     @Column(name = "total_amount")
     private BigDecimal totalAmount;
 
@@ -46,6 +49,8 @@ public class Offer {
     @Enumerated(EnumType.STRING)
     private StatusOffer statusOffer;
 
+    @Column
+    private String notes;
 
     //OneOfferOneUser
     @ManyToOne

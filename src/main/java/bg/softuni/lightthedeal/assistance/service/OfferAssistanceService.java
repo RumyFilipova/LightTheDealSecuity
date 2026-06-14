@@ -32,14 +32,14 @@ public class OfferAssistanceService {
 
         List<OfferAssistance> offeredAssistanceLine = lines.stream()
                 .map(line->{
-                    Assistance assistanceToAdd = assistanceRepository.findByIdAndUser(line.assistanceId(),user)
-                            .orElseThrow(()-> new RuntimeException("Assistance %s is not supported for the user %s".formatted(line.assistanceId(),user.getUsername())));
+                    Assistance assistanceToAdd = assistanceRepository.findByIdAndUser(line.getAssistanceId(),user)
+                            .orElseThrow(()-> new RuntimeException("Assistance %s is not supported for the user %s".formatted(line.getAssistanceId(),user.getUsername())));
 
                     return OfferAssistance.builder()
                             .offer(offer)
                             .user(user)
                             .assistance(assistanceToAdd)
-                            .quantity(line.quantity().doubleValue())
+                            .quantity(line.getQuantity().doubleValue())
                             .priceAtTimeOfOffer(assistanceToAdd.getPricePerUnit())
                             .build();
                 })
