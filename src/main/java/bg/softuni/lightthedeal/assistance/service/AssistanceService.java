@@ -52,6 +52,7 @@ public class AssistanceService {
         assistance.setName(assistanceUpdateRequest.getName());
         assistance.setDescription(assistanceUpdateRequest.getActivityDescription());
         assistance.setPricePerUnit(assistanceUpdateRequest.getPricePerUnit());
+        assistance.setCategory(assistanceUpdateRequest.getCategory());
 
         return assistanceRepository.save(assistance);
     }
