@@ -11,10 +11,7 @@ import bg.softuni.lightthedeal.web.DTO.MaterialServiceRequest;
 import bg.softuni.lightthedeal.web.DTO.MaterialUpdateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
@@ -46,7 +43,7 @@ public class MaterialController {
 
         modelAndView.addObject("materialRequest", new MaterialServiceRequest());
         modelAndView.addObject("materialUpdateRequest", new MaterialUpdateRequest());
-        modelAndView.addObject("materialsList", materialService.getAllMaterialForUser(user));
+        modelAndView.addObject("materialsList", materialService.getAllMaterialServiceResponsesForUser(user));
         modelAndView.addObject("category", Category.values());
         modelAndView.addObject("unit", Unit.values());
         modelAndView.addObject("user", user.getId());
@@ -62,10 +59,13 @@ public class MaterialController {
         return "redirect:/material";
     }
 
-    /*
-    public String addMaterial(){}
-    public String updateMaterial(){}
-    public String updateMaterialQuantity(){}
-    public String updateMaterialPrice(){}
-    public String removeMaterial(){}*/
+    @PostMapping("/{id}/delete")
+    public String removeMaterial(@PathVariable UUID id){
+
+        //replace with session
+        User user = userService.getByUsername(userProperties.getDefaultUser().getUsername());
+
+        materialService.deleteMaterial(id,user);
+        return "redirect:/material";
+    }
 }
