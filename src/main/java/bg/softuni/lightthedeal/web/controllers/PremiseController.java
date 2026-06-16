@@ -36,11 +36,11 @@ public class PremiseController {
         this.userProperties = userProperties;
     }
 
-    @GetMapping
-    public ModelAndView getPremise() {
+    @GetMapping("/{id}")
+    public ModelAndView getPremise(@PathVariable UUID id) {
 
         // TODO: replace with @AuthenticationPrincipal
-        User user = userService.getByUsername(userProperties.getDefaultUser().getUsername());
+        User user = userService.getById(id);
 
         List<Premise> premises = premiseService.getAllForUser(user);
         List<Customer> customers = customerService.getAllCustomersForUser(user);
@@ -58,6 +58,19 @@ public class PremiseController {
 
         return modelAndView;
     }
+
+//    @GetMapping("/{id}/edit")
+//    public ModelAndView updatePremise(@PathVariable UUID id) {
+//
+//        User user = userService.getByUsername(userProperties.getDefaultUser().getUsername());
+//        Premise premise = premiseService.getByIdAndUser(id, user);
+//
+//        List<Premise> premises = premiseService.getAllForUser(user);
+//        List<Customer> customers = customerService.getAllCustomersForUser(user);
+//
+//        PremiseUpdateRequest
+//
+//    }
 
     @PostMapping
     public String addPremise(@ModelAttribute("premiseRequest") PremiseServiceRequest premiseServiceRequest){
