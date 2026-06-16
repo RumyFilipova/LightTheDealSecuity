@@ -10,10 +10,7 @@ import bg.softuni.lightthedeal.web.DTO.AssistanceServiceRequest;
 import bg.softuni.lightthedeal.web.DTO.AssistanceUpdateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.UUID;
@@ -45,7 +42,7 @@ public class AssistanceController {
         modelAndView.setViewName("assistance");
         modelAndView.addObject("assistanceRequest", new AssistanceServiceRequest());
         modelAndView.addObject("assistanceUpdateRequest", new AssistanceUpdateRequest());
-        modelAndView.addObject("assistanceList", assistanceService.getAllAssistanceForUSer(user));
+        modelAndView.addObject("assistanceList", assistanceService.getAllAssistanceResponsesForUser(user));
         modelAndView.addObject("category", Category.values());
         modelAndView.addObject("unit", Unit.values());
         modelAndView.addObject("user", user.getId());
@@ -59,6 +56,15 @@ public class AssistanceController {
         User user = userService.getByUsername(userProperties.getDefaultUser().getUsername());
 
         assistanceService.createAssistance(assistanceServiceRequest , user);
+        return "redirect:/assistance";
+    }
+
+    @PostMapping("/{id}/delete")
+    public String deleteAssistance(@PathVariable UUID id) {
+
+        // replace on session
+        User user = userService.getByUsername(userProperties.getDefaultUser().getUsername());
+        assistanceService.deleteAssistance(id, user);
         return "redirect:/assistance";
     }
    /*

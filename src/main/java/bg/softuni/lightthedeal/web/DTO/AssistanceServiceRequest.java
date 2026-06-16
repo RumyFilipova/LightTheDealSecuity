@@ -27,4 +27,5 @@ public class AssistanceServiceRequest
 
         private Category category;
         private Unit unit;
+        private Integer durationMinutes;
 }

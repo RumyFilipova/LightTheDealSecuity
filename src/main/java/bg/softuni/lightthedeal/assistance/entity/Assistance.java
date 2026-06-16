@@ -30,6 +30,9 @@ public class Assistance {
     @Column(name = "price_per_unit",nullable = false)
     private BigDecimal pricePerUnit;
 
+    @Column(name = "duration_minutes",nullable = false)
+    private Integer durationMinutes;
+
     @Enumerated(EnumType.STRING)
     @Column
     private Category category;

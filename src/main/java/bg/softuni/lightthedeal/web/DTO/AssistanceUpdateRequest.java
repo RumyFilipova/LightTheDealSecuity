@@ -26,4 +26,5 @@ public class AssistanceUpdateRequest{
         private BigDecimal pricePerUnit;
         private Category category;
         private Unit unit;
+        private Integer durationMinutes;
 }

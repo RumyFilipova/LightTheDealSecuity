@@ -3,6 +3,7 @@ import bg.softuni.lightthedeal.assistance.entity.Assistance;
 import bg.softuni.lightthedeal.assistance.repository.AssistanceRepository;
 import bg.softuni.lightthedeal.user.entity.User;
 import bg.softuni.lightthedeal.web.DTO.AssistanceServiceRequest;
+import bg.softuni.lightthedeal.web.DTO.AssistanceServiceResponse;
 import bg.softuni.lightthedeal.web.DTO.AssistanceUpdateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,7 @@ public class AssistanceService {
                 .description(assistanceServiceRequest.getDescription())
                 .unit(assistanceServiceRequest.getUnit())
                 .pricePerUnit(assistanceServiceRequest.getPricePerUnit())
+                .durationMinutes(assistanceServiceRequest.getDurationMinutes())
                         .build();
 
         assistanceRepository.save(assistance);
@@ -53,6 +55,8 @@ public class AssistanceService {
         assistance.setDescription(assistanceUpdateRequest.getActivityDescription());
         assistance.setPricePerUnit(assistanceUpdateRequest.getPricePerUnit());
         assistance.setCategory(assistanceUpdateRequest.getCategory());
+        assistance.setUnit(assistanceUpdateRequest.getUnit());
+        assistance.setDurationMinutes(assistanceUpdateRequest.getDurationMinutes());
 
         return assistanceRepository.save(assistance);
     }
@@ -62,5 +66,25 @@ public class AssistanceService {
     public void deleteAssistance(UUID id, User user) {
         Assistance assistance = getByIdAndUser(id,user);
         assistanceRepository.delete(assistance);
+    }
+
+    public List<AssistanceServiceResponse> getAllAssistanceResponsesForUser(User user) {
+
+        return assistanceRepository.findAllByUser(user)
+                .stream()
+                .map(this::response)
+                .toList();
+    }
+
+    private AssistanceServiceResponse response(Assistance assistance) {
+
+        return AssistanceServiceResponse.builder()
+                .id(assistance.getId())
+                .name(assistance.getName())
+                .description(assistance.getDescription())
+                .pricePerUnit(assistance.getPricePerUnit())
+                .category(assistance.getCategory())
+                .unit(assistance.getUnit())
+                .build();
     }
 }
