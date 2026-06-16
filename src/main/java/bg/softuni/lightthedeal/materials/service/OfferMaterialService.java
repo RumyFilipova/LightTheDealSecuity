@@ -50,21 +50,14 @@ private final OfferMaterialRepository offerMaterialRepository;
     }
 
     // update quantity
-    public OfferMaterial updateQuantity (UUID id, Double newQuantity, User user){
+    public OfferMaterial updateMaterialLine (UUID id,OfferMaterialLine request, User user){
 
         OfferMaterial line = offerMaterialRepository.findById(id)
                 .orElseThrow(()-> new RuntimeException("The particular request of material %s was not found in the offer".formatted(id)));
 
-        line.setQuantity(line.getQuantity()+newQuantity);
-        return offerMaterialRepository.save(line);
-    }
-// update price
-    public OfferMaterial updatePrice (UUID id, BigDecimal newPrice, User user){
+        line.setQuantity(line.getQuantity());
+        line.setPriceAtTimeOfOffer(line.getPriceAtTimeOfOffer());
 
-        OfferMaterial line = offerMaterialRepository.findById(id)
-                .orElseThrow(()-> new RuntimeException("The particular request of material %s was not found in the offer".formatted(id)));
-
-        line.setPriceAtTimeOfOffer(newPrice);
         return offerMaterialRepository.save(line);
     }
 
