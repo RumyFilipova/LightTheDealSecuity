@@ -4,6 +4,7 @@ import bg.softuni.lightthedeal.materials.entities.Material;
 import bg.softuni.lightthedeal.materials.repository.MaterialRepository;
 import bg.softuni.lightthedeal.user.entity.User;
 import bg.softuni.lightthedeal.web.DTO.MaterialServiceRequest;
+import bg.softuni.lightthedeal.web.DTO.MaterialServiceResponse;
 import bg.softuni.lightthedeal.web.DTO.MaterialUpdateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,12 +57,17 @@ private final  MaterialRepository materialRepository;
     // Update price via DTO
     public Material updateMaterial (MaterialUpdateRequest request,UUID id, User user){
 
+
         Material material = getByIdAndUser(id,user);
+
+        Double onStockMaterial = material.getQuantity();
 
         material.setName(request.getName());
         material.setBrand(request.getBrand());
-        material.setDescription(request.getDescription());
         material.setSinglePrice(request.getSinglePrice());
+        material.setQuantity(request.getQuantity()+onStockMaterial);
+        material.setDescription(request.getDescription());
+
 
        return  materialRepository.save(material);
     }
@@ -71,4 +77,28 @@ private final  MaterialRepository materialRepository;
 
         materialRepository.delete(material);
     }
+
+   public MaterialServiceResponse response (Material material) {
+
+        return MaterialServiceResponse.builder()
+                .id(material.getId())
+                .name(material.getName())
+                .type(material.getType())
+                .brand(material.getBrand())
+                .description(material.getDescription())
+                .singlePrice(material.getSinglePrice())
+                .quantity(material.getQuantity())
+                .unit(material.getUnit())
+                .category(material.getCategory())
+                .build();
+   }
+
+   public List <MaterialServiceResponse> getAllMaterialServiceResponsesForUser(User user) {
+
+        return materialRepository.findAllByUser(user)
+                .stream()
+                .map(this::response)
+                .toList();
+   }
+
 }
