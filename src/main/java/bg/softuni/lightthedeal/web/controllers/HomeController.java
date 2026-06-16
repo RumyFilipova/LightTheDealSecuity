@@ -58,6 +58,7 @@ public class HomeController {
     }
 
     @PostMapping("/login")
+
     public String login (@ModelAttribute UserLoginRequest userLoginRequest) {
 
         User user = userService.getByUsername(userProperties.getDefaultUser().getUsername());
