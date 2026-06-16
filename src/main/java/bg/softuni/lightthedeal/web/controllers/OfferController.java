@@ -2,6 +2,7 @@ package bg.softuni.lightthedeal.web.controllers;
 
 import bg.softuni.lightthedeal.assistance.service.AssistanceService;
 import bg.softuni.lightthedeal.materials.service.MaterialService;
+import bg.softuni.lightthedeal.materials.service.OfferMaterialService;
 import bg.softuni.lightthedeal.offer.service.OfferService;
 import bg.softuni.lightthedeal.user.entity.User;
 import bg.softuni.lightthedeal.user.property.UserProperties;
@@ -11,8 +12,7 @@ import bg.softuni.lightthedeal.web.DTO.OfferMaterialLine;
 import bg.softuni.lightthedeal.web.DTO.OfferServiceRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
@@ -27,14 +27,16 @@ public class OfferController {
     private final MaterialService materialService;
     private final AssistanceService assistanceService;
     private final UserProperties userProperties;
+    private final OfferMaterialService offerMaterialService;
 
     @Autowired
-    public OfferController(OfferService offerService, UserService userService, MaterialService materialService, AssistanceService assistanceService, UserProperties userProperties) {
+    public OfferController(OfferService offerService, UserService userService, MaterialService materialService, AssistanceService assistanceService, UserProperties userProperties, OfferMaterialService offerMaterialService) {
         this.offerService = offerService;
         this.userService = userService;
         this.materialService = materialService;
         this.assistanceService = assistanceService;
         this.userProperties = userProperties;
+        this.offerMaterialService = offerMaterialService;
     }
 
     @GetMapping
@@ -61,6 +63,14 @@ public class OfferController {
         return "offer";
     }
 
+//    @PostMapping("/{offerId}/material/{lineId}/update")
+//    public String updateOfferMaterialLine(@PathVariable UUID offerId,
+//                                          @PathVariable UUID lineId,
+//                                          @ModelAttribute OfferMaterialLine request){
+//       offerMaterialService.updateMaterialLine(lineId,request);
+//
+//       return ("redirect:/offer" + offerId);
+//    }
    /*
     public String addOffer(){}
     public String updateOffer(){}
