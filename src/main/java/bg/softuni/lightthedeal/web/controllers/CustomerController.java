@@ -9,10 +9,7 @@ import bg.softuni.lightthedeal.web.DTO.CustomerServiceRequest;
 import bg.softuni.lightthedeal.web.DTO.CustomerUpdateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.UUID;
@@ -42,7 +39,7 @@ public class CustomerController {
         modelAndView.setViewName("customer");
         modelAndView.addObject("customerRequest", new CustomerServiceRequest());
         modelAndView.addObject("customerUpdateRequest", new CustomerUpdateRequest());
-        modelAndView.addObject("customersList", customerService.getAllCustomersForUser(user));
+        modelAndView.addObject("customersList", customerService.getAllCustomerServiceResponsesForUser(user));
         modelAndView.addObject("customerTypes", CustomerType.values());
         modelAndView.addObject("user", user.getId());
         return modelAndView;
@@ -54,6 +51,14 @@ public class CustomerController {
         User user = userService.getByUsername(userProperties.getDefaultUser().getUsername());
 
         customerService.createCustomer(customerServiceRequest, user);
+        return "redirect:/customer";
+    }
+
+    @PostMapping("/{id}/delete")
+    public String deleteCustomer(@PathVariable UUID id){
+        User user = userService.getByUsername(userProperties.getDefaultUser().getUsername());
+        customerService.deleteById(id, user);
+
         return "redirect:/customer";
     }
    /*

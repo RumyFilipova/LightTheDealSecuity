@@ -95,51 +95,41 @@
       <table class="data-table">
         <thead>
           <tr>
-            <th>#</th>
-            <th>Name</th>
+            <th>First Name</th>
+            <th>Last Name</th>
             <th>Phone</th>
             <th>Email</th>
             <th>Type</th>
-            <th>Offers</th>
+            <th>Company</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td style="font-family:var(--mono);color:var(--text-dim);">1</td>
-            <td>Petrov Ivan</td>
-            <td style="font-family:var(--mono);">+359 88 111 222</td>
-            <td>ivan.petrov@mail.bg</td>
-            <td><span class="badge badge-gray">INDIVIDUAL</span></td>
-            <td style="font-family:var(--mono);">2</td>
-            <td><div class="table-actions">
-              <button class="tbl-btn" onclick="switchTab('update',document.querySelectorAll('.tab-btn')[2])">Edit</button>
-              <button class="tbl-btn del">Delete</button>
-            </div></td>
-          </tr>
-          <tr>
-            <td style="font-family:var(--mono);color:var(--text-dim);">2</td>
-            <td>Ivanova Maria</td>
-            <td style="font-family:var(--mono);">+359 87 333 444</td>
-            <td>m.ivanova@corp.bg</td>
-            <td><span class="badge badge-gold">BUSINESS</span></td>
-            <td style="font-family:var(--mono);">1</td>
-            <td><div class="table-actions">
-              <button class="tbl-btn" onclick="switchTab('update',document.querySelectorAll('.tab-btn')[2])">Edit</button>
-              <button class="tbl-btn del">Delete</button>
-            </div></td>
-          </tr>
-          <tr>
-            <td style="font-family:var(--mono);color:var(--text-dim);">3</td>
-            <td>Georgi Stoychev</td>
-            <td style="font-family:var(--mono);">+359 89 555 666</td>
-            <td>gstoychev@abv.bg</td>
-            <td><span class="badge badge-gray">INDIVIDUAL</span></td>
-            <td style="font-family:var(--mono);">1</td>
-            <td><div class="table-actions">
-              <button class="tbl-btn" onclick="switchTab('update',document.querySelectorAll('.tab-btn')[2])">Edit</button>
-              <button class="tbl-btn del">Delete</button>
-            </div></td>
+        <tr th:if="${#lists.isEmpty(customersList)}">
+          <td colspan="7" style="text-align:center; color:var(--text-dim); padding: 32px;">
+            No customers yet. Add your first one using the "Add Customer" tab.
+          </td>
+        </tr>
+
+          <tr th:each="c: ${customersList}" th:unless="${#lists.isEmpty(customersList)}">
+            <td th:text="${c.firstName}">--</td>
+            <td th:text="${c.lastName}">--</td>
+            <td style="font-family:var(--mono),serif;" th:text="${c.phoneNumber}">--</td>
+            <td th:text="${c.email}">--</td>
+            <td><span class="badge badge-gray" th:text="${c.customerType}">—</span></td>
+            <td th:text="${c.companyName != null ? c.companyName : '—'}">—</td>
+            <td th:text="${c.customerDetails}">--</td>
+
+              <div class="table-actions">
+              <button class="tbl-btn" onclick="switchTab('update',document.querySelectorAll('.tab-btn')[2])">Edit
+              </button>
+              <form th:action="@{/customer/{id}/delete(id=${c.id})}" method="post" style="display:inline;">
+                <button class="tbl-btn del" type="submit"
+                        onclick="return confirm('Delete this customer?')">
+                  Delete
+                </button>
+              </form>
+            </div>
           </tr>
         </tbody>
       </table>

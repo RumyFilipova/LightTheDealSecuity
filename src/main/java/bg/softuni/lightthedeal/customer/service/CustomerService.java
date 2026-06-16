@@ -5,6 +5,7 @@ import bg.softuni.lightthedeal.customer.repository.CustomerRepository;
 import bg.softuni.lightthedeal.user.entity.User;
 import bg.softuni.lightthedeal.user.repository.UserRepository;
 import bg.softuni.lightthedeal.web.DTO.CustomerServiceRequest;
+import bg.softuni.lightthedeal.web.DTO.CustomerServiceResponse;
 import bg.softuni.lightthedeal.web.DTO.CustomerUpdateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -81,5 +82,26 @@ public class CustomerService {
         customerRepository.delete(customer);
     }
 
+    public List<CustomerServiceResponse> getAllCustomerServiceResponsesForUser(User user) {
+
+        return customerRepository.findAllByUsers(user)
+                .stream()
+                .map(this::responce)
+                .toList();
+    }
+
+    private CustomerServiceResponse responce(Customer customer) {
+
+        return CustomerServiceResponse.builder()
+                .firstName(customer.getFirstName())
+                .lastName(customer.getLastName())
+                .phoneNumber(customer.getPhoneNumber())
+                .email(customer.getEmail())
+                .address(customer.getAddress())
+                .companyName(customer.getCompanyName())
+                .customerDetails(customer.getCustomerDetails())
+                .customerType(customer.getCustomerType())
+                .build();
+    }
 
 }

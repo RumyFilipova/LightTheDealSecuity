@@ -1,0 +1,26 @@
+package bg.softuni.lightthedeal.web.DTO;
+
+import bg.softuni.lightthedeal.customer.entity.CustomerType;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Builder;
+import lombok.Getter;
+import org.hibernate.validator.constraints.UniqueElements;
+
+import java.util.UUID;
+
+@Builder
+@Getter
+
+public class CustomerServiceResponse {
+
+    private UUID id;
+    private String firstName;
+    private String lastName;
+    private String phoneNumber;
+    private String email;
+    private String address;
+    private String companyName;
+    private String customerDetails;
+    private CustomerType customerType;
+}

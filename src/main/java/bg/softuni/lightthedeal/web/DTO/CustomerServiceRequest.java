@@ -1,5 +1,6 @@
 package bg.softuni.lightthedeal.web.DTO;
 
+import bg.softuni.lightthedeal.customer.entity.CustomerType;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -34,5 +35,5 @@ public class CustomerServiceRequest {
         private String companyName;
 
         private String customerDetails;
-        private String customerType;
+        private CustomerType customerType;
 }
