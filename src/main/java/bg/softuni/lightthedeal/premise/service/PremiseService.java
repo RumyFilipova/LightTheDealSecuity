@@ -5,6 +5,7 @@ import bg.softuni.lightthedeal.customer.service.CustomerService;
 import bg.softuni.lightthedeal.premise.entity.Premise;
 import bg.softuni.lightthedeal.premise.repository.PremiseRepository;
 import bg.softuni.lightthedeal.user.entity.User;
+import bg.softuni.lightthedeal.web.DTO.PremiceServiceResponse;
 import bg.softuni.lightthedeal.web.DTO.PremiseServiceRequest;
 import bg.softuni.lightthedeal.web.DTO.PremiseUpdateRequest;
 import org.springframework.stereotype.Service;
@@ -75,15 +76,34 @@ public class PremiseService {
         return premiseRepository.save(premise);
     }
 
-    public List<Premise> getAllPremisesForTheUser(User user) {
-
-        return premiseRepository.findAllByUser(user);
-    }
 
     public void deletePremise(UUID id, User user) {
         Premise premise = getByIdAndUser(id, user);
 
         premiseRepository.delete(premise);
+    }
+
+    public List<PremiceServiceResponse> getAllPremisesResponsesForTheUser(User user){
+
+        return premiseRepository.findAllByUser(user)
+                .stream()
+                .map(this::response)
+                .toList();
 
     }
+
+    private PremiceServiceResponse response (Premise premise) {
+
+        return PremiceServiceResponse.builder()
+                .id(premise.getId())
+                .name(premise.getName())
+                .type(premise.getType())
+                .address(premise.getAddress())
+                .customerId(premise.getCustomer().getId())
+                .customerName(premise.getCustomer().getFirstName() + " " + premise.getCustomer().getLastName())
+                .area(premise.getArea())
+                .description(premise.getDescription())
+                .build();
+    }
+
 }

@@ -54,7 +54,7 @@
                             <option th:each="t: ${premiseTypes}"
                                     th:value="${t}"
                                     th:text="${t}"
-                            th:selected="${t == premiseRequest.type}">
+                                    th:selected="${t == premiseRequest.type}">
                             </option>
                         </select>
 
@@ -102,64 +102,45 @@
             <table class="data-table">
                 <thead>
                 <tr>
-                    <th>#</th>
                     <th>Name</th>
                     <th>Type</th>
-                    <th>City</th>
+                    <th>Address</th>
                     <th>Customer</th>
                     <th>Area</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td style="font-family:var(--mono);color:var(--text-dim);">1</td>
-                    <td>Warehouse Sofia-North</td>
-                    <td><span class="badge badge-gray">WAREHOUSE</span></td>
-                    <td>Sofia</td>
-                    <td>Petrov Ivan</td>
-                    <td style="font-family:var(--mono);">420 m²</td>
+                <tr th:if="${#lists.isEmpty(premiseList)}">
+                    <td colspan="6" style="text-align:center; color:var(--text-dim); padding: 32px;">
+                        No premise yet. Add your first one using the "Add Premise" tab.
+                    </td>
+                </tr>
+                <tr th:each="p: ${premiseList}" th:unless="${#lists.isEmpty(premiseList)}">
+                    <td th:text="${p.name}">-</td>
+                    <td th:text="${p.type}" >-</td>
+                    <td th:text="${p.address}">-</td>
+                    <td th:text="${p.customerName}">-</td>
+                    <td th:text="${p.area}">-</td>
+                    <td th:text="${p.description}">-</td>
+
                     <td>
                         <div class="table-actions">
                             <button class="tbl-btn"
                                     onclick="switchTab('update',document.querySelectorAll('.tab-btn')[2])">Edit
                             </button>
-                            <button class="tbl-btn del">Delete</button>
+                            <form th:action="@{/premise./{id}/delete(id=${p.id})}" method="post"
+                                  style="display:inline;">
+                                <button class="tbl-btn del" type="submit"
+                                        onclick="return confirm('Delete this premise?')">
+                                    Delete
+                                </button>
+                            </form>
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <td style="font-family:var(--mono);color:var(--text-dim);">2</td>
-                    <td>Office Plovdiv-Centre</td>
-                    <td><span class="badge badge-gold">OFFICE</span></td>
-                    <td>Plovdiv</td>
-                    <td>Ivanova Maria</td>
-                    <td style="font-family:var(--mono);">85 m²</td>
-                    <td>
-                        <div class="table-actions">
-                            <button class="tbl-btn"
-                                    onclick="switchTab('update',document.querySelectorAll('.tab-btn')[2])">Edit
-                            </button>
-                            <button class="tbl-btn del">Delete</button>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="font-family:var(--mono);color:var(--text-dim);">3</td>
-                    <td>Villa Varna-South</td>
-                    <td><span class="badge badge-gray">RESIDENTIAL</span></td>
-                    <td>Varna</td>
-                    <td>Georgi Stoychev</td>
-                    <td style="font-family:var(--mono);">210 m²</td>
-                    <td>
-                        <div class="table-actions">
-                            <button class="tbl-btn"
-                                    onclick="switchTab('update',document.querySelectorAll('.tab-btn')[2])">Edit
-                            </button>
-                            <button class="tbl-btn del">Delete</button>
-                        </div>
-                    </td>
-                </tr>
+
+
                 </tbody>
             </table>
         </div>

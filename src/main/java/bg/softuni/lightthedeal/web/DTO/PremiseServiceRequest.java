@@ -18,7 +18,6 @@ public class PremiseServiceRequest {
 
         @NotBlank(message = "* required")
         private String name;
-
         private PremiseType type;
         private String address;
         private String description;
