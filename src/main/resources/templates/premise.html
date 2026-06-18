@@ -118,7 +118,7 @@
                 </tr>
                 <tr th:each="p: ${premiseList}" th:unless="${#lists.isEmpty(premiseList)}">
                     <td th:text="${p.name}">-</td>
-                    <td th:text="${p.type}" >-</td>
+                    <td th:text="${p.type}">-</td>
                     <td th:text="${p.address}">-</td>
                     <td th:text="${p.customerName}">-</td>
                     <td th:text="${p.area}">-</td>
@@ -150,78 +150,127 @@
     <div class="tab-panel" id="tab-update">
         <div class="section-label">Update Premise</div>
         <div class="form-card">
-            <div class="form-grid single" style="margin-bottom:16px;">
-                <div class="form-group">
-                    <label class="form-label">Select Premise to Edit</label>
-                    <select class="form-select">
-                        <option value="">— Pick a premise —</option>
-                        <option>1 · Warehouse Sofia-North</option>
-                        <option>2 · Office Plovdiv-Centre</option>
-                        <option>3 · Villa Varna-South</option>
-                    </select>
+                    <form id="updateForm"
+                          th:action="@{/premise/{id}/update(id=${premiseUpdateRequest.id})}"
+                          th:method="POST" th:object="${premiseUpdateRequest}"
+                    >
+                        <input type="hidden" th:field="*{id}">
+                        <div class="form-grid single" style="margin-bottom:16px;">
+                            <div class="form-group">
+                                <label class="form-label">Select Premise to Edit</label>
+
+                                <select class="form-select" id="premisePicker" onchange="populatePremise()">
+                                    <option value="">— Select a premise —</option>
+
+                                    <option th:each="p : ${premiseList}"
+                                            th:value="${p.id}"
+                                            th:text="${p.name}"
+                                            th:attr="
+                                            data-name=${p.name},
+                                    data-address=${p.address},
+                                    data-description=${p.description},
+                                    data-type=${p.type},
+                                    data-area=${p.area},
+                                    data-customerId=${p.customerId}
+">
+                                        </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">Premise Name</label>
+                                <input class="form-input" th:field="*{name}"/>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Type</label>
+                                <select class="form-select" th:field="*{type}">
+                                    <option
+                                            th:each="pt : ${premiseTypes}"
+                                            th:value="${pt}"
+                                            th:text="${pt}"
+                                    ></option>
+                                </select>
+                            </div>
+
+                            <div class="form-group span2">
+                                <label class="form-label">Address</label>
+                                <input class="form-input" th:field="*{address}"/>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Area (m²)</label>
+                                <input class="form-input" type="number" th:field="*{area}"/>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="field-label">Customer</label>
+                                <select class="form-select" th:field="*{customerId}">
+                                    <option value="">— Select customer —</option>
+                                    <option
+                                    th:each="c: ${customers}"
+                                    th:value="${c.id}"
+                                    th:text="${c.firstName + ' ' + c.lastName}">
+                                    </option>
+
+                                </select>
+                            </div>
+
+                            <div class="form-group span2">
+                                <label class="form-label">Description</label>
+                                <textarea class="form-textarea" th:field="*{description}"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button class="btn btn-primary">💾 Save Changes</button>
+                            <button type="button" class="btn btn-secondary" onclick="switchTab('list')">Cancel</button>
+                            <button class="btn btn-danger" style="margin-left:auto;">Delete Premise</button>
+                        </div>
+                    </form>
                 </div>
-            </div>
-            <div class="form-grid">
-                <div class="form-group">
-                    <label class="form-label">Premise Name</label>
-                    <input class="form-input"/>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Type</label>
-                    <select class="form-select">
-                        <option>RESIDENTIAL</option>
-                        <option>COMMERCIAL</option>
-                        <option>INDUSTRIAL</option>
-                        <option>WAREHOUSE</option>
-                        <option>OFFICE</option>
-                        <option>OTHER</option>
-                    </select>
-                </div>
-                <div class="form-group span2">
-                    <label class="form-label">Address</label>
-                    <input class="form-input"/>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">City</label>
-                    <input class="form-input"/>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Area (m²)</label>
-                    <input class="form-input" type="number"/>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Access Notes</label>
-                    <input class="form-input"/>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Floors</label>
-                    <input class="form-input" type="number"/>
-                </div>
-                <div class="form-group span2">
-                    <label class="form-label">Description</label>
-                    <textarea class="form-textarea"></textarea>
-                </div>
-            </div>
-            <div class="form-actions">
-                <button class="btn btn-primary">💾 Save Changes</button>
-                <button class="btn btn-secondary">Cancel</button>
-                <button class="btn btn-danger" style="margin-left:auto;">Delete Premise</button>
             </div>
         </div>
-    </div>
+        </div>
+        </div>
 
-</div>
-
-<div th:insert="~{fragments/footer::footer}"></div>
+        <div th:insert="~{fragments/footer::footer}"></div>
 
 
-<script>
-    function switchTab(id, btn) {
-        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById('tab-' + id).classList.add('active');
-        if (btn) btn.classList.add('active');
-    }
-</script>
+        <script>
+            function switchTab(id, btn) {
+                document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.getElementById('tab-' + id).classList.add('active');
+                if (btn) btn.classList.add('active');
+            }
+        </script>
+
+        <script>
+
+            function populatePremise() {
+                const picker = document.getElementById('premisePicker');
+                const selectedOption = picker.options[picker.selectedIndex];
+                const form = document.getElementById('updateForm');
+
+                if (!selectedOption.value) {
+                    form.reset();
+                    return;
+                }
+
+                const id = selectedOption.value;
+
+                document.getElementById('id').value = id;
+                document.getElementById('name').value = selectedOption.getAttribute('data-name') || '';
+                document.getElementById('type').value = selectedOption.getAttribute('data-type') || '';
+                document.getElementById('area').value = selectedOption.getAttribute('data-area') || '';
+                document.getElementById('address').value = selectedOption.getAttribute('data-address') || '';
+                document.getElementById('customerId').value = selectedOption.getAttribute('data-customerId') || '';
+                document.getElementById('description').value = selectedOption.getAttribute('data-description') || '';
+
+                form.action = '/premise/' + id + '/update';
+            }
+        </script>
+
 </body>
 </html>

@@ -10,11 +10,11 @@ import java.util.UUID;
 @Builder
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+
 
 public class PremiseUpdateRequest {
-
 
     private UUID id;
     @NotBlank(message = "* requered")
@@ -23,5 +23,6 @@ public class PremiseUpdateRequest {
     private String description;
     private PremiseType type;
     private Double area;
-    private Customer customer;
+    private UUID customerId;
+
 }

@@ -67,11 +67,15 @@ public class PremiseService {
 
     public Premise updatePremise(PremiseUpdateRequest updateRequest, UUID id, User user) {
 
+
         Premise premise = getByIdAndUser(id, user);
 
         premise.setName(updateRequest.getName());
         premise.setAddress(updateRequest.getAddress());
         premise.setDescription(updateRequest.getDescription());
+        premise.setType(updateRequest.getType());
+        premise.setArea(updateRequest.getArea());
+        premise.setCustomer(customerService.getByIdAndUser(updateRequest.getCustomerId(), user));
 
         return premiseRepository.save(premise);
     }

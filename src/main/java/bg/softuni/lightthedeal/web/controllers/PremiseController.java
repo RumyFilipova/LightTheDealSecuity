@@ -53,23 +53,12 @@ public class PremiseController {
         modelAndView.addObject("premiseUpdateRequest", new PremiseUpdateRequest());
         modelAndView.addObject("premiseList", premiseService.getAllPremisesResponsesForTheUser(user));
         modelAndView.addObject("premiseTypes", PremiseType.values());
+        modelAndView.addObject("customers", customers);
         modelAndView.addObject("userId", user.getId());
 
         return modelAndView;
     }
 
-//    @GetMapping("/{id}/edit")
-//    public ModelAndView updatePremise(@PathVariable UUID id) {
-//
-//        User user = userService.getByUsername(userProperties.getDefaultUser().getUsername());
-//        Premise premise = premiseService.getByIdAndUser(id, user);
-//
-//        List<Premise> premises = premiseService.getAllForUser(user);
-//        List<Customer> customers = customerService.getAllCustomersForUser(user);
-//
-//        PremiseUpdateRequest
-//
-//    }
 
     @PostMapping
     public String addPremise(@ModelAttribute("premiseRequest") PremiseServiceRequest premiseServiceRequest){
@@ -90,9 +79,13 @@ public String removeClient(@PathVariable UUID id){
     return "redirect:/premise";
 }
 
-   /*
-    public String addPremise(){}
-    public String updatePremise(){}
-    public String removePremise(){}*/
+@PostMapping("/{id}/update")
+    public String updatePremise(@PathVariable UUID id,@ModelAttribute("premiseUpdateRequest") PremiseUpdateRequest premiseUpdateRequest){
+
+        User user = userService.getByUsername(userProperties.getDefaultUser().getUsername());
+        premiseService.updatePremise(premiseUpdateRequest,id,user);
+
+        return  "redirect:/premise";
+}
 
 }
