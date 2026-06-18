@@ -67,7 +67,8 @@ private final  MaterialRepository materialRepository;
         material.setSinglePrice(request.getSinglePrice());
         material.setQuantity(request.getQuantity()+onStockMaterial);
         material.setDescription(request.getDescription());
-
+        material.setType(request.getType());
+        material.setCategory(request.getCategory());
 
        return  materialRepository.save(material);
     }

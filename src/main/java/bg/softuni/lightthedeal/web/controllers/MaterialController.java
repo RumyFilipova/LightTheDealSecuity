@@ -68,4 +68,14 @@ public class MaterialController {
         materialService.deleteMaterial(id,user);
         return "redirect:/material";
     }
+
+
+    @PostMapping("/{id}/update")
+    public String updateMaterial(@PathVariable UUID id, @ModelAttribute("materialUpdateRequest") MaterialUpdateRequest request){
+
+        User user = userService.getByUsername(userProperties.getDefaultUser().getUsername());
+        materialService.updateMaterial(request,id,user);
+
+        return "redirect:/material";
+    }
 }

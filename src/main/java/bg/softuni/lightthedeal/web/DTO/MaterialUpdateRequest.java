@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Builder
 @Getter
@@ -15,6 +16,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class MaterialUpdateRequest {
 
+        private UUID id;
         @NotBlank(message = "* required")
         private String name;
 
@@ -28,8 +30,10 @@ public class MaterialUpdateRequest {
 
         @NotNull(message = "* required")
         private BigDecimal singlePrice;
+
         @NotNull(message = "* required")
         private Double quantity;
+
         private Unit unit;
         private Category category;
 
