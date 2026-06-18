@@ -67,10 +67,16 @@ public class AssistanceController {
         assistanceService.deleteAssistance(id, user);
         return "redirect:/assistance";
     }
-   /*
-    public String addAssistance(){}
-    public String updateAssistance(){}
-    public String updateAssistanceQuantity(){}
-    public String updateAssistancePrice(){}
-    public String removeAssistance(){}*/
+
+    @PostMapping("/{id}/update")
+    public String updateAssistance(@PathVariable UUID id,@ModelAttribute("assistanceUpdateRequest")  AssistanceUpdateRequest request){
+
+        User user = userService.getByUsername(userProperties.getDefaultUser().getUsername());
+
+        assistanceService.updateAssistance(request, id,user);
+
+        return "redirect:/assistance";
+    }
+
+    
 }

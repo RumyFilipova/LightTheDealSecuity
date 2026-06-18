@@ -40,7 +40,7 @@
         <div class="form-card">
             <form th:action="@{/assistance}" th:method="POST" th:object="${assistanceRequest}">
                 <div class="form-grid">
-                    <div class="form-group" >
+                    <div class="form-group">
                         <label class="form-label">Service Name</label>
                         <input class="form-input" placeholder="e.g. Electrical installation per hour"
                                th:field="*{name}"/>
@@ -51,8 +51,8 @@
                         <select class="form-select" th:field="*{category}">
                             <option value="">— Select category —</option>
                             <option th:each="t: ${category}"
-                            th:value="${t}"
-                            th:text="${t}">
+                                    th:value="${t}"
+                                    th:text="${t}">
 
                             </option>
                         </select>
@@ -62,24 +62,26 @@
                         <select class="form-select" th:field="*{unit}">
                             <option value="">— Select units —</option>
                             <option th:each="t: ${unit}"
-                            th:value="${t}"
-                            th:text="${t}">
+                                    th:value="${t}"
+                                    th:text="${t}">
 
                             </option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Rate (EUR)</label>
-                        <input class="form-input" type="number" step="0.01" placeholder="0.00" th:field="*{pricePerUnit}"/>
+                        <input class="form-input" type="number" step="0.01" placeholder="0.00"
+                               th:field="*{pricePerUnit}"/>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Est. Duration</label>
-                        <input class="form-input" placeholder="e.g. 2h, 1 day" th:field="*{durationMinutes}" />
+                        <input class="form-input" placeholder="e.g. 2h, 1 day" th:field="*{durationMinutes}"/>
                     </div>
                     <div class="form-group span2">
                         <label class="form-label">Description</label>
                         <textarea class="form-textarea"
-                                  placeholder="What this service covers, requirements, notes…" th:field="*{description}"></textarea>
+                                  placeholder="What this service covers, requirements, notes…"
+                                  th:field="*{description}"></textarea>
                     </div>
                 </div>
                 <div class="form-actions">
@@ -101,13 +103,12 @@
                     <th>Category</th>
                     <th>Rate</th>
                     <th>Unit</th>
-                    <th>Duration</th>
-                    <th>Actions</th>
+                    <th>Description</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:if="${#lists.isEmpty(assistanceList)}">
-                    <td colspan="8" style="text-align:center; color:var(--text-dim); padding: 32px;">
+                    <td colspan="5" style="text-align:center; color:var(--text-dim); padding: 32px;">
                         No assistance yet. Add your first one using the "Add Assistance" tab.
                     </td>
                 </tr>
@@ -115,15 +116,15 @@
                     <td th:text="${a.name}">-</td>
                     <td th:text="${a.category}">-</td>
                     <td><span class="badge badge-gray" th:text="${a.unit}">—</span></td>
-                    <td style="font-family:var(--mono),serif;" th:text="${#numbers.formatDecimal(a.pricePerUnit, 1, 2)} + ' EUR'">0.00 EUR</td>
-                    <td th:text="${a.durationMinutes}">-</td>
-                    <td th:text="${a.description}">-</td>
-                       <td>
-                           <div class="table-actions">
+                    <td style="font-family:var(--mono),serif;"
+                        th:text="${#numbers.formatDecimal(a.pricePerUnit, 1, 2)} + ' EUR'">0.00 EUR
+
+                        <div class="table-actions">
                             <button class="tbl-btn"
                                     onclick="switchTab('update',document.querySelectorAll('.tab-btn')[2])">Edit
                             </button>
-                            <form th:action="@{/assistance/{id}/delete(id=${a.id})}" method="post" style="display:inline;">
+                            <form th:action="@{/assistance/{id}/delete(id=${a.id})}" method="post"
+                                  style="display:inline;">
                                 <button class="tbl-btn del" type="submit"
                                         onclick="return confirm('Delete this assistance?')">
                                     Delete
@@ -141,58 +142,76 @@
     <div class="tab-panel" id="tab-update">
         <div class="section-label">Update Service</div>
         <div class="form-card">
-            <div class="form-grid single" style="margin-bottom:16px;">
-                <div class="form-group">
-                    <label class="form-label">Select Service to Edit</label>
-                    <select class="form-select">
-                        <option value="">— Pick a service —</option>
-                        <option>SRV-ELEC-H · Electrical installation</option>
-                        <option>SRV-INSP · Safety inspection</option>
-                        <option>SRV-SOL-M · Solar panel mounting</option>
-                    </select>
+            <form id="updateForm"
+                  th:action="@{/assistance/{id}/update(id=${assistanceUpdateRequest.id})}"
+                  th:method="POST"
+                  th:object="${assistanceUpdateRequest}">
+                <input type="hidden" th:field="*{id}"/>
+                <div class="form-grid single" style="margin-bottom:16px;">
+                    <div class="form-group">
+                        <label class="form-label">Select Service to Edit</label>
+
+                        <select class="form-select" id="assistancePicker" onchange="populateMaterial()">
+                            <option value="">-Select Material to Edit-</option>
+
+                            <option th:each="a: ${assistanceList}"
+                                    th:value="${a.id}"
+                                    th:text="${a.name}"
+                                    th:attr="
+            data-name=${a.name},
+            data-activityDescription=${a.activityDescription},
+            data-pricePerUnit=${a.pricePerUnit},
+            data-category=${a.category},
+            data-unit=${a.unit}">
+                            </option>
+
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="form-grid">
-                <div class="form-group">
-                    <label class="form-label">Service Name</label>
-                    <input class="form-input"/>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Service Name</label>
+                        <input class="form-input" th:field="*{name}"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Price (EUR)</label>
+                        <input class="form-input" type="number" step="0.01" th:field="*{pricePerUnit}"/>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="form-label">Category</label>
+                        <select class="form-select" th:field="*{category}">
+                            <option
+                                    th:each="c: ${category}"
+                                    th:value="${c}"
+                                    th:text="${c}"
+                            ></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Billing Unit</label>
+                        <select class="form-select" th:field="*{unit}">
+                            <option
+                                    th:each="u: ${unit}"
+                                    th:value="${u}"
+                                    th:text="${u}"
+                            ></option>
+                        </select>
+                    </div>
+                    <div class="form-group span2">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-textarea" th:field="*{activityDescription}"></textarea>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Rate (EUR)</label>
-                    <input class="form-input" type="number" step="0.01"/>
+                <div class="form-actions">
+                    <button class="btn btn-primary">💾 Save Changes</button>
+                    <button type="button" class="btn btn-secondary" onclick="switchTab('list')">Cancel</button>
+                    <button class="btn btn-danger" style="margin-left:auto;">Delete Service</button>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Category</label>
-                    <select class="form-select">
-                        <option>Installation</option>
-                        <option>Inspection</option>
-                        <option>Repair</option>
-                        <option>Consultation</option>
-                        <option>Maintenance</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Billing Unit</label>
-                    <select class="form-select">
-                        <option>per hour</option>
-                        <option>per day</option>
-                        <option>flat rate</option>
-                        <option>per m²</option>
-                    </select>
-                </div>
-                <div class="form-group span2">
-                    <label class="form-label">Description</label>
-                    <textarea class="form-textarea"></textarea>
-                </div>
-            </div>
-            <div class="form-actions">
-                <button class="btn btn-primary">💾 Save Changes</button>
-                <button class="btn btn-secondary">Cancel</button>
-                <button class="btn btn-danger" style="margin-left:auto;">Delete Service</button>
-            </div>
+            </form>
         </div>
     </div>
-
 </div>
 
 <div th:insert="~{fragments/footer::footer}"></div>
@@ -206,5 +225,36 @@
         if (btn) btn.classList.add('active');
     }
 </script>
+
+<script>
+
+    function populateMaterial() {
+        const picker = document.getElementById('assistancePicker');
+        const selectedOption = picker.options[picker.selectedIndex];
+        const form = document.getElementById('updateForm');
+
+        if (!selectedOption.value) {
+            form.reset();
+            return;
+        }
+
+        const id = selectedOption.value;
+
+        document.getElementById('id').value = id;
+
+        document.getElementById('name').value = selectedOption.getAttribute('data-name') || '';
+
+        document.getElementById('activityDescription').value = selectedOption.getAttribute('data-activityDescription') || '';
+
+        document.getElementById('pricePerUnit').value = selectedOption.getAttribute('data-pricePerUnit') || '';
+
+        document.getElementById('category').value = selectedOption.getAttribute('data-category') || '';
+        document.getElementById('unit').value = selectedOption.getAttribute('data-unit') || '';
+
+
+        form.action = '/assistance/' + id + '/update';
+    }
+</script>
+
 </body>
 </html>

@@ -18,7 +18,7 @@ public class AssistanceServiceResponse {
     private UUID id;
     private String name;
     private BigDecimal pricePerUnit;
-    private String description;
+    private String activityDescription;
     private Category category;
     private Unit unit;
     private Integer durationMinutes;

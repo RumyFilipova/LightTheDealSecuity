@@ -8,6 +8,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.UUID;
+
 @Builder
 @Getter
 @Setter
@@ -16,15 +18,15 @@ import java.math.BigDecimal;
 
 public class AssistanceUpdateRequest{
 
+        private UUID id;
         @NotBlank(message = "* required")
         private String name;
 
         private String activityDescription;
-
         @NotNull(message = "Price is required")
         @DecimalMin(value = "0.01", message = "Price must be positive")
         private BigDecimal pricePerUnit;
         private Category category;
         private Unit unit;
-        private Integer durationMinutes;
+
 }

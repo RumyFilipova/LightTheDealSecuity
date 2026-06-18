@@ -56,7 +56,6 @@ public class AssistanceService {
         assistance.setPricePerUnit(assistanceUpdateRequest.getPricePerUnit());
         assistance.setCategory(assistanceUpdateRequest.getCategory());
         assistance.setUnit(assistanceUpdateRequest.getUnit());
-        assistance.setDurationMinutes(assistanceUpdateRequest.getDurationMinutes());
 
         return assistanceRepository.save(assistance);
     }
@@ -81,7 +80,7 @@ public class AssistanceService {
         return AssistanceServiceResponse.builder()
                 .id(assistance.getId())
                 .name(assistance.getName())
-                .description(assistance.getDescription())
+                .activityDescription(assistance.getDescription())
                 .pricePerUnit(assistance.getPricePerUnit())
                 .category(assistance.getCategory())
                 .unit(assistance.getUnit())
