@@ -3,14 +3,17 @@ package bg.softuni.lightthedeal.web.DTO;
 import bg.softuni.lightthedeal.customer.entity.CustomerType;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Builder;
-import lombok.Getter;
+import jdk.jfr.SettingDefinition;
+import lombok.*;
 import org.hibernate.validator.constraints.UniqueElements;
 
 import java.util.UUID;
 
 @Builder
 @Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 
 public class CustomerServiceResponse {
 

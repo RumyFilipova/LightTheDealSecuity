@@ -49,6 +49,9 @@ public class CustomerService {
                 .phoneNumber(customerServiceRequest.getPhoneNumber())
                 .email(customerServiceRequest.getEmail())
                 .address(customerServiceRequest.getAddress())
+                .companyName(customerServiceRequest.getCompanyName())
+                .customerDetails(customerServiceRequest.getCustomerDetails())
+                .customerType(customerServiceRequest.getCustomerType())
                 .build();
 
         customerRepository.save(customer);
@@ -73,6 +76,9 @@ public class CustomerService {
         customer.setPhoneNumber(customerUpdateRequest.getPhoneNumber());
         customer.setEmail(customerUpdateRequest.getEmail());
         customer.setAddress(customerUpdateRequest.getAddress());
+        customer.setCompanyName(customerUpdateRequest.getCompanyName());
+        customer.setCustomerDetails(customerUpdateRequest.getCustomerDetails());
+        customer.setCustomerType(customerUpdateRequest.getCustomerType());
 
         return customerRepository.save(customer);
     }
@@ -93,6 +99,7 @@ public class CustomerService {
     private CustomerServiceResponse responce(Customer customer) {
 
         return CustomerServiceResponse.builder()
+                .id(customer.getId())
                 .firstName(customer.getFirstName())
                 .lastName(customer.getLastName())
                 .phoneNumber(customer.getPhoneNumber())

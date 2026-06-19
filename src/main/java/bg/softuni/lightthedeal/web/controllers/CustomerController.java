@@ -61,8 +61,14 @@ public class CustomerController {
 
         return "redirect:/customer";
     }
-   /*
-    public String addCustomer(){}
-    public String updateCustomer(){}
-    public String removeCustomer(){}*/
+
+    @PostMapping("/{id}/update")
+    public String updateCustomer(@PathVariable UUID id,@ModelAttribute("customerUpdateRequest")  CustomerUpdateRequest request){
+
+        User user = userService.getByUsername(userProperties.getDefaultUser().getUsername());
+        customerService.updateCustomer(request,id,user);
+
+        return  "redirect:/customer";
+    }
+
 }
