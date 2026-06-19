@@ -162,21 +162,22 @@
         <div class="form-card">
 
             <form id="updateForm"
-                    th:action="@{/material/{id}/update(id=${materialUpdateRequest.id})}"
-                    th:method="POST"
-                    th:object="${materialUpdateRequest}">
+                  th:action="@{/material/{id}/update(id=${materialUpdateRequest.id})}"
+                  th:method="POST"
+                  th:object="${materialUpdateRequest}">
                 <input type="hidden" th:field="*{id}"/>
-            <div class="form-grid single" style="margin-bottom:16px;">
-                <div class="form-group">
-                    <label class="form-label">Select Material to Edit</label>
 
-                    <select class="form-select" id="materialPicker" onchange="populateMaterial()">
-                        <option value="">-Select Material to Edit-</option>
+                <div class="form-grid single" style="margin-bottom:16px;">
+                    <div class="form-group">
+                        <label class="form-label">Select Material to Edit</label>
 
-                        <option th:each="m: ${materialsList}"
-                                th:value="${m.id}"
-                                th:text="${m.name + ' . ' + m.type}"
-                            th:attr="
+                        <select class="form-select" id="materialPicker" onchange="populateMaterial()">
+                            <option value="">-Select Material to Edit-</option>
+
+                            <option th:each="m: ${materialsList}"
+                                    th:value="${m.id}"
+                                    th:text="${m.name + ' . ' + m.type}"
+                                    th:attr="
                             data-name=${m.name},
                             data-type=${m.type},
                             data-brand=${m.brand},
@@ -184,64 +185,64 @@
                             data-sinlePrice=${m.singlePrice},
                             data-category=${m.category},
                             data-unit=${m.unit}">
-                        </option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-grid">
-                <div class="form-group">
-                    <label class="form-label">Material Name</label>
-                    <input class="form-input" th:field="*{name}"/>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Material Type</label>
-                    <input class="form-input" th:field="*{type}"/>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Material Brand</label>
-                    <input class="form-input" th:field="*{brand}"/>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Unit Price (BGN)</label>
-                    <input class="form-input" type="number" step="0.01" th:field="*{singlePrice}"/>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Add to Stock Quantity</label>
-                    <input class="form-input" type="number" th:field="*{quantity}"/>
+                            </option>
+                        </select>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">Category</label>
-                    <select class="form-select" th:field="*{category}">
-                        <option
-                        th:each="c: ${category}"
-                        th:value="${c}"
-                        th:text="${c}">
-                        </option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Unit</label>
-              <select class="form-select" th:field="*{unit}">
-                  <option
-                          th:each="u: ${unit}"
-                          th:value="${u}"
-                          th:text="${u}">
-                  </option>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Material Name</label>
+                        <input class="form-input" th:field="*{name}"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Material Type</label>
+                        <input class="form-input" th:field="*{type}"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Material Brand</label>
+                        <input class="form-input" th:field="*{brand}"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Unit Price (BGN)</label>
+                        <input class="form-input" type="number" step="0.01" th:field="*{singlePrice}"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Add to Stock Quantity</label>
+                        <input class="form-input" type="number" th:field="*{quantity}"/>
+                    </div>
 
-              </select>
-                </div>
+                    <div class="form-group">
+                        <label class="form-label">Category</label>
+                        <select class="form-select" th:field="*{category}">
+                            <option
+                                    th:each="c: ${category}"
+                                    th:value="${c}"
+                                    th:text="${c}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Unit</label>
+                        <select class="form-select" th:field="*{unit}">
+                            <option
+                                    th:each="u: ${unit}"
+                                    th:value="${u}"
+                                    th:text="${u}">
+                            </option>
 
-                <div class="form-group span2">
-                    <label class="form-label">Description</label>
-                    <textarea class="form-textarea" th:field="*{description}"></textarea>
+                        </select>
+                    </div>
+
+                    <div class="form-group span2">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-textarea" th:field="*{description}"></textarea>
+                    </div>
                 </div>
-            </div>
-            <div class="form-actions">
-                <button class="btn btn-primary">💾 Save Changes</button>
-                <button type="button" class="btn btn-secondary" onclick="switchTab('list')">Cancel</button>
-            </div>
+                <div class="form-actions">
+                    <button class="btn btn-primary">💾 Save Changes</button>
+                    <button type="button" class="btn btn-secondary" onclick="switchTab('list')">Cancel</button>
+                </div>
             </form>
         </div>
     </div>
