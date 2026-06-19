@@ -3,8 +3,11 @@ package bg.softuni.lightthedeal.web.controllers;
 import bg.softuni.lightthedeal.user.entity.User;
 import bg.softuni.lightthedeal.user.service.UserService;
 import bg.softuni.lightthedeal.web.DTO.UserUpdateRequest;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -65,7 +68,5 @@ private final UserService userService;
         userService.removeProfilePicture(id);
         return "redirect:/profile/" + id + "/edit-profile";
     }
-
-
 
 }

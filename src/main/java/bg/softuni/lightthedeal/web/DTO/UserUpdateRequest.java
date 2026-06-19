@@ -8,7 +8,9 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class UserUpdateRequest{
+
         @NotBlank(message = "* required")
         private String userName;
         @NotBlank(message = "* required")
@@ -19,6 +21,6 @@ public class UserUpdateRequest{
         private String lastName;
         @NotBlank(message = "* required")
         private String phoneNumber;
-        @NotBlank(message = "* required")
+
         private String profilePicture;
 }
