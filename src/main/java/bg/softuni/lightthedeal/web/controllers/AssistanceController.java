@@ -8,9 +8,11 @@ import bg.softuni.lightthedeal.user.property.UserProperties;
 import bg.softuni.lightthedeal.user.service.UserService;
 import bg.softuni.lightthedeal.web.DTO.AssistanceServiceRequest;
 import bg.softuni.lightthedeal.web.DTO.AssistanceUpdateRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.UUID;
@@ -51,27 +53,32 @@ public class AssistanceController {
     }
 
     @PostMapping
-    public String addAssistance(@ModelAttribute("assistanceRequest") AssistanceServiceRequest assistanceServiceRequest) {
+    public String addAssistance(@ModelAttribute("assistanceRequest") AssistanceServiceRequest assistanceServiceRequest, HttpSession session) {
 
-        User user = userService.getByUsername(userProperties.getDefaultUser().getUsername());
+        UUID userId =(UUID) session.getAttribute("userId");
+
+        User user = userService.getById(userId);
 
         assistanceService.createAssistance(assistanceServiceRequest , user);
         return "redirect:/assistance";
     }
 
     @PostMapping("/{id}/delete")
-    public String deleteAssistance(@PathVariable UUID id) {
+    public String deleteAssistance(@PathVariable UUID id,HttpSession session) {
 
+        UUID userId =(UUID) session.getAttribute("userId");
         // replace on session
-        User user = userService.getByUsername(userProperties.getDefaultUser().getUsername());
+        User user = userService.getById(userId);
         assistanceService.deleteAssistance(id, user);
         return "redirect:/assistance";
     }
 
     @PostMapping("/{id}/update")
-    public String updateAssistance(@PathVariable UUID id,@ModelAttribute("assistanceUpdateRequest")  AssistanceUpdateRequest request){
+    public String updateAssistance(@PathVariable UUID id, @ModelAttribute("assistanceUpdateRequest")  AssistanceUpdateRequest request, HttpSession session) {
 
-        User user = userService.getByUsername(userProperties.getDefaultUser().getUsername());
+        UUID userId =(UUID) session.getAttribute("userId");
+
+        User user = userService.getById(userId);
 
         assistanceService.updateAssistance(request, id,user);
 

@@ -11,6 +11,7 @@ import bg.softuni.lightthedeal.user.repository.UserRepository;
 import bg.softuni.lightthedeal.user.service.UserService;
 import bg.softuni.lightthedeal.web.DTO.PremiseServiceRequest;
 import bg.softuni.lightthedeal.web.DTO.PremiseUpdateRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -37,10 +38,11 @@ public class PremiseController {
     }
 
     @GetMapping()
-    public ModelAndView getPremise() {
+    public ModelAndView getPremise(HttpSession session) {
 
-        // TODO: replace with @AuthenticationPrincipal
-        User user = userService.getByUsername(userProperties.getDefaultUser().getUsername());
+        UUID userId =(UUID) session.getAttribute("userId");
+
+        User user = userService.getById(userId);
 
         List<Customer> customers = customerService.getAllCustomersForUser(user);
 
@@ -61,28 +63,30 @@ public class PremiseController {
 
 
     @PostMapping
-    public String addPremise(@ModelAttribute("premiseRequest") PremiseServiceRequest premiseServiceRequest){
+    public String addPremise(@ModelAttribute("premiseRequest") PremiseServiceRequest premiseServiceRequest,HttpSession session){
 
-        User user = userService.getByUsername(userProperties.getDefaultUser().getUsername());
+        UUID userId = (UUID) session.getAttribute("userId");
+        User user = userService.getById(userId);
         premiseService.cretatePremise(premiseServiceRequest,user);
 
         return "redirect:/premise";
     }
 
 @PostMapping ("/{id}/delete")
-public String removeClient(@PathVariable UUID id){
+public String removeClient(@PathVariable UUID id,HttpSession session){
 
+        UUID userId = (UUID) session.getAttribute("userId");
     //replace with session
-    User user = userService.getByUsername(userProperties.getDefaultUser().getUsername());
+    User user = userService.getById(userId);
 
     premiseService.deletePremise(id,user);
     return "redirect:/premise";
 }
 
 @PostMapping("/{id}/update")
-    public String updatePremise(@PathVariable UUID id,@ModelAttribute("premiseUpdateRequest") PremiseUpdateRequest premiseUpdateRequest){
-
-        User user = userService.getByUsername(userProperties.getDefaultUser().getUsername());
+    public String updatePremise(@PathVariable UUID id,@ModelAttribute("premiseUpdateRequest") PremiseUpdateRequest premiseUpdateRequest,HttpSession session){
+UUID userId = (UUID) session.getAttribute("userId");
+        User user = userService.getById(userId);
         premiseService.updatePremise(premiseUpdateRequest,id,user);
 
         return  "redirect:/premise";

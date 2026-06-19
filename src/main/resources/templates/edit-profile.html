@@ -55,6 +55,7 @@
         <div class="avatar-ring-lg">
           <div class="avatar-placeholder-lg" id="avatarPreview">JD</div>
         </div>
+
         <div class="avatar-name" id="avatarName">John Doe</div>
         <div class="avatar-role-badge">⚡ TECHNICIAN</div>
         <a th:href="@{/profile/{id}/change-password(id=${currentUser.id})}" class="btn btn-secondary"
@@ -90,7 +91,7 @@
               <label class="form-label">Username</label>
               <input class="form-input"
                      type="text"
-                     name="username"
+                     name="userName"
                      th:value="${currentUser.username}"
                      placeholder="Username" />
             </div>
@@ -102,6 +103,9 @@
                      disabled
                      style="opacity:0.4;cursor:not-allowed;" />
             </div>
+            <input type="hidden" name="email"          th:value="${currentUser.email}" />
+            <input type="hidden" name="phoneNumber"    th:value="${currentUser.phoneNumber}" />
+            <input type="hidden" name="profilePicture" th:value="${currentUser.profilePicture}" />
           </div>
 
           <!-- Success / Error messages -->
@@ -145,9 +149,11 @@
                    th:value="${currentUser.phoneNumber}"
                    placeholder="+359 88 …" />
           </div>
-
         </div>
-
+        <input type="hidden" name="firstName"      th:value="${currentUser.firstName}" />
+        <input type="hidden" name="lastName"       th:value="${currentUser.lastName}" />
+        <input type="hidden" name="userName"       th:value="${currentUser.username}" />
+        <input type="hidden" name="profilePicture" th:value="${currentUser.profilePicture}" />
         <div th:if="${contactSuccess}" class="alert alert-success">
           ✓ Contact info updated successfully.
         </div>

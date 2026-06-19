@@ -7,6 +7,7 @@ import bg.softuni.lightthedeal.user.property.UserProperties;
 import bg.softuni.lightthedeal.user.service.UserService;
 import bg.softuni.lightthedeal.web.DTO.CustomerServiceRequest;
 import bg.softuni.lightthedeal.web.DTO.CustomerUpdateRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -30,10 +31,11 @@ public class CustomerController {
     }
 
     @GetMapping
-    public ModelAndView getCustomerPage() {
+    public ModelAndView getCustomerPage(HttpSession session) {
 
+        UUID userId = (UUID) session.getAttribute("userId");
         // TODO: replace hardcoded UUID with logged-in user from session/security
-        User user = userService.getByUsername(userProperties.getDefaultUser().getUsername());
+        User user = userService.getById(userId);
         ModelAndView modelAndView = new ModelAndView();
 
         modelAndView.setViewName("customer");
@@ -46,26 +48,30 @@ public class CustomerController {
     }
 
     @PostMapping
-    public String addCustomer(@ModelAttribute("customerRequest") CustomerServiceRequest customerServiceRequest) {
+    public String addCustomer(@ModelAttribute("customerRequest") CustomerServiceRequest customerServiceRequest, HttpSession session) {
 
-        User user = userService.getByUsername(userProperties.getDefaultUser().getUsername());
+        UUID userId = (UUID) session.getAttribute("userId");
+
+        User user = userService.getById(userId);
 
         customerService.createCustomer(customerServiceRequest, user);
         return "redirect:/customer";
     }
 
     @PostMapping("/{id}/delete")
-    public String deleteCustomer(@PathVariable UUID id){
-        User user = userService.getByUsername(userProperties.getDefaultUser().getUsername());
+    public String deleteCustomer(@PathVariable UUID id,  HttpSession session) {
+        UUID userId = (UUID) session.getAttribute("userId");
+        User user = userService.getById(userId);
         customerService.deleteById(id, user);
 
         return "redirect:/customer";
     }
 
     @PostMapping("/{id}/update")
-    public String updateCustomer(@PathVariable UUID id,@ModelAttribute("customerUpdateRequest")  CustomerUpdateRequest request){
+    public String updateCustomer(@PathVariable UUID id,@ModelAttribute("customerUpdateRequest")  CustomerUpdateRequest request, HttpSession session) {
 
-        User user = userService.getByUsername(userProperties.getDefaultUser().getUsername());
+        UUID userId = (UUID) session.getAttribute("userId");
+        User user = userService.getById(userId);
         customerService.updateCustomer(request,id,user);
 
         return  "redirect:/customer";
