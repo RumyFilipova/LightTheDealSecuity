@@ -1,15 +1,19 @@
 package bg.softuni.lightthedeal.web.controllers;
 
 import bg.softuni.lightthedeal.assistance.service.AssistanceService;
+import bg.softuni.lightthedeal.assistance.service.OfferAssistanceService;
+import bg.softuni.lightthedeal.customer.service.CustomerService;
 import bg.softuni.lightthedeal.materials.service.MaterialService;
 import bg.softuni.lightthedeal.materials.service.OfferMaterialService;
 import bg.softuni.lightthedeal.offer.service.OfferService;
+import bg.softuni.lightthedeal.premise.service.PremiseService;
 import bg.softuni.lightthedeal.user.entity.User;
 import bg.softuni.lightthedeal.user.property.UserProperties;
 import bg.softuni.lightthedeal.user.service.UserService;
 import bg.softuni.lightthedeal.web.DTO.OfferAssistanceLine;
 import bg.softuni.lightthedeal.web.DTO.OfferMaterialLine;
 import bg.softuni.lightthedeal.web.DTO.OfferServiceRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -26,23 +30,30 @@ public class OfferController {
     private final UserService userService;
     private final MaterialService materialService;
     private final AssistanceService assistanceService;
-    private final UserProperties userProperties;
+    private final OfferAssistanceService offerAssistanceService;
     private final OfferMaterialService offerMaterialService;
+    private final PremiseService premiseService;
+    private final CustomerService customerService;
+    private final UserProperties userProperties;
 
     @Autowired
-    public OfferController(OfferService offerService, UserService userService, MaterialService materialService, AssistanceService assistanceService, UserProperties userProperties, OfferMaterialService offerMaterialService) {
+    public OfferController(OfferService offerService, UserService userService, MaterialService materialService, AssistanceService assistanceService, OfferAssistanceService offerAssistanceService, UserProperties userProperties, OfferMaterialService offerMaterialService, PremiseService premiseService, CustomerService customerService) {
         this.offerService = offerService;
         this.userService = userService;
         this.materialService = materialService;
         this.assistanceService = assistanceService;
+        this.offerAssistanceService = offerAssistanceService;
         this.userProperties = userProperties;
         this.offerMaterialService = offerMaterialService;
+        this.premiseService = premiseService;
+        this.customerService = customerService;
     }
 
     @GetMapping
-    public String getOffer(){
+    public ModelAndView getOffer(HttpSession session){
 
-        User user = userService.getByUsername(userProperties.getDefaultUser().getUsername());
+        UUID userId = (UUID) session.getAttribute("userId");
+        User user = userService.getById(userId);
 
         // new empty line to start with
         OfferServiceRequest offerServiceRequest = new OfferServiceRequest();
@@ -60,7 +71,7 @@ public class OfferController {
 
         mv.addObject("user", user.getId());
 
-        return "offer";
+        return mv;
     }
 
 //    @PostMapping("/{offerId}/material/{lineId}/update")
