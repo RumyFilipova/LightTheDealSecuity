@@ -20,6 +20,8 @@ import bg.softuni.lightthedeal.user.entity.Role;
 import bg.softuni.lightthedeal.user.entity.User;
 import bg.softuni.lightthedeal.user.repository.UserRepository;
 import bg.softuni.lightthedeal.web.DTO.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -171,4 +173,16 @@ public class UserService {
     }
 
 
+    public void updatePassword(ChangePasswordRequest dto,UUID id) {
+
+      User user = userRepository.findById(id)
+              .orElseThrow(()-> new RuntimeException("User not found."));
+
+      if(!passwordEncoder.matches(dto.getCurrentPassword(),user.getPassword())){
+          throw  new RuntimeException("Passwords do not match");
+      }
+
+      user.setPassword(passwordEncoder.encode(dto.getNewPassword()));
+      userRepository.save(user);
+    }
 }
