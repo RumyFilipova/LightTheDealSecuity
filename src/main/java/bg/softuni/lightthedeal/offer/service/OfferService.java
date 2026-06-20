@@ -8,7 +8,10 @@ import bg.softuni.lightthedeal.materials.entities.OfferMaterialLine;
 import bg.softuni.lightthedeal.materials.repository.OfferMaterialLineRepository;
 import bg.softuni.lightthedeal.materials.service.OfferMaterialLineService;
 import bg.softuni.lightthedeal.offer.entity.Offer;
+import bg.softuni.lightthedeal.offer.entity.StatusOffer;
 import bg.softuni.lightthedeal.offer.repository.OfferRepository;
+import bg.softuni.lightthedeal.order.entity.Order;
+import bg.softuni.lightthedeal.order.service.OrderService;
 import bg.softuni.lightthedeal.premise.entity.Premise;
 import bg.softuni.lightthedeal.premise.repository.PremiseRepository;
 import bg.softuni.lightthedeal.user.entity.User;
@@ -16,6 +19,7 @@ import bg.softuni.lightthedeal.user.service.UserService;
 import bg.softuni.lightthedeal.web.DTO.AssistanceLineRequest;
 import bg.softuni.lightthedeal.web.DTO.MaterialLineRequest;
 import bg.softuni.lightthedeal.web.DTO.OfferServiceRequest;
+import bg.softuni.lightthedeal.web.DTO.OfferUpdateRequest;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -36,8 +40,9 @@ public class OfferService {
     private final OfferAssistanceRepository offerAssistanceRepository;
     private final OfferMaterialLineRepository offerMaterialLineRepository;
 
+    private final OrderService orderService;
 
-    public OfferService(OfferRepository offerRepository, CustomerRepository customerRepository, PremiseRepository premiseRepository, OfferMaterialLineService offerMaterialService, OfferAssistanceLineService offerAssistanceService, OfferAssistanceRepository offerAssistanceRepository, OfferMaterialLineRepository offerMaterialLineRepository) {
+    public OfferService(OfferRepository offerRepository, CustomerRepository customerRepository, PremiseRepository premiseRepository, OfferMaterialLineService offerMaterialService, OfferAssistanceLineService offerAssistanceService, OfferAssistanceRepository offerAssistanceRepository, OfferMaterialLineRepository offerMaterialLineRepository, OrderService orderService) {
         this.offerRepository = offerRepository;
         this.customerRepository = customerRepository;
         this.premiseRepository = premiseRepository;
@@ -45,6 +50,7 @@ public class OfferService {
         this.offerAssistanceService = offerAssistanceService;
         this.offerAssistanceRepository = offerAssistanceRepository;
         this.offerMaterialLineRepository = offerMaterialLineRepository;
+        this.orderService = orderService;
     }
 
 
@@ -64,6 +70,7 @@ public class OfferService {
                 .createdOn(LocalDateTime.now())
                 .deadline(request.getDeadline())
                 .totalAmount(BigDecimal.ZERO)
+                .statusOffer(StatusOffer.NOT_CONFIRMED)
                 .user(user)
                 .customer(customer)
                 .premise(premise)
@@ -85,6 +92,17 @@ public class OfferService {
         return offerRepository.save(offer);
     }
 
+    public Offer updateOffer(OfferUpdateRequest request, User user) {
+
+        Offer offer = offerRepository.findById(request.getOfferID())
+                .orElseThrow(()-> new RuntimeException("There is no offer with id " + request.getOfferID()));
+
+        offer.setValidUntil(request.getValidUntil());
+        offer.setNotes(request.getNote());
+        offer.setStatusOffer(request.getStatusOffer());
+
+        return offerRepository.save(offer);
+    }
 
     public Offer getByIdAndUser(UUID id, User user) {
 
@@ -103,10 +121,15 @@ public class OfferService {
     public Offer recalculateTotalAmount(UUID offerId, User user) {
 
         Offer offer = getByIdAndUser(offerId, user);
+
         BigDecimal materialsTotal = offerMaterialService.calculateTotal(offer);
         BigDecimal assistanceTotal = offerAssistanceService.calculateTotal(offer);
-
         offer.setTotalAmount(materialsTotal.add(assistanceTotal));
+
+        if(offer.getOrder()!=null){
+            Order order = offer.getOrder();
+            orderService.reIssueOrder(order,user);
+        }
         return offerRepository.save(offer);
     }
 

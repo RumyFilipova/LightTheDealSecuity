@@ -1,37 +1,29 @@
 package bg.softuni.lightthedeal.web.DTO;
 
-import bg.softuni.lightthedeal.assistance.entity.OfferAssistanceLine;
-import bg.softuni.lightthedeal.materials.entities.OfferMaterialLine;
+
+import bg.softuni.lightthedeal.offer.entity.StatusOffer;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
 @Builder
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class OfferServiceRequest {
+public class OfferUpdateRequest {
 
-    @NotNull
-    private UUID customerId;
 
-    @NotNull
-    private UUID premiseId;
-
+    private UUID offerID;
     private LocalDate validUntil;
-
-    private LocalDate deadline;
-
     private String note;
-
-
+    private StatusOffer statusOffer;
     @Valid
     private List<MaterialLineRequest> materials;
     @Valid

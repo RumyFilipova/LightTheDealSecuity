@@ -1,0 +1,21 @@
+package bg.softuni.lightthedeal.web.DTO;
+
+import lombok.*;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+@Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class OrderCreateRequest {
+
+    private UUID offerId;
+    private String description;
+    private LocalDate deadline;
+    private LocalDate completedOn;
+
+}

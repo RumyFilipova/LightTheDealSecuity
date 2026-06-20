@@ -6,6 +6,8 @@ import bg.softuni.lightthedeal.premise.entity.Premise;
 import bg.softuni.lightthedeal.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -37,6 +39,12 @@ public class Order {
 
     @Column(name = "completed_on")
     private LocalDate completedOn;
+
+    @Column(name = "total_amount")
+    private BigDecimal totalAmount;
+
+    @Column
+    private String description;
 
     //ManyOrderOneUser
     @ManyToOne
