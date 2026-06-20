@@ -15,7 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Table(name = "offer_materials")
-public class OfferMaterial {
+public class OfferMaterialLine {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -26,6 +26,8 @@ public class OfferMaterial {
 
     @Column(name = "price_at_time_of_offer", nullable = false)
     private BigDecimal priceAtTimeOfOffer;
+
+    private  String description;
 
     @ManyToOne
     @JoinColumn(name = "offer_id", nullable = false)

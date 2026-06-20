@@ -16,6 +16,9 @@ import java.util.UUID;
 @NoArgsConstructor
 
 public class MaterialLineUpdateRequest {
+
+    @NotNull
+    private UUID lineId;
     @NotNull
     private UUID materialId;
     @NotBlank(message = "* required")
@@ -31,6 +34,7 @@ public class MaterialLineUpdateRequest {
     @NotNull(message = "* required")
     @Positive(message = "Quantity must be greater than 0")
     private Double quantity;
+
     @NotNull(message = "* required")
     private BigDecimal singlePrice;
 

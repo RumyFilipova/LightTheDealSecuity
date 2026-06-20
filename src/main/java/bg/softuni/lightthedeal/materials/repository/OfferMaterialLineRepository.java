@@ -1,9 +1,10 @@
 package bg.softuni.lightthedeal.materials.repository;
 
-import bg.softuni.lightthedeal.materials.entities.Material;
+import bg.softuni.lightthedeal.materials.entities.OfferMaterialLine;
+import bg.softuni.lightthedeal.offer.entity.Offer;
 import bg.softuni.lightthedeal.user.entity.User;
-import bg.softuni.lightthedeal.web.DTO.OfferMaterialLine;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.data.domain.Limit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,11 +13,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface MaterialRepository extends JpaRepository<Material, UUID> {
-
-    List<Material> findAllByUser(User user);
-
-    Optional <Material> findByIdAndUser(UUID id, User user);
+public interface OfferMaterialLineRepository extends JpaRepository<OfferMaterialLine, UUID> {
 
 
+
+    Optional <OfferMaterialLine> findByIdAndUser(@NotNull UUID lineId, User user);
 }
