@@ -10,6 +10,9 @@ import bg.softuni.lightthedeal.web.DTO.MaterialLineRequest;
 import bg.softuni.lightthedeal.web.DTO.MaterialLineUpdateRequest;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.UUID;
+
 
 @Service
 public class OfferMaterialLineService {
@@ -22,8 +25,6 @@ public class OfferMaterialLineService {
         this.offerMaterialLineRepository = offerMaterialLineRepository;
     }
 
-//private final OfferMaterialLineRepository materialRepository;
-//private final OfferMaterialLineRepository offerMaterialRepository;
 
     //builds OfferMaterial lines from the request
 
@@ -40,6 +41,7 @@ public class OfferMaterialLineService {
                 .offer(offer)
                 .user(user)
                 .build();
+
         return offerMaterialLineRepository.save(line);
     }
 
@@ -49,6 +51,7 @@ public class OfferMaterialLineService {
 
         OfferMaterialLine lineToUpdate = offerMaterialLineRepository.findByIdAndUser(request.getLineId(),user)
                 .orElseThrow(()-> new RuntimeException("The requested input of material is not found in the offer"));
+
         Material material = materialRepository.findByIdAndUser(request.getMaterialId(),user)
                 .orElseThrow(()-> new RuntimeException("The requested material do not exist in your list"));
         lineToUpdate.setMaterial(material);
@@ -58,20 +61,20 @@ public class OfferMaterialLineService {
     }
 
    // remove material
-    public void  deleteOfferMaterialLine(OfferMaterialLine line) {
-        OfferMaterialLine lineToDelete = offerMaterialLineRepository.findById(line.getId()).orElseThrow(()-> new RuntimeException("The requested material do not exist in your offer"));
+    public void  deleteOfferMaterialLine(UUID id) {
+        OfferMaterialLine lineToDelete = offerMaterialLineRepository.findById(id).orElseThrow(()-> new RuntimeException("The requested material do not exist in your offer"));
         offerMaterialLineRepository.delete(lineToDelete);
     }
 
     // calculate the offer
 
-//    public BigDecimal calculateTotal(Offer offer){
-//
-//        return offerMaterialRepository.findAllByOffer(offer)
-//                .stream()
-//                .map(OfferMaterialLine::subtotal)
-//                .reduce(BigDecimal.ZERO, BigDecimal::add);
-//
-//    }
+    public BigDecimal calculateTotal(Offer offer){
+
+        return offerMaterialLineRepository.findAllByOffer(offer)
+                .stream()
+                .map(OfferMaterialLine::subtotal)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+    }
 
 }

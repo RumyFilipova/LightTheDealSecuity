@@ -42,6 +42,7 @@ public class OfferMaterialLine {
     private User user;
 
     public BigDecimal subtotal() {
+
         return priceAtTimeOfOffer.multiply(BigDecimal.valueOf(quantity));
     }
 }

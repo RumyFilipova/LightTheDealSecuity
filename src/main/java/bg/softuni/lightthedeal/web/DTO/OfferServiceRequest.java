@@ -1,5 +1,7 @@
 package bg.softuni.lightthedeal.web.DTO;
 
+import bg.softuni.lightthedeal.assistance.entity.OfferAssistanceLine;
+import bg.softuni.lightthedeal.materials.entities.OfferMaterialLine;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -17,9 +19,6 @@ import java.util.UUID;
 
 public class OfferServiceRequest {
 
-    @NotBlank(message = "* required")
-    private String offerNumber;
-
     @NotNull
     private UUID customerId;
 
@@ -33,7 +32,7 @@ public class OfferServiceRequest {
     private String note;
 
     @Valid
-    private List<OfferMaterialLine> materials;
+    private List<MaterialLineRequest> materials;
     @Valid
-    private List<OfferAssistanceLine> assistants;
+    private List<AssistanceLineRequest> assistants;
 }
