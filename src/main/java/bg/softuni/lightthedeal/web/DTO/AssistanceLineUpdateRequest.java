@@ -11,7 +11,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class OfferAssistanceLine{
-        private UUID assistanceId;
-        private BigDecimal quantity;
+public class AssistanceLineUpdateRequest {
+    private UUID assistanceId;
+    private Double quantity;
+    private String description;
 }
