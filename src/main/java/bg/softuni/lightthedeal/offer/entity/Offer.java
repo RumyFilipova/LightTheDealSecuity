@@ -33,6 +33,9 @@ public class Offer {
     @Column(name = "offer_number")
     private String offerNumber;
 
+    @Column(name = "offer_name")
+    private String offerName;
+
     @Column(name = "created_on")
     private LocalDateTime createdOn;
 

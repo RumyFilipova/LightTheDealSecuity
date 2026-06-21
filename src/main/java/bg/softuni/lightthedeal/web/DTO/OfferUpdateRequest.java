@@ -24,6 +24,7 @@ public class OfferUpdateRequest {
     private LocalDate validUntil;
     private String note;
     private StatusOffer statusOffer;
+    private String offerName;
     @Valid
     private List<MaterialLineRequest> materials;
     @Valid

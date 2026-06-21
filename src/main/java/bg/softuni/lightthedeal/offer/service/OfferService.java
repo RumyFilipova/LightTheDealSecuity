@@ -15,7 +15,6 @@ import bg.softuni.lightthedeal.order.service.OrderService;
 import bg.softuni.lightthedeal.premise.entity.Premise;
 import bg.softuni.lightthedeal.premise.repository.PremiseRepository;
 import bg.softuni.lightthedeal.user.entity.User;
-import bg.softuni.lightthedeal.user.service.UserService;
 import bg.softuni.lightthedeal.web.DTO.AssistanceLineRequest;
 import bg.softuni.lightthedeal.web.DTO.MaterialLineRequest;
 import bg.softuni.lightthedeal.web.DTO.OfferServiceRequest;
@@ -67,7 +66,9 @@ public class OfferService {
 
         Offer offer = Offer.builder()
                 .offerNumber(generateOfferNumber())
+                .offerName(request.getOfferName())
                 .createdOn(LocalDateTime.now())
+                .validUntil(request.getValidUntil())
                 .deadline(request.getDeadline())
                 .totalAmount(BigDecimal.ZERO)
                 .statusOffer(StatusOffer.NOT_CONFIRMED)
@@ -78,12 +79,16 @@ public class OfferService {
 
         offerRepository.save(offer);
 
-        for (MaterialLineRequest line : request.getMaterials()) {
-            offerMaterialService.createOfferMaterialLine(line, offer, user);
+        if (request.getMaterials() != null) {
+            for (MaterialLineRequest line : request.getMaterials()) {
+                offerMaterialService.createOfferMaterialLine(line, offer, user);
+            }
         }
 
-        for (AssistanceLineRequest line : request.getAssistants()) {
-            offerAssistanceService.createOfferAssistanceLine(line, offer, user);
+        if (request.getAssistants() != null) {
+            for (AssistanceLineRequest line : request.getAssistants()) {
+                offerAssistanceService.createOfferAssistanceLine(line, offer, user);
+            }
         }
 
         BigDecimal totalAmount = offerMaterialService.calculateTotal(offer).add(offerAssistanceService.calculateTotal(offer));
@@ -101,6 +106,7 @@ public class OfferService {
         offer.setNotes(request.getNote());
         offer.setStatusOffer(request.getStatusOffer());
 
+
         return offerRepository.save(offer);
     }
 
@@ -117,6 +123,12 @@ public class OfferService {
 
     }
 
+    public void deleteOffer(UUID id, User user) {
+        Offer offer = offerRepository.findByIdAndUser(id, user)
+                .orElseThrow(() -> new RuntimeException("Offer %s not found".formatted(id)));
+        offerRepository.delete(offer);
+    }
+
     // recalculateTotal()
     public Offer recalculateTotalAmount(UUID offerId, User user) {
 
@@ -128,7 +140,8 @@ public class OfferService {
 
         if(offer.getOrder()!=null){
             Order order = offer.getOrder();
-            orderService.reIssueOrder(order,user);
+            UUID orderId = order.getId();
+            orderService.reIssueOrder(orderId,user);
         }
         return offerRepository.save(offer);
     }
