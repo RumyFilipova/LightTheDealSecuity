@@ -24,13 +24,13 @@ public class MaterialController {
 
     private final MaterialService materialService;
     private final UserService userService;
-    private final UserProperties userProperties;
+
 
     @Autowired
     public MaterialController(MaterialService materialService, UserService userService, UserProperties userProperties) {
         this.materialService = materialService;
         this.userService = userService;
-        this.userProperties = userProperties;
+
     }
 
     @GetMapping

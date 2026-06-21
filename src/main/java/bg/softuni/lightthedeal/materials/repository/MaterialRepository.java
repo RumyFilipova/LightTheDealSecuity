@@ -1,9 +1,6 @@
 package bg.softuni.lightthedeal.materials.repository;
-
 import bg.softuni.lightthedeal.materials.entities.Material;
 import bg.softuni.lightthedeal.user.entity.User;
-import bg.softuni.lightthedeal.web.DTO.OfferMaterialLine;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
