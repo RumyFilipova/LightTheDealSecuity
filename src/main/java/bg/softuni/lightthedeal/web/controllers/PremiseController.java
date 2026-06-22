@@ -12,8 +12,10 @@ import bg.softuni.lightthedeal.user.service.UserService;
 import bg.softuni.lightthedeal.web.DTO.PremiseServiceRequest;
 import bg.softuni.lightthedeal.web.DTO.PremiseUpdateRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -63,13 +65,17 @@ public class PremiseController {
 
 
     @PostMapping
-    public String addPremise(@ModelAttribute("premiseRequest") PremiseServiceRequest premiseServiceRequest,HttpSession session){
-
+    public ModelAndView addPremise(@Valid @ModelAttribute("premiseRequest") PremiseServiceRequest premiseServiceRequest,
+                             BindingResult bindingResult,
+                             HttpSession session){
+if(bindingResult.hasErrors()){
+    return new  ModelAndView("premise");
+}
         UUID userId = (UUID) session.getAttribute("userId");
         User user = userService.getById(userId);
         premiseService.cretatePremise(premiseServiceRequest,user);
 
-        return "redirect:/premise";
+        return new   ModelAndView("redirect:/premise");
     }
 
 @PostMapping ("/{id}/delete")
@@ -84,12 +90,20 @@ public String removeClient(@PathVariable UUID id,HttpSession session){
 }
 
 @PostMapping("/{id}/update")
-    public String updatePremise(@PathVariable UUID id,@ModelAttribute("premiseUpdateRequest") PremiseUpdateRequest premiseUpdateRequest,HttpSession session){
+    public ModelAndView updatePremise(@PathVariable UUID id,
+                                @Valid @ModelAttribute("premiseUpdateRequest") PremiseUpdateRequest premiseUpdateRequest,
+                                BindingResult  bindingResult,
+                                HttpSession session){
+
 UUID userId = (UUID) session.getAttribute("userId");
         User user = userService.getById(userId);
+
+        if(bindingResult.hasErrors()){
+            new ModelAndView("premise");
+        }
         premiseService.updatePremise(premiseUpdateRequest,id,user);
 
-        return  "redirect:/premise";
+        return  new ModelAndView("redirect:/premise");
 }
 
 }

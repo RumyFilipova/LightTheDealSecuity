@@ -10,8 +10,10 @@ import bg.softuni.lightthedeal.user.service.UserService;
 import bg.softuni.lightthedeal.web.DTO.MaterialServiceRequest;
 import bg.softuni.lightthedeal.web.DTO.MaterialUpdateRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -54,33 +56,44 @@ public class MaterialController {
         return modelAndView;
     }
     @PostMapping
-    public String addMaterial( @ModelAttribute("materialRequest") MaterialServiceRequest materialRequest, HttpSession session) {
+    public ModelAndView addMaterial(@Valid @ModelAttribute("materialRequest") MaterialServiceRequest materialRequest, BindingResult bindingResult, HttpSession session) {
 
         UUID userId =(UUID) session.getAttribute("userId");
-
         User user = userService.getById(userId);
+
+        if(bindingResult.hasErrors()){
+            return new ModelAndView("material");
+        }
         materialService.createMaterial(materialRequest, user);
-        return "redirect:/material";
+        return new ModelAndView("redirect:/material");
     }
 
     @PostMapping("/{id}/delete")
-    public String removeMaterial(@PathVariable UUID id, HttpSession session) {
+    public ModelAndView removeMaterial(@PathVariable UUID id, HttpSession session) {
 
         UUID userId = (UUID) session.getAttribute("userId");
         User user = userService.getById(userId);
 
         materialService.deleteMaterial(id,user);
-        return "redirect:/material";
+        return new ModelAndView("redirect:/material");
     }
 
 
     @PostMapping("/{id}/update")
-    public String updateMaterial(@PathVariable UUID id, @ModelAttribute("materialUpdateRequest") MaterialUpdateRequest request, HttpSession session) {
+    public ModelAndView updateMaterial(@PathVariable UUID id,
+                                       @Valid @ModelAttribute("materialUpdateRequest") MaterialUpdateRequest request,
+                                       BindingResult bindingResult,
+                                       HttpSession session) {
 
         UUID userId = (UUID) session.getAttribute("userId");
         User user = userService.getById(userId);
+
+        if (bindingResult.hasErrors()){
+            return new ModelAndView("material");
+        }
+
         materialService.updateMaterial(request,id,user);
 
-        return "redirect:/material";
+        return new ModelAndView("redirect:/material");
     }
 }

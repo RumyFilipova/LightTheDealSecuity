@@ -23,13 +23,12 @@ import java.util.UUID;
 public class HomeController {
 
     private final UserService userService;
-    private final UserProperties userProperties;
+
     private final HttpSession session;
 
     @Autowired
     HomeController(UserService userService, UserProperties userProperties, HttpSession httpSession, HttpSession session) {
         this.userService = userService;
-        this.userProperties = userProperties;
         this.session = session;
     }
 
@@ -73,25 +72,36 @@ public class HomeController {
     }
 
     @PostMapping("/login")
-
-    public ModelAndView login (@Valid UserLoginRequest loginRequest, BindingResult bindingResult, HttpSession session) {
+    public ModelAndView login(@Valid @ModelAttribute("userLoginRequest") UserLoginRequest loginRequest, BindingResult bindingResult, HttpSession session) {
 
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("login");
+            ModelAndView mv = new ModelAndView("login");
+            mv.addObject("registerRequestUser", new RegisterRequestUser());
+            return mv;
         }
 
-        User user = userService.login(loginRequest);
-        session.setAttribute("userId",user.getId());
+        try {
+            User user = userService.login(loginRequest);
+            session.setAttribute("userId", user.getId());
+        } catch (RuntimeException e) {
+            ModelAndView mv = new ModelAndView("login");
+            mv.addObject("errorMessage", e.getMessage());
+            mv.addObject("registerRequestUser", new RegisterRequestUser());
+            return mv;
+        }
 
         return new ModelAndView("redirect:/profile");
     }
 
     @PostMapping("/register")
 
-    public String register(@ModelAttribute RegisterRequestUser registerRequestUser) {
-        userService.register(registerRequestUser);
+    public ModelAndView register(@Valid @ModelAttribute() RegisterRequestUser registerRequestUser,BindingResult bindingResult) {
 
-        return "redirect:/login";
+        if (bindingResult.hasErrors()) {
+            return new ModelAndView("register");
+        }
+        userService.register(registerRequestUser);
+        return new ModelAndView("redirect:/login");
     }
 
 }

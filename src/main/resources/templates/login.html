@@ -27,11 +27,8 @@
         <!-- ── SIGN IN ──────────────────────────────── -->
         <div class="panel active" id="panel-login">
 
-            <div class="alert alert-error hidden"   id="login-error">
-                ✕ &nbsp;Invalid username or password. Please try again.
-            </div>
-            <div class="alert alert-success hidden" id="login-logout">
-                ✓ &nbsp;You have been signed out successfully.
+            <div class="alert alert-error" th:class="${errorMessage} ? 'alert alert-error' : 'alert alert-error hidden'" id="login-error">
+                ✕ &nbsp;<span th:text="${errorMessage} ?: 'Invalid username or password. Please try again.'"></span>
             </div>
 
             <form th:action="@{/login}" th:method="post" th:object="${userLoginRequest}">
@@ -47,6 +44,7 @@
                         <input type="text" id="login-username" name="username"
                                placeholder="you@example.com"
                                autocomplete="username" required th:field="*{username}">
+                        <p class="alert-warning" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
                     </div>
                 </div>
 
@@ -61,6 +59,7 @@
                         <input type="password" id="login-password" name="password"
                                placeholder="••••••••"
                                autocomplete="current-password" required th:field="*{password}">
+                        <p class="alert-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
                         <button type="button" class="pw-eye" onclick="togglePw('login-password',this)">👁</button>
                     </div>
                 </div>

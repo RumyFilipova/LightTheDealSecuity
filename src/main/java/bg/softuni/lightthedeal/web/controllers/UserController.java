@@ -52,23 +52,35 @@ public class UserController {
 
 
     @PostMapping("/{id}/edit-profile")
-    public String saveEditProfile(@PathVariable UUID id,
-                                  @ModelAttribute UserUpdateRequest dto) {
+    public ModelAndView saveEditProfile(@PathVariable UUID id,
+                                  @Valid @ModelAttribute("userUpdateDto") UserUpdateRequest dto,BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            ModelAndView modelAndView = new ModelAndView("edit-profile");
+            modelAndView.addObject("currentUser", userService.getById(id));
+            return modelAndView;
+        }
         userService.updateUser(dto, id);
-        return "redirect:/profile/" + id + "/edit-profile";
+        return new ModelAndView("redirect:/profile/" + id + "/edit-profile");
     }
 
     @PostMapping("/{id}/edit-profile/contact")
-    public String saveContactDetails(@PathVariable UUID id,
-                                     @ModelAttribute UserUpdateRequest dto) {
+    public ModelAndView saveContactDetails(@PathVariable UUID id,
+                                     @Valid @ModelAttribute UserUpdateRequest dto,BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            ModelAndView modelAndView = new ModelAndView("edit-profile");
+            modelAndView.addObject("currentUser", userService.getById(id));
+            return modelAndView;
+        }
+
         userService.updateUser(dto, id);
-        return "redirect:/profile/" + id + "/edit-profile";
+        return new ModelAndView("redirect:/profile/" + id + "/edit-profile");
     }
 
     @PostMapping("/{id}/edit-profile/avatar/remove")
-    public String removeAvatar(@PathVariable UUID id) {
+    public ModelAndView removeAvatar(@PathVariable UUID id) {
         userService.removeProfilePicture(id);
-        return "redirect:/profile/" + id + "/edit-profile";
+        return new ModelAndView("redirect:/profile/" + id + "/edit-profile");
     }
 
     @GetMapping("/{id}/change-password")
@@ -78,21 +90,29 @@ public class UserController {
         modelAndView.addObject("passwordForm", new ChangePasswordRequest());
         modelAndView.addObject("userId", id);
 
-
         return modelAndView;
     }
 
     @PostMapping("/{id}/change-password")
-    public String editPasswordDetails(@PathVariable UUID id,
-                                      @ModelAttribute("passwordForm") ChangePasswordRequest dto, Model model) {
+    public ModelAndView editPasswordDetails(@PathVariable UUID id,
+                                      @Valid @ModelAttribute("passwordForm") ChangePasswordRequest dto, BindingResult bindingResult,Model model) {
+
+        if (bindingResult.hasErrors()) {
+            ModelAndView modelAndView = new ModelAndView("change-password");
+            modelAndView.addObject("userId", id);
+            return modelAndView;
+        }
+
         try {
             userService.updatePassword(dto, id);
         } catch (RuntimeException e) {
             model.addAttribute("errorMessage", e.getMessage());
             model.addAttribute("passwordForm", dto);
-            return "change-password";
+            model.addAttribute("userId", id);
+            return new ModelAndView("change-password");
         }
-        return "redirect:/profile/" + id + "/edit-profile";
+
+        return new ModelAndView("redirect:/login");
     }
 
 

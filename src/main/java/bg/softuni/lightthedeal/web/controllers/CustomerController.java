@@ -8,8 +8,10 @@ import bg.softuni.lightthedeal.user.service.UserService;
 import bg.softuni.lightthedeal.web.DTO.CustomerServiceRequest;
 import bg.softuni.lightthedeal.web.DTO.CustomerUpdateRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -48,33 +50,40 @@ public class CustomerController {
     }
 
     @PostMapping
-    public String addCustomer(@ModelAttribute("customerRequest") CustomerServiceRequest customerServiceRequest, HttpSession session) {
+    public ModelAndView addCustomer(@Valid @ModelAttribute("customerRequest") CustomerServiceRequest customerServiceRequest, BindingResult bindingResult, HttpSession session) {
 
         UUID userId = (UUID) session.getAttribute("userId");
-
         User user = userService.getById(userId);
 
+        if(bindingResult.hasErrors()){
+            return new ModelAndView("customer");
+        }
+
         customerService.createCustomer(customerServiceRequest, user);
-        return "redirect:/customer";
+        return new ModelAndView("redirect:/customer");
     }
 
     @PostMapping("/{id}/delete")
-    public String deleteCustomer(@PathVariable UUID id,  HttpSession session) {
+    public ModelAndView deleteCustomer(@PathVariable UUID id,  HttpSession session) {
         UUID userId = (UUID) session.getAttribute("userId");
         User user = userService.getById(userId);
         customerService.deleteById(id, user);
 
-        return "redirect:/customer";
+        return new ModelAndView("redirect:/customer");
     }
 
     @PostMapping("/{id}/update")
-    public String updateCustomer(@PathVariable UUID id,@ModelAttribute("customerUpdateRequest")  CustomerUpdateRequest request, HttpSession session) {
+    public ModelAndView updateCustomer(@PathVariable UUID id,@Valid @ModelAttribute("customerUpdateRequest")  CustomerUpdateRequest request,BindingResult result ,HttpSession session) {
 
         UUID userId = (UUID) session.getAttribute("userId");
         User user = userService.getById(userId);
+
+        if(result.hasErrors()){
+            return new ModelAndView("customer");
+        }
         customerService.updateCustomer(request,id,user);
 
-        return  "redirect:/customer";
+        return new ModelAndView("redirect:/customer");
     }
 
 }
