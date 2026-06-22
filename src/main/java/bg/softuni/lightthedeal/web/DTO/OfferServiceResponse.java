@@ -1,6 +1,7 @@
 package bg.softuni.lightthedeal.web.DTO;
 
 
+import bg.softuni.lightthedeal.offer.entity.StatusOffer;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -27,6 +28,7 @@ public class OfferServiceResponse {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate deadline;
     private String note;
+    private StatusOffer statusOffer;
 
     @Valid
     private List<MaterialLineRequest> materials;

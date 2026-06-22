@@ -12,6 +12,8 @@ import java.util.UUID;
 @AllArgsConstructor
 
 public class AssistanceLineUpdateRequest {
+
+    private UUID lineId;
     private UUID assistanceId;
     private Double quantity;
     private String description;

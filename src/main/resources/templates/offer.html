@@ -110,64 +110,50 @@
             <table class="data-table">
                 <thead>
                 <tr>
-                    <th>#</th>
                     <th>Title</th>
+                    <th>number</th>
+                    <th>Premise</th>
                     <th>Customer</th>
                     <th>Amount</th>
                     <th>Valid Until</th>
+                    <th>Deadline</th>
                     <th>Status</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td style="font-family:var(--mono);color:var(--text-dim);">001</td>
-                    <td>Solar installation – Petrov</td>
-                    <td>Petrov Ivan</td>
-                    <td style="font-family:var(--mono);">4,200 BGN</td>
-                    <td style="font-family:var(--mono);color:var(--text-dim);">2025-08-01</td>
-                    <td><span class="badge badge-gold">SENT</span></td>
+                <tr th:if="${#lists.isEmpty(offersList)}">
+                    <td colspan="8" style="text-align:center; color:var(--text-dim); padding: 32px;">
+                        No offers yet. Add your first one using the "Create offer" tab.
+                    </td>
+                </tr>
+                <tr th:each="of: ${offersList}" th:unless="${#lists.isEmpty(offersList)}">
+                    <!--                    <td style="font-family:var(&#45;&#45;mono);color:var(&#45;&#45;text-dim);">001</td>-->
+                    <td th:text="${of.offerName}">-</td>
+                    <td th:text="${of.offerNumber}">-</td>
+                    <td th:text="${of.premise.name}">-</td>
+                    <td th:text="${of.getCustomer().firstName + ' ' + of.getCustomer().lastName}">-</td>
+                    <td style="font-family:var(--mono);" th:text="${of.totalAmount}">-</td>
+                    <td style="font-family:var(--mono);color:var(--text-dim);" th:text="${of.validUntil}">-</td>
+                    <td style="font-family:var(--mono);color:var(--text-dim);" th:text="${of.deadline}">-</td>
+                    <td th:text="${of.statusOffer}">-</td>
+                    
                     <td>
                         <div class="table-actions">
                             <button class="tbl-btn"
                                     onclick="switchTab('update',document.querySelectorAll('.tab-btn')[2])">Edit
                             </button>
-                            <button class="tbl-btn del">Delete</button>
+                            <form th:action="@{/offer/{id}/delete(id=${of.id})}" method="post"
+                                  style="display:inline;">
+                                <button class="tbl-btn del" type="submit"
+                                        onclick="return confirm('Delete this offer?')">
+                                    Delete
+                                </button>
+                            </form>
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <td style="font-family:var(--mono);color:var(--text-dim);">002</td>
-                    <td>Rewiring – Ivanova</td>
-                    <td>Ivanova Maria</td>
-                    <td style="font-family:var(--mono);">1,850 BGN</td>
-                    <td style="font-family:var(--mono);color:var(--text-dim);">2025-07-15</td>
-                    <td><span class="badge badge-green">ACCEPTED</span></td>
-                    <td>
-                        <div class="table-actions">
-                            <button class="tbl-btn"
-                                    onclick="switchTab('update',document.querySelectorAll('.tab-btn')[2])">Edit
-                            </button>
-                            <button class="tbl-btn del">Delete</button>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="font-family:var(--mono);color:var(--text-dim);">003</td>
-                    <td>Panel upgrade – Stoychev</td>
-                    <td>Georgi Stoychev</td>
-                    <td style="font-family:var(--mono);">3,100 BGN</td>
-                    <td style="font-family:var(--mono);color:var(--text-dim);">2025-09-30</td>
-                    <td><span class="badge badge-gray">DRAFT</span></td>
-                    <td>
-                        <div class="table-actions">
-                            <button class="tbl-btn"
-                                    onclick="switchTab('update',document.querySelectorAll('.tab-btn')[2])">Edit
-                            </button>
-                            <button class="tbl-btn del">Delete</button>
-                        </div>
-                    </td>
-                </tr>
+
                 </tbody>
             </table>
         </div>
@@ -177,52 +163,101 @@
     <div class="tab-panel" id="tab-update">
         <div class="section-label">Update Offer</div>
         <div class="form-card">
-            <div class="form-grid single" style="margin-bottom:16px;">
-                <div class="form-group">
-                    <label class="form-label">Select Offer to Edit</label>
-                    <select class="form-select">
-                        <option value="">— Pick an offer —</option>
-                        <option>001 · Solar installation – Petrov</option>
-                        <option>002 · Rewiring – Ivanova</option>
-                        <option>003 · Panel upgrade – Stoychev</option>
-                    </select>
+
+            <form id="updateForm"
+                  th:action="@{/offer/update}"
+                  th:method="POST"
+                  th:object="${offerUpdateRequest}">
+
+                <div class="form-grid single" style="margin-bottom:16px;">
+                    <div class="form-group">
+
+                        <label class="form-label">Select Offer to Edit</label>
+                        <select class="form-select" id="offerPicker" th:field="*{offerID}" onchange="populateOffer()">
+
+                            <option value="">— Pick an offer —</option>
+
+                            <option
+                                    th:each="of: ${offersList}"
+                                    th:value="${of.id}"
+                                    th:text="${of.offerName}"
+                                    th:attr="
+data-name=${of.offerName},
+data-number=${of.offerNumber},
+data-premise=${of.premise.name},
+data-customer=${of.customer.firstName+ ' ' +of.customer.lastName},
+data-amount=${of.totalAmount},
+data-validUntil=${of.validUntil},
+data-deadline=${of.deadline},
+data-statusOffer=${of.statusOffer}">
+                            </option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="form-grid">
-                <div class="form-group">
-                    <label class="form-label">Offer Title</label>
-                    <input class="form-input" placeholder="Title"/>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Offer Title</label>
+                        <input class="form-input" id="offer-title-input" placeholder="Title" th:field="*{offerName}"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Status</label>
+                        <select class="form-select" id="offer-status-select" th:field="*{statusOffer}">
+                            <option
+                            th:each="of: ${statusOffer}"
+                            th:value="${of}"
+                            th:text="${of}"
+                            >
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Total Amount (EUR)</label>
+                        <input class="form-input" type="number" id="offer-amount-input" disabled placeholder="0.00"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Valid Until</label>
+                        <input class="form-input" type="date" id="offer-validuntil-input" th:field="*{validUntil}"/>
+                    </div>
+                    <div class="form-group span2">
+                        <label class="form-label">Notes</label>
+                        <textarea class="form-textarea" placeholder="Update notes…" th:field="*{note}"></textarea>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Status</label>
-                    <select class="form-select">
-                        <option>DRAFT</option>
-                        <option>SENT</option>
-                        <option>ACCEPTED</option>
-                        <option>REJECTED</option>
-                    </select>
+                <div class="form-actions">
+                    <button class="btn btn-primary">💾 Save Changes</button>
+                    <button class="btn btn-secondary">Cancel</button>
+                    <button class="btn btn-danger" style="margin-left:auto;">Delete Offer</button>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Total Amount (BGN)</label>
-                    <input class="form-input" type="number" placeholder="0.00"/>
+            </form>
+
+            <div th:each="of: ${offersList}" class="offer-lines-block" th:attr="data-offer-id=${of.id}" style="display:none;">
+
+                <div th:each="line: ${of.materials}">
+                    <form th:action="@{/offer/{id}/material-line/update(id=${of.id})}" method="post">
+                        <input type="hidden" name="lineId" th:value="${line.id}"/>
+                        <select name="materialId">
+                            <option th:each="m: ${materialsList}" th:value="${m.id}" th:text="${m.name}"
+                                    th:selected="${m.id == line.material.id}"></option>
+                        </select>
+                        <input type="number" name="quantity" th:value="${line.quantity}" step="0.01" min="0.01"/>
+                        <button type="submit">Save</button>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Valid Until</label>
-                    <input class="form-input" type="date"/>
+
+                <div th:each="line: ${of.assistanceItems}">
+                    <form th:action="@{/offer/{id}/assistance-line/update(id=${of.id})}" method="post">
+                        <input type="hidden" name="lineId" th:value="${line.id}"/>
+                        <select name="assistanceId">
+                            <option th:each="a: ${assistantsList}" th:value="${a.id}" th:text="${a.name}"
+                                    th:selected="${a.id == line.assistance.id}"></option>
+                        </select>
+                        <input type="number" name="quantity" th:value="${line.quantity}" step="0.01" min="0.01"/>
+                        <button type="submit">Save</button>
+                    </form>
                 </div>
-                <div class="form-group span2">
-                    <label class="form-label">Notes</label>
-                    <textarea class="form-textarea" placeholder="Update notes…"></textarea>
-                </div>
-            </div>
-            <div class="form-actions">
-                <button class="btn btn-primary">💾 Save Changes</button>
-                <button class="btn btn-secondary">Cancel</button>
-                <button class="btn btn-danger" style="margin-left:auto;">Delete Offer</button>
             </div>
         </div>
     </div>
-
 </div>
 
 <div th:insert="~{fragments/footer::footer}"></div>
@@ -293,6 +328,20 @@
       <button type="button" class="btn btn-danger" onclick="this.parentElement.remove()">✕</button>
     </div>`;
         document.getElementById('assistance-lines').insertAdjacentHTML('beforeend', row);
+    }
+
+    function populateOffer() {
+        const select = document.getElementById('offerPicker');
+        const selected = select.options[select.selectedIndex];
+
+        document.getElementById('offer-title-input').value = selected.dataset.name || '';
+        document.getElementById('offer-status-select').value = selected.dataset.statusoffer || '';
+        document.getElementById('offer-amount-input').value = selected.dataset.amount || '';
+        document.getElementById('offer-validuntil-input').value = selected.dataset.validuntil || '';
+
+        document.querySelectorAll('.offer-lines-block').forEach(b => b.style.display = 'none');
+        const block = document.querySelector(`.offer-lines-block[data-offer-id="${select.value}"]`);
+        if (block) block.style.display = 'block';
     }
 </script>
 </body>

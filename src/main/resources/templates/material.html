@@ -169,9 +169,10 @@
 
                 <div class="form-grid single" style="margin-bottom:16px;">
                     <div class="form-group">
-                        <label class="form-label">Select Material to Edit</label>
 
+                        <label class="form-label">Select Material to Edit</label>
                         <select class="form-select" id="materialPicker" onchange="populateMaterial()">
+
                             <option value="">-Select Material to Edit-</option>
 
                             <option th:each="m: ${materialsList}"

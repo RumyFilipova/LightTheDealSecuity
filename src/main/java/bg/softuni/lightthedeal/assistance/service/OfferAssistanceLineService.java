@@ -53,7 +53,7 @@ public class OfferAssistanceLineService {
 
     public OfferAssistanceLine updateOfferAssistanceLine(AssistanceLineUpdateRequest request, Offer offer, User user) {
 
-        OfferAssistanceLine lineToUpdate = offerAssistanceLineRepository.findByIdAndUser(offer.getId(), user)
+        OfferAssistanceLine lineToUpdate = offerAssistanceLineRepository.findByIdAndUser(request.getLineId(), user)
                 .orElseThrow(() -> new RuntimeException("The requested input of assistance do not exist in your list"));
 
         Assistance assistance = assistanceRepository.findByIdAndUser(request.getAssistanceId(), user)

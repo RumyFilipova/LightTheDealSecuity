@@ -2,6 +2,7 @@ package bg.softuni.lightthedeal.web.DTO;
 
 import bg.softuni.lightthedeal.assistance.entity.OfferAssistanceLine;
 import bg.softuni.lightthedeal.materials.entities.OfferMaterialLine;
+import bg.softuni.lightthedeal.offer.entity.StatusOffer;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -37,6 +38,7 @@ public class OfferServiceRequest {
     private LocalDate deadline;
 
     private String note;
+    private StatusOffer statusOffer;
 
     @Valid
     private List<MaterialLineRequest> materials;
