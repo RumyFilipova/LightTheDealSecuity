@@ -111,7 +111,7 @@
                 <thead>
                 <tr>
                     <th>Title</th>
-                    <th>number</th>
+                    <th>Number</th>
                     <th>Premise</th>
                     <th>Customer</th>
                     <th>Amount</th>
@@ -123,12 +123,12 @@
                 </thead>
                 <tbody>
                 <tr th:if="${#lists.isEmpty(offersList)}">
-                    <td colspan="8" style="text-align:center; color:var(--text-dim); padding: 32px;">
+                    <td colspan="9" style="text-align:center; color:var(--text-dim); padding: 32px;">
                         No offers yet. Add your first one using the "Create offer" tab.
                     </td>
                 </tr>
                 <tr th:each="of: ${offersList}" th:unless="${#lists.isEmpty(offersList)}">
-                    <!--                    <td style="font-family:var(&#45;&#45;mono);color:var(&#45;&#45;text-dim);">001</td>-->
+
                     <td th:text="${of.offerName}">-</td>
                     <td th:text="${of.offerNumber}">-</td>
                     <td th:text="${of.premise.name}">-</td>
@@ -174,7 +174,6 @@
 
                         <label class="form-label">Select Offer to Edit</label>
                         <select class="form-select" id="offerPicker" th:field="*{offerID}" onchange="populateOffer()">
-
                             <option value="">— Pick an offer —</option>
 
                             <option
@@ -230,29 +229,51 @@ data-statusOffer=${of.statusOffer}">
                 </div>
             </form>
 
-            <div th:each="of: ${offersList}" class="offer-lines-block" th:attr="data-offer-id=${of.id}" style="display:none;">
+            <div th:each="of: ${offersList}" class="form-card offer-lines-block" th:attr="data-offer-id=${of.id}" style="display:none; margin-top:20px;">
 
-                <div th:each="line: ${of.materials}">
-                    <form th:action="@{/offer/{id}/material-line/update(id=${of.id})}" method="post">
+                <div class="section-label">Material Lines</div>
+                <div th:each="line: ${of.materials}" class="form-grid" style="margin-bottom:16px;">
+                    <form th:action="@{/offer/{id}/material-line/update(id=${of.id})}" method="post"
+                          class="form-grid" style="grid-column: 1 / -1; align-items:end;">
                         <input type="hidden" name="lineId" th:value="${line.id}"/>
-                        <select name="materialId">
-                            <option th:each="m: ${materialsList}" th:value="${m.id}" th:text="${m.name}"
-                                    th:selected="${m.id == line.material.id}"></option>
-                        </select>
-                        <input type="number" name="quantity" th:value="${line.quantity}" step="0.01" min="0.01"/>
-                        <button type="submit">Save</button>
+                        <div class="form-group">
+                            <label class="form-label">Material</label>
+                            <select name="materialId" class="form-select">
+                                <option th:each="m: ${materialsList}" th:value="${m.id}" th:text="${m.name}"
+                                        th:selected="${m.id == line.material.id}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Quantity</label>
+                            <input type="number" name="quantity" th:value="${line.quantity}" step="0.01" min="0.01"
+                                   class="form-input"/>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-secondary">Save</button>
+                        </div>
                     </form>
                 </div>
 
-                <div th:each="line: ${of.assistanceItems}">
-                    <form th:action="@{/offer/{id}/assistance-line/update(id=${of.id})}" method="post">
+                <div class="section-label">Assistance Lines</div>
+                <div th:each="line: ${of.assistanceItems}" class="form-grid" style="margin-bottom:16px;">
+                    <form th:action="@{/offer/{id}/assistance-line/update(id=${of.id})}" method="post"
+                          class="form-grid" style="grid-column: 1 / -1; align-items:end;">
                         <input type="hidden" name="lineId" th:value="${line.id}"/>
-                        <select name="assistanceId">
-                            <option th:each="a: ${assistantsList}" th:value="${a.id}" th:text="${a.name}"
-                                    th:selected="${a.id == line.assistance.id}"></option>
-                        </select>
-                        <input type="number" name="quantity" th:value="${line.quantity}" step="0.01" min="0.01"/>
-                        <button type="submit">Save</button>
+                        <div class="form-group">
+                            <label class="form-label">Assistance</label>
+                            <select name="assistanceId" class="form-select">
+                                <option th:each="a: ${assistantsList}" th:value="${a.id}" th:text="${a.name}"
+                                        th:selected="${a.id == line.assistance.id}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Quantity</label>
+                            <input type="number" name="quantity" th:value="${line.quantity}" step="0.01" min="0.01"
+                                   class="form-input"/>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-secondary">Save</button>
+                        </div>
                     </form>
                 </div>
             </div>
