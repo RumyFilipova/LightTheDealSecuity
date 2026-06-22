@@ -33,7 +33,7 @@ public class OrderService {
         Offer offer = offerRepository.findById(request.getOfferId())
                 .orElseThrow(() -> new RuntimeException("Offer not found"));
 
-        if (offer.getStatusOffer().equals(StatusOffer.CONFIRMED)) {
+        if (!offer.getStatusOffer().equals(StatusOffer.CONFIRMED)) {
             throw new RuntimeException("The offer is not confirmed");
         } else {
             Order order = Order.builder()

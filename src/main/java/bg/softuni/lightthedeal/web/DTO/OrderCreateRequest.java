@@ -14,8 +14,10 @@ import java.util.UUID;
 @AllArgsConstructor
 public class OrderCreateRequest {
 
+    private UUID id;
     private UUID offerId;
     private String description;
+
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate deadline;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
