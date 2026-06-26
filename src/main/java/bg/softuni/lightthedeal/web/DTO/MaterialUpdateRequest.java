@@ -1,11 +1,9 @@
 package bg.softuni.lightthedeal.web.DTO;
-
 import bg.softuni.lightthedeal.materials.entities.Category;
 import bg.softuni.lightthedeal.materials.entities.Unit;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-
 import java.math.BigDecimal;
 import java.util.UUID;
 

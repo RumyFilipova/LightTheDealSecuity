@@ -1,5 +1,4 @@
 package bg.softuni.lightthedeal.web.controllers;
-
 import bg.softuni.lightthedeal.customer.entity.CustomerType;
 import bg.softuni.lightthedeal.customer.service.CustomerService;
 import bg.softuni.lightthedeal.user.entity.User;

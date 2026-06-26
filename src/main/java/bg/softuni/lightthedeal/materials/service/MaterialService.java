@@ -6,7 +6,7 @@ import bg.softuni.lightthedeal.user.entity.User;
 import bg.softuni.lightthedeal.web.DTO.MaterialServiceRequest;
 import bg.softuni.lightthedeal.web.DTO.MaterialServiceResponse;
 import bg.softuni.lightthedeal.web.DTO.MaterialUpdateRequest;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -2,12 +2,10 @@ package bg.softuni.lightthedeal.web.controllers;
 
 import bg.softuni.lightthedeal.customer.entity.Customer;
 import bg.softuni.lightthedeal.customer.service.CustomerService;
-import bg.softuni.lightthedeal.premise.entity.Premise;
 import bg.softuni.lightthedeal.premise.entity.PremiseType;
 import bg.softuni.lightthedeal.premise.service.PremiseService;
 import bg.softuni.lightthedeal.user.entity.User;
 import bg.softuni.lightthedeal.user.property.UserProperties;
-import bg.softuni.lightthedeal.user.repository.UserRepository;
 import bg.softuni.lightthedeal.user.service.UserService;
 import bg.softuni.lightthedeal.web.DTO.PremiseServiceRequest;
 import bg.softuni.lightthedeal.web.DTO.PremiseUpdateRequest;

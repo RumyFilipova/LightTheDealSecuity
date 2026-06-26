@@ -1,5 +1,4 @@
 package bg.softuni.lightthedeal.web.controllers;
-
 import bg.softuni.lightthedeal.user.entity.User;
 import bg.softuni.lightthedeal.user.property.UserProperties;
 import bg.softuni.lightthedeal.user.service.UserService;
@@ -14,13 +13,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.UUID;
 
 @Controller
 
-public class HomeController {
+public class
+HomeController {
 
     private final UserService userService;
 
@@ -34,7 +33,6 @@ public class HomeController {
 
     @GetMapping({"/","/home"})
     public String getHomePage() {
-
         return "home";
     }
 
@@ -71,27 +69,27 @@ public class HomeController {
         return "redirect:/login";
     }
 
-    @PostMapping("/login")
-    public ModelAndView login(@Valid @ModelAttribute("userLoginRequest") UserLoginRequest loginRequest, BindingResult bindingResult, HttpSession session) {
-
-        if (bindingResult.hasErrors()) {
-            ModelAndView mv = new ModelAndView("login");
-            mv.addObject("registerRequestUser", new RegisterRequestUser());
-            return mv;
-        }
-
-        try {
-            User user = userService.login(loginRequest);
-            session.setAttribute("userId", user.getId());
-        } catch (RuntimeException e) {
-            ModelAndView mv = new ModelAndView("login");
-            mv.addObject("errorMessage", e.getMessage());
-            mv.addObject("registerRequestUser", new RegisterRequestUser());
-            return mv;
-        }
-
-        return new ModelAndView("redirect:/profile");
-    }
+//    @PostMapping("/login")
+//    public ModelAndView login(@Valid @ModelAttribute("userLoginRequest") UserLoginRequest loginRequest, BindingResult bindingResult, HttpSession session) {
+//
+//        if (bindingResult.hasErrors()) {
+//            ModelAndView mv = new ModelAndView("login");
+//            mv.addObject("registerRequestUser", new RegisterRequestUser());
+//            return mv;
+//        }
+//
+//        try {
+//            User user = userService.login(loginRequest);
+//            session.setAttribute("userId", user.getId());
+//        } catch (RuntimeException e) {
+//            ModelAndView mv = new ModelAndView("login");
+//            mv.addObject("errorMessage", e.getMessage());
+//            mv.addObject("registerRequestUser", new RegisterRequestUser());
+//            return mv;
+//        }
+//
+//        return new ModelAndView("redirect:/profile");
+//    }
 
     @PostMapping("/register")
 

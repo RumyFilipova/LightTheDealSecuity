@@ -1,10 +1,7 @@
 package bg.softuni.lightthedeal.web.DTO;
-
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Builder

@@ -1,10 +1,8 @@
 package bg.softuni.lightthedeal.web.DTO;
-
 import bg.softuni.lightthedeal.assistance.entity.OfferAssistanceLine;
 import bg.softuni.lightthedeal.materials.entities.OfferMaterialLine;
 import bg.softuni.lightthedeal.order.entity.StatusOrder;
 import lombok.*;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;

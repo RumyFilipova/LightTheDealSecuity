@@ -1,10 +1,8 @@
 package bg.softuni.lightthedeal.web.controllers;
-
 import bg.softuni.lightthedeal.assistance.entity.Category;
 import bg.softuni.lightthedeal.assistance.entity.Unit;
 import bg.softuni.lightthedeal.assistance.service.AssistanceService;
 import bg.softuni.lightthedeal.user.entity.User;
-import bg.softuni.lightthedeal.user.property.UserProperties;
 import bg.softuni.lightthedeal.user.service.UserService;
 import bg.softuni.lightthedeal.web.DTO.AssistanceServiceRequest;
 import bg.softuni.lightthedeal.web.DTO.AssistanceUpdateRequest;
@@ -14,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.naming.Binding;
 import java.util.UUID;
 
 @Controller

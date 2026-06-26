@@ -4,7 +4,6 @@ import bg.softuni.lightthedeal.assistance.repository.OfferAssistanceRepository;
 import bg.softuni.lightthedeal.assistance.service.OfferAssistanceLineService;
 import bg.softuni.lightthedeal.customer.entity.Customer;
 import bg.softuni.lightthedeal.customer.repository.CustomerRepository;
-import bg.softuni.lightthedeal.materials.entities.OfferMaterialLine;
 import bg.softuni.lightthedeal.materials.repository.OfferMaterialLineRepository;
 import bg.softuni.lightthedeal.materials.service.OfferMaterialLineService;
 import bg.softuni.lightthedeal.offer.entity.Offer;

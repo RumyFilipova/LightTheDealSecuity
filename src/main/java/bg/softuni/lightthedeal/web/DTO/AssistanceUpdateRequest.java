@@ -1,5 +1,4 @@
 package bg.softuni.lightthedeal.web.DTO;
-
 import bg.softuni.lightthedeal.assistance.entity.Category;
 import bg.softuni.lightthedeal.assistance.entity.Unit;
 import jakarta.validation.constraints.DecimalMin;

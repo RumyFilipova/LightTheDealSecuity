@@ -1,8 +1,6 @@
 package bg.softuni.lightthedeal.web.DTO;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import jdk.jfr.SettingDefinition;
 import lombok.*;
 
 @Builder

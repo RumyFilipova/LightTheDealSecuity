@@ -1,7 +1,5 @@
 package bg.softuni.lightthedeal.user.repository;
 
-import bg.softuni.lightthedeal.customer.entity.Customer;
-import bg.softuni.lightthedeal.premise.entity.Premise;
 import bg.softuni.lightthedeal.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

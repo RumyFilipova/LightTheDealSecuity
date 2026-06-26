@@ -1,11 +1,9 @@
 package bg.softuni.lightthedeal.web.DTO;
-
 import bg.softuni.lightthedeal.materials.entities.Category;
 import bg.softuni.lightthedeal.materials.entities.Unit;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+
 
 import java.math.BigDecimal;
 import java.util.UUID;

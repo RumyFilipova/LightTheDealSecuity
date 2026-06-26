@@ -2,7 +2,6 @@ package bg.softuni.lightthedeal.web.controllers;
 import bg.softuni.lightthedeal.customer.service.CustomerService;
 import bg.softuni.lightthedeal.offer.entity.Offer;
 import bg.softuni.lightthedeal.order.entity.StatusOrder;
-import bg.softuni.lightthedeal.order.repository.OrderRepository;
 import bg.softuni.lightthedeal.order.service.OrderService;
 import bg.softuni.lightthedeal.premise.service.PremiseService;
 import bg.softuni.lightthedeal.user.entity.User;

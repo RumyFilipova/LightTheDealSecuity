@@ -1,11 +1,9 @@
 package bg.softuni.lightthedeal.web.controllers;
-
 import bg.softuni.lightthedeal.materials.entities.Category;
 import bg.softuni.lightthedeal.materials.entities.Unit;
 import bg.softuni.lightthedeal.materials.service.MaterialService;
 import bg.softuni.lightthedeal.user.entity.User;
 import bg.softuni.lightthedeal.user.property.UserProperties;
-import bg.softuni.lightthedeal.user.repository.UserRepository;
 import bg.softuni.lightthedeal.user.service.UserService;
 import bg.softuni.lightthedeal.web.DTO.MaterialServiceRequest;
 import bg.softuni.lightthedeal.web.DTO.MaterialUpdateRequest;

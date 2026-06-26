@@ -1,5 +1,4 @@
 package bg.softuni.lightthedeal.web.DTO;
-
 import bg.softuni.lightthedeal.customer.entity.CustomerType;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
