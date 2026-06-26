@@ -1,29 +1,24 @@
 package bg.softuni.lightthedeal.user.service;
-
 import bg.softuni.lightthedeal.assistance.entity.Assistance;
 import bg.softuni.lightthedeal.assistance.repository.AssistanceRepository;
 import bg.softuni.lightthedeal.assistance.service.AssistanceService;
 import bg.softuni.lightthedeal.customer.entity.Customer;
 import bg.softuni.lightthedeal.customer.repository.CustomerRepository;
-import bg.softuni.lightthedeal.customer.service.CustomerService;
 import bg.softuni.lightthedeal.materials.entities.Material;
 import bg.softuni.lightthedeal.materials.repository.MaterialRepository;
 import bg.softuni.lightthedeal.materials.service.MaterialService;
 import bg.softuni.lightthedeal.offer.entity.Offer;
 import bg.softuni.lightthedeal.offer.repository.OfferRepository;
-import bg.softuni.lightthedeal.offer.service.OfferService;
 import bg.softuni.lightthedeal.order.entity.Order;
 import bg.softuni.lightthedeal.order.repository.OrderRepository;
-import bg.softuni.lightthedeal.order.service.OrderService;
-import bg.softuni.lightthedeal.premise.entity.Premise;
 import bg.softuni.lightthedeal.user.entity.Role;
 import bg.softuni.lightthedeal.user.entity.User;
 import bg.softuni.lightthedeal.user.repository.UserRepository;
 import bg.softuni.lightthedeal.web.DTO.*;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -32,11 +27,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
     private final AssistanceRepository assistanceRepository;
     private final MaterialRepository materialRepository;
     private final CustomerRepository customerRepository;
@@ -80,24 +74,21 @@ public class UserService {
 
     }
 
-    public User login(UserLoginRequest logReg){
-
-        Optional<User> optUser = userRepository.findByUsername(logReg.getUsername());
-
-        if(optUser.isEmpty()){
-            throw new RuntimeException("The user does not exist");
-        }
-
-        String rawPass =  logReg.getPassword();
-        String hashedPass = optUser.get().getPassword();
-
-        if(!passwordEncoder.matches(rawPass,hashedPass)){
-            throw  new RuntimeException("Incorrect username or password");
-        }
-
-
-        return optUser.get();
-    }
+//    public User login(UserLoginRequest logReg){
+//
+//        Optional<User> optUser = userRepository.findByUsername(logReg.getUsername());
+//
+//        if(optUser.isEmpty()){
+//            throw new RuntimeException("The user does not exist");
+//        }
+//        String rawPass =  logReg.getPassword();
+//        String hashedPass = optUser.get().getPassword();
+//        if(!passwordEncoder.matches(rawPass,hashedPass)){
+//            throw  new RuntimeException("Incorrect username or password");
+//        }
+//
+//        return optUser.get();
+//    }
 
 
 
@@ -184,5 +175,19 @@ public class UserService {
 
       user.setPassword(passwordEncoder.encode(dto.getNewPassword()));
       userRepository.save(user);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(()-> new UsernameNotFoundException(username));
+
+        return  UserDetailsData.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .password(user.getPassword())
+                .role(user.getRole())
+                .build();
     }
 }
