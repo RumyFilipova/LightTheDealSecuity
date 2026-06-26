@@ -1,5 +1,4 @@
 package bg.softuni.lightthedeal.web.DTO;
-
 import jakarta.validation.constraints.Size;
 import lombok.*;
 

@@ -1,10 +1,8 @@
 package bg.softuni.lightthedeal.web.controllers;
-
 import bg.softuni.lightthedeal.user.entity.User;
 import bg.softuni.lightthedeal.user.service.UserService;
 import bg.softuni.lightthedeal.web.DTO.ChangePasswordRequest;
 import bg.softuni.lightthedeal.web.DTO.UserUpdateRequest;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

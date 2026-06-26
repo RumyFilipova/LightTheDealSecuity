@@ -1,16 +1,15 @@
 package bg.softuni.lightthedeal.user.service;
-
 import bg.softuni.lightthedeal.user.entity.User;
 import bg.softuni.lightthedeal.user.property.UserProperties;
 import bg.softuni.lightthedeal.web.DTO.RegisterRequestUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.stereotype.Component;
+
 
 import java.util.List;
 
-@Component
+//@Component
 public class UserInit implements ApplicationRunner {
 
     private final UserService userService;
