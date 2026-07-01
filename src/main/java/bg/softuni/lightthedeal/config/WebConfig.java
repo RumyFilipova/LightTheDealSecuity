@@ -28,13 +28,13 @@ public class WebConfig implements WebMvcConfigurer {
                 .authorizeHttpRequests(matchers -> matchers
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
                         .permitAll()
-                        .requestMatchers("/", "/home", "/register","/pics/**","/error")
+                        .requestMatchers("/", "/home", "/register","/pics/**","/error","/login")
                         .permitAll()
                         .anyRequest()
                         .authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/profile ", true)
+                        .defaultSuccessUrl("/profile", true)
                         .failureUrl("/login?error")
                         .permitAll())
                 .logout(logout ->logout

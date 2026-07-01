@@ -1,7 +1,9 @@
 package bg.softuni.lightthedeal.web.controllers;
+import bg.softuni.lightthedeal.task.service.TaskService;
 import bg.softuni.lightthedeal.user.entity.User;
 import bg.softuni.lightthedeal.user.service.UserService;
 import bg.softuni.lightthedeal.web.DTO.ChangePasswordRequest;
+import bg.softuni.lightthedeal.web.DTO.TaskCreateRequest;
 import bg.softuni.lightthedeal.web.DTO.UserUpdateRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.UUID;
 
@@ -17,24 +20,26 @@ import java.util.UUID;
 @RequestMapping("/profile")
 public class UserController {
     private final UserService userService;
-
+private final TaskService taskService;
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, TaskService taskService) {
         this.userService = userService;
+        this.taskService = taskService;
     }
 
 
-    @GetMapping("/{id}/profile")
-    public ModelAndView getUserProfilePage(@PathVariable UUID id) {
-
-        User user = userService.getById(id);
-
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("profile");
-        modelAndView.addObject("user", user);
-
-        return modelAndView;
-    }
+//dublicated method with the Home Controller getUserInitialPage
+//    @GetMapping("/{id}/profile")
+//    public ModelAndView getUserProfilePage(@PathVariable UUID id) {
+//
+//        User user = userService.getById(id);
+//
+//        ModelAndView modelAndView = new ModelAndView();
+//        modelAndView.setViewName("profile");
+//        modelAndView.addObject("user", user);
+//
+//        return modelAndView;
+//    }
 
     @GetMapping("/{id}/edit-profile")
     public ModelAndView getEditUserDetailsPage(@PathVariable UUID id) {
@@ -46,6 +51,31 @@ public class UserController {
         modelAndView.addObject("currentUser", user);
 
         return modelAndView;
+    }
+
+    @GetMapping("/{id}/edit-staff")
+    public ModelAndView getEditStaffPage(@PathVariable UUID id) {
+
+        User user = userService.getById(id);
+
+        ModelAndView modelAndView = new ModelAndView("edit-staff");
+        modelAndView.addObject("currentUser", user);
+
+        return modelAndView;
+    }
+
+    @PostMapping("/{id}/edit-staff")
+    public ModelAndView saveTask(@PathVariable UUID id, @Valid @ModelAttribute("taskCreateRequest")TaskCreateRequest request, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            ModelAndView modelAndView = new ModelAndView("edit-staff");
+            modelAndView.addObject("currentUser", userService.getById(id));
+            modelAndView.addObject("taskCreateRequest", new TaskCreateRequest());
+            return modelAndView;
+        }
+
+        taskService.saveTask(request,id);
+        return new ModelAndView("redirect:/edit-staff");
     }
 
 

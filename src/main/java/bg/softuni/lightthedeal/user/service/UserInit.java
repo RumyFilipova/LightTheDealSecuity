@@ -5,8 +5,6 @@ import bg.softuni.lightthedeal.web.DTO.RegisterRequestUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-
-
 import java.util.List;
 
 //@Component

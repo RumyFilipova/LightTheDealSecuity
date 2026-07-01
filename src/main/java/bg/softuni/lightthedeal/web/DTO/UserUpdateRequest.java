@@ -1,4 +1,5 @@
 package bg.softuni.lightthedeal.web.DTO;
+import bg.softuni.lightthedeal.user.entity.Role;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
@@ -22,4 +23,5 @@ public class UserUpdateRequest{
         private String phoneNumber;
 
         private String profilePicture;
+        private Role role;
 }
