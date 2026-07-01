@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Light the Deal — Assign Staff</title>
+    <link rel="stylesheet" th:href="@{/css/entities.css}"/>
+    <link rel="stylesheet" th:href="@{/css/edit-profile.css}"/>
+</head>
+<body>
+
+<!-- ── HEADER ─────────────────────────────────────── -->
+<header class="site-header">
+    <a th:href="@{/profile}" class="header-logo">
+        <img th:src="@{/pics/logo.png}" alt="Light the Deal"/>
+        <div class="header-brand">Light the Deal <span>technician dashboard</span></div>
+    </a>
+    <nav class="header-nav">
+        <a th:href="@{/dashboard}" class="nav-btn">Dashboard</a>
+        <a th:href="@{/profile}" class="nav-btn">Profile</a>
+        <a th:href="@{/home}"
+           class="nav-btn"
+           style="border-color:var(--gold-dim);color:var(--gold);">Log Out</a>
+    </nav>
+</header>
+
+<!-- ── PAGE HERO ───────────────────────────────────── -->
+<div class="page-hero">
+    <div class="page-title-block">
+        <div class="page-eyebrow">Profile · Staff</div>
+        <div class="page-title">⚙ Assign Staff</div>
+        <div class="page-subtitle">Assign a task to your staff members</div>
+    </div>
+</div>
+
+<!-- ── TAB BAR ─────────────────────────────────────── -->
+<div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('info', this)">Personal Task Assigment</button>
+    <button class="tab-btn" onclick="switchTab('contact', this)">Assigned Tasks</button>
+
+</div>
+
+<!-- ── CONTENT ─────────────────────────────────────── -->
+<div class="content-area">
+
+    <!-- TASK INFO -->
+    <div class="tab-panel active" id="tab-info">
+        <div class="section-label">Task Information</div>
+
+        <div class="profile-edit-layout">
+
+
+            <!-- Info Form -->
+            <div class="form-card" style="flex:1;">
+                <form th:action="@{/profile/{id}/edit-profile(id=${currentUser.id})}" method="post">
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">First Name</label>
+                            <input class="form-input"
+                                   type="text"
+                                   name="firstName"
+                                   th:value="${currentUser.firstName}"
+                                   placeholder="First name"
+                                   oninput="updatePreview()"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Last Name</label>
+                            <input class="form-input"
+                                   type="text"
+                                   name="lastName"
+                                   th:value="${currentUser.lastName}"
+                                   placeholder="Last name"
+                                   oninput="updatePreview()"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Username</label>
+                            <input class="form-input"
+                                   type="text"
+                                   name="userName"
+                                   th:value="${currentUser.username}"
+                                   placeholder="Username"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Role</label>
+                            <input class="form-input"
+                                   type="text"
+                                   th:value="${currentUser.role}"
+                                   disabled
+                                   style="opacity:0.4;cursor:not-allowed;"/>
+                        </div>
+                        <input type="hidden" name="email" th:value="${currentUser.email}"/>
+                        <input type="hidden" name="phoneNumber" th:value="${currentUser.phoneNumber}"/>
+                        <input type="hidden" name="profilePicture" th:value="${currentUser.profilePicture}"/>
+                    </div>
+
+                    <!-- Success / Error messages -->
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">💾 Save Task</button>
+                        <a th:href="@{/edit-staff}" class="btn btn-secondary">Cancel</a>
+                        <div th:if="${contactSuccess}" class="alert alert-success">
+                            ✓ The task has been assign successfully.
+                        </div>
+                        <div th:if="${contactError}" class="alert alert-danger">
+                            ✕ <span th:text="${contactError}"></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <
+</div>
+
+<!-- ── FOOTER ─────────────────────────────────────── -->
+<div th:insert="~{fragments/footer::footer}"></div>
+
+<script>
+    function switchTab(id, btn) {
+        /* document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+         document.getElementById('tab-' + id).classList.add('active');
+         if (btn) btn.classList.add('active');*/
+    }
+
+    function updatePreview() {
+        const first = document.querySelector('input[name="firstName"]').value || '';
+        const last = document.querySelector('input[name="lastName"]').value || '';
+        const initials = (first[0] || '') + (last[0] || '');
+        document.getElementById('avatarPreview').textContent = initials.toUpperCase() || '?';
+        document.getElementById('avatarName').textContent =
+            (first + ' ' + last).trim() || 'Your Name';
+    }
+
+    function handleDrop(e) {
+        e.preventDefault();
+        const file = e.dataTransfer.files[0];
+        if (file) previewFile({files: [file]});
+    }
+
+    function previewFile(input) {
+        const file = input.files[0];
+        if (!file) return;
+        const zone = document.getElementById('dropZone');
+        zone.querySelector('.drop-text').textContent = file.name;
+        zone.querySelector('.drop-hint').textContent =
+            (file.size / 1024).toFixed(0) + ' KB · ready to upload';
+        zone.style.borderColor = 'var(--gold)';
+    }
+</script>
+</body>
+</html>

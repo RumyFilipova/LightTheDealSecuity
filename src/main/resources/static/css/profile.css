@@ -261,7 +261,7 @@ body {
   padding: 0 24px 24px;
 }
 
-.btn-edit-profile {
+.btn-edit-profile, .btn-edit-staff {
   width: 100%;
   background: transparent;
   border: 1px solid var(--gold-dim);
@@ -277,7 +277,7 @@ body {
   overflow: hidden;
 }
 
-.btn-edit-profile::before {
+.btn-edit-profile::before, .btn-edit-staff::before {
   content: '';
   position: absolute;
   left: -100%;
@@ -289,7 +289,8 @@ body {
 }
 
 .btn-edit-profile:hover::before { left: 100%; }
-.btn-edit-profile:hover {
+.btn-edit-staff:hover::before { left: 100%; }
+.btn-edit-profile:hover,.btn-edit-staff:hover {
   border-color: var(--gold-bright);
   background: rgba(245,168,0,0.08);
   box-shadow: 0 0 20px rgba(245,168,0,0.15);

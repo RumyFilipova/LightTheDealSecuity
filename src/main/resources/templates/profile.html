@@ -38,9 +38,9 @@
     <div class="profile-card">
       <div class="profile-card-top">
         <div class="avatar-ring">
-          <img alt="pic" class="avatar-image" th:src="${#strings.isEmpty(currentUser.profilePicture) ? 'https://tse1.mm.bing.net/th/id/OIP.ibsYnKduSPTAr9WPXcwSqAHaHa?pid=Api&h=220&P=0' : currentUser.profilePicture}" />
+          <img alt="pic" class="avatar-image" th:src="${#strings.isEmpty(currentUser.profilePicture) ? 'https://tse1.mm.bing.net/th/id/OIP.ibsYnKduSPTAr9WPXcwSqAHaHa?pid=Api&h=220&P=0' : currentUser.profilePicture}"/>
         </div>
-        <div class="user-name" th:text="${currentUser.getUsername()}">Filip Filipov</div>
+        <div class="user-name" th:text="${currentUser.getFirstName() + ' ' +currentUser.getLastName()}">Filip Filipov</div>
         <div class="user-role-badge" th:text="${currentUser.getRole()}">⚡ TECHNICIAN</div>
       </div>
 
@@ -77,6 +77,7 @@
 
       <div class="profile-actions">
         <a class="btn-edit-profile" th:href="@{/profile/{id}/edit-profile(id=${currentUser.id})}">⚙ Edit Profile</a>
+        <a class="btn-edit-staff" th:href="@{/profile/{id}/edit-staff(id=${currentUser.id})}">⚙ Staff</a>
       </div>
     </div>
 
