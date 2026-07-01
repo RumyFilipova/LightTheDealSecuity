@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In · Light the Deal</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+</head>
+<body>
+<div class="auth-wrapper">
+    <div class="card">
+
+        <div class="brand">
+            <a class="logo" th:href="@{/}">
+                <img th:src="@{/pics/logo.png}" alt="Light the Deal logo">
+            </a>
+            <span class="brand-fallback" style="display:none;">L</span>
+            <span class="brand-name">Light the Deal</span>
+        </div>
+
+
+        <div class="tabs">
+            <a id="sing" th:href="@{/login}">Sign in</a>
+            <a id="create" th:href="@{/register}">Create account</a>
+        </div>
+
+        <!-- REGISTER -->
+        <div class="panel active" id="panel-register">
+
+            <form th:action="@{/register}" th:method="post" th:object="${registerRequestUser}" novalidate>
+                <div class="fg">
+                    <label for="reg-username">Username</label>
+                    <div class="input-wrap">
+                        <span class="input-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+                        <input type="text" id="reg-username" name="username" placeholder="johndoe" minlength="6" required th:field="*{username}" />
+                        <p class="alert-warning" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+                    </div>
+                    <div class="field-hint" id="hint-username">At least 6 characters, no spaces.</div>
+
+                </div>
+                <div class="fg">
+                    <label for="reg-email">Email</label>
+                    <div class="input-wrap">
+                        <input type="email" id="reg-email" placeholder="you@example.com"
+                               required th:field="*{email}" />
+                        <p class="alert-warning" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+                    </div>
+                </div>
+                <div class="fg">
+                    <label for="reg-phone">Phone Number</label>
+                    <div class="input-wrap">
+                        <input type="text" id="reg-phone" placeholder="+359888888888"
+                               required th:field="*{phoneNumber}" />
+                        <p class="alert-warning" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></p>
+                    </div>
+                </div>
+                <div class="fg">
+                    <label for="reg-password">Password</label>
+                    <div class="input-wrap">
+                        <input type="password" id="reg-password" placeholder="Min. 8 characters"
+                               minlength="8" required th:field="*{password}"/>
+                        <p class="alert-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+                    </div>
+                </div>
+                <div class="fg">
+                    <label for="reg-confirm">Confirm password</label>
+                    <div class="input-wrap">
+                        <input type="password" id="reg-confirm" placeholder="Repeat your password"
+                               required th:field="*{confirmPassword}" />
+                        <p class="alert-warning" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></p>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit" >Create account</button>
+            </form>
+
+            <div class="switch-row">Already have an account? <button onclick="switchTab('login')">Sign in</button></div>
+        </div>
+
+    </div>
+</div>
+<div th:insert="~{fragments/footer::footer}"></div>
+
+<!--<script src="/js/login.js"></script>-->
+<script>
+/*/!*    function switchTab(name) {
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.getElementById('panel-' + name).classList.add('active');
+        document.getElementById('tab-' + name).classList.add('active');
+    }*!/
+
+    // Open register tab automatically if ?tab=register is in the URL
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('tab') === 'register') {
+        switchTab('register');
+    }*/
+</script>
+</body>
+</html>

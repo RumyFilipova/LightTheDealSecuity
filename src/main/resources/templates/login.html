@@ -6,6 +6,7 @@
     <title>Sign In · Light the Deal</title>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/login.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
 </head>
 <body>
 <div class="auth-wrapper">
@@ -19,22 +20,25 @@
             <span class="brand-name">Light the Deal</span>
         </div>
 
+
         <div class="tabs">
-            <button class="tab active" id="tab-login"    onclick="switchTab('login')">Sign in</button>
-            <button class="tab"        id="tab-register" onclick="switchTab('register')">Create account</button>
+            <a id="sing" th:href="@{/login}">Sign in</a>
+            <a id="create" th:href="@{/register}">Create account</a>
         </div>
+
 
         <!-- ── SIGN IN ──────────────────────────────── -->
         <div class="panel active" id="panel-login">
 
-            <div class="alert alert-error" th:class="${errorMessage} ? 'alert alert-error' : 'alert alert-error hidden'" id="login-error">
+            <div class="alert alert-error" th:class="${errorMessage} ? 'alert alert-error' : 'alert alert-error hidden'"
+                 id="login-error">
                 ✕ &nbsp;<span th:text="${errorMessage} ?: 'Invalid username or password. Please try again.'"></span>
             </div>
 
             <form th:action="@{/login}" th:method="post" th:object="${userLoginRequest}">
 
                 <div class="fg">
-                    <label for="login-username">Username or email</label>
+                    <label for="login-username">Username</label>
                     <div class="input-wrap">
             <span class="input-icon">
               <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
@@ -66,7 +70,7 @@
 
                 <div class="row-opts">
                     <label class="cb-label">
-                        <input type="checkbox" name="remember-me" /> Remember me
+                        <input type="checkbox" name="remember-me"/> Remember me
                     </label>
                     <a th:href="@{/forgot-password}" class="link-btn">Forgot password?</a>
                 </div>
@@ -78,74 +82,78 @@
             </form>
 
             <div class="switch-row">
-                No account? <button onclick="switchTab('register')">Create one</button>
+                No account?
+                <button onclick="switchTab('register')">Create one</button>
             </div>
         </div>
-
-        <!-- REGISTER -->
-        <div class="panel" id="panel-register">
-
-            <form th:action="@{/register}" th:method="post" th:object="${registerRequestUser}" novalidate>
-                <div class="fg">
-                    <label for="reg-username">Username</label>
-                    <div class="input-wrap">
-                        <span class="input-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
-                        <input type="text" id="reg-username" name="username" placeholder="johndoe" minlength="6" required th:field="*{username}" />
-                    </div>
-                    <div class="field-hint" id="hint-username">At least 6 characters, no spaces.</div>
-                </div>
-                <div class="fg">
-                    <label for="reg-email">Email</label>
-                    <div class="input-wrap">
-                        <input type="email" id="reg-email" placeholder="you@example.com"
-                               required th:field="*{email}" />
-                    </div>
-                </div>
-                <div class="fg">
-                    <label for="reg-phone">Phone Number</label>
-                    <div class="input-wrap">
-                        <input type="text" id="reg-phone" placeholder="+359 88 888 8888"
-                               required th:field="*{phoneNumber}" />
-                    </div>
-                </div>
-                <div class="fg">
-                    <label for="reg-password">Password</label>
-                    <div class="input-wrap">
-                        <input type="password" id="reg-password" placeholder="Min. 8 characters"
-                               minlength="8" required th:field="*{password}"/>
-                    </div>
-                </div>
-                <div class="fg">
-                    <label for="reg-confirm">Confirm password</label>
-                    <div class="input-wrap">
-                        <input type="password" id="reg-confirm" placeholder="Repeat your password"
-                               required th:field="*{confirmPassword}" />
-                    </div>
-                </div>
-
-                <button type="submit" class="btn-submit" >Create account</button>
-            </form>
-
-            <div class="switch-row">Already have an account? <button onclick="switchTab('login')">Sign in</button></div>
-        </div>
-
     </div>
 </div>
+<div th:insert="~{fragments/footer::footer}"></div>
+
+<!-- REGISTER -->
+<!--        <div class="panel" id="panel-register">-->
+
+<!--            <form th:action="@{/register}" th:method="post" th:object="${registerRequestUser}" novalidate>-->
+<!--                <div class="fg">-->
+<!--                    <label for="reg-username">Username</label>-->
+<!--                    <div class="input-wrap">-->
+<!--                        <span class="input-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>-->
+<!--                        <input type="text" id="reg-username" name="username" placeholder="johndoe" minlength="6" required th:field="*{username}" />-->
+<!--                    </div>-->
+<!--                    <div class="field-hint" id="hint-username">At least 6 characters, no spaces.</div>-->
+<!--                </div>-->
+<!--                <div class="fg">-->
+<!--                    <label for="reg-email">Email</label>-->
+<!--                    <div class="input-wrap">-->
+<!--                        <input type="email" id="reg-email" placeholder="you@example.com"-->
+<!--                               required th:field="*{email}" />-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="fg">-->
+<!--                    <label for="reg-phone">Phone Number</label>-->
+<!--                    <div class="input-wrap">-->
+<!--                        <input type="text" id="reg-phone" placeholder="+359 88 888 8888"-->
+<!--                               required th:field="*{phoneNumber}" />-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="fg">-->
+<!--                    <label for="reg-password">Password</label>-->
+<!--                    <div class="input-wrap">-->
+<!--                        <input type="password" id="reg-password" placeholder="Min. 8 characters"-->
+<!--                               minlength="8" required th:field="*{password}"/>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="fg">-->
+<!--                    <label for="reg-confirm">Confirm password</label>-->
+<!--                    <div class="input-wrap">-->
+<!--                        <input type="password" id="reg-confirm" placeholder="Repeat your password"-->
+<!--                               required th:field="*{confirmPassword}" />-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                <button type="submit" class="btn-submit" >Create account</button>-->
+<!--            </form>-->
+
+<!--            <div class="switch-row">Already have an account? <button onclick="switchTab('login')">Sign in</button></div>-->
+<!--        </div>-->
+
+<!--    </div>-->
+<!--</div>-->
 
 <!--<script src="/js/login.js"></script>-->
 <script>
-    function switchTab(name) {
-        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        document.getElementById('panel-' + name).classList.add('active');
-        document.getElementById('tab-' + name).classList.add('active');
-    }
+    /*// function switchTab(name) {
+     //    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+     //    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+     //    document.getElementById('panel-' + name).classList.add('active');
+      //   document.getElementById('tab-' + name).classList.add('active');
+     //}
 
-    // Open register tab automatically if ?tab=register is in the URL
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('tab') === 'register') {
-        switchTab('register');
-    }
+     // Open register tab automatically if ?tab=register is in the URL
+     const params = new URLSearchParams(window.location.search);
+     if (params.get('tab') === 'register') {
+         switchTab('register');
+     }*/
 </script>
 </body>
 </html>

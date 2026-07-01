@@ -28,6 +28,7 @@ body {
     align-items: center;
     justify-content: center;
     padding: 2.5rem 1rem;
+    flex-direction: column;
 }
 
 .auth-wrapper {
@@ -100,6 +101,10 @@ body {
 /* ── Tabs ──────────────────────────────────────────── */
 .tabs {
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 8px;
     border-bottom: 1px solid var(--border);
     background: var(--surface-2);
 }
@@ -222,7 +227,7 @@ input.error        { border-color: var(--danger); }
 .terms a:hover { text-decoration: underline; }
 
 /* ── Submit button ─────────────────────────────────── */
-.btn-submit {
+.btn-submit, #sing,#create{
     width: 100%;
     height: 46px;
     background: var(--gold);
@@ -237,27 +242,31 @@ input.error        { border-color: var(--danger); }
     transition: background .18s, transform .1s, box-shadow .18s;
     box-shadow: 0 2px 12px rgba(240,165,0,.35);
 }
-.btn-submit:hover  { background: var(--gold-dark); box-shadow: 0 4px 20px rgba(240,165,0,.45); }
-.btn-submit:active { transform: scale(.98); }
 
-/* ── Switch row ────────────────────────────────────── */
-.switch-row {
-    text-align: center;
-    margin-top: 1.4rem;
-    font-size: .85rem;
-    color: var(--muted);
-}
-.switch-row button {
-    background: none;
+#sing, #create {
+    flex: 1;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    background: var(--gold);
+    color: #111;
     border: none;
-    color: var(--gold);
+    border-radius: 7px;
+    font-size: .80rem;
     font-weight: 600;
-    font-size: .85rem;
-    cursor: pointer;
     font-family: 'DM Sans', sans-serif;
-    padding: 0;
+    cursor: pointer;
+    letter-spacing: .03em;
+    transition: background .18s, transform .1s, box-shadow .18s;
+    box-shadow: 0 2px 12px rgba(240,165,0,.35);
 }
-.switch-row button:hover { text-decoration: underline; }
+
+.btn-submit:hover,
+#sing:hover, #create:hover  { background: var(--gold-dark); box-shadow: 0 4px 20px rgba(240,165,0,.45); }
+.btn-submit:active,
+#sing:active, #create:active { transform: scale(.98); }
 
 /* ── Responsive ────────────────────────────────────── */
 @media (max-width: 480px) {
