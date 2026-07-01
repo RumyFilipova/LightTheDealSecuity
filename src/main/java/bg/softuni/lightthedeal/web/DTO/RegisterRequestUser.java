@@ -28,7 +28,7 @@ public class RegisterRequestUser {
     private String email;
 
     @NotBlank
-    @Size(min = 10, max = 10, message = "The number must be exactly 10 characters")
+    @Size(min = 13, max = 13, message = "The number must be exactly 13 characters")
     private String phoneNumber;
 
 }
