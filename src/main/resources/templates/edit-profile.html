@@ -31,7 +31,6 @@
     <div class="page-title">⚙ Edit Profile</div>
     <div class="page-subtitle">Update your personal information and preferences</div>
   </div>
-  <img th:src="@{/pics/logo.png}" class="page-logo-accent" alt="" />
 </div>
 
 <!-- ── TAB BAR ─────────────────────────────────────── -->
@@ -52,12 +51,14 @@
 
       <!-- Avatar Preview -->
       <div class="avatar-preview-card">
-        <div class="avatar-ring-lg">
-          <div class="avatar-placeholder-lg" id="avatarPreview">JD</div>
+        <div class="profile-card-top">
+          <div class="avatar-ring">
+            <img alt="pic" class="avatar-image" th:src="${#strings.isEmpty(currentUser.profilePicture) ? 'https://tse1.mm.bing.net/th/id/OIP.ibsYnKduSPTAr9WPXcwSqAHaHa?pid=Api&h=220&P=0' : currentUser.profilePicture}"/>
+          </div>
         </div>
 
-        <div class="avatar-name" id="avatarName">John Doe</div>
-        <div class="avatar-role-badge">⚡ TECHNICIAN</div>
+        <div class="avatar-name" id="avatarName" th:text="${currentUser.getFirstName() + ' ' + currentUser.getLastName()}">John Doe</div>
+        <div class="avatar-role-badge" th:text="${currentUser.getRole()}">⚡ TECHNICIAN</div>
         <a th:href="@{/profile/{id}/change-password(id=${currentUser.id})}" class="btn btn-secondary"
            style="width:100%;text-align:center;margin-top:12px;text-decoration:none;display:block;">
           🔐 Change Password

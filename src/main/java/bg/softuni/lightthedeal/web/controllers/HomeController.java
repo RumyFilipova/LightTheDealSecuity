@@ -1,12 +1,14 @@
 package bg.softuni.lightthedeal.web.controllers;
 import bg.softuni.lightthedeal.user.entity.User;
 import bg.softuni.lightthedeal.user.property.UserProperties;
+import bg.softuni.lightthedeal.user.service.AuthenticationUserDetails;
 import bg.softuni.lightthedeal.user.service.UserService;
 import bg.softuni.lightthedeal.web.DTO.RegisterRequestUser;
 import bg.softuni.lightthedeal.web.DTO.UserLoginRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +35,7 @@ HomeController {
 
     @GetMapping({"/","/home"})
     public String getHomePage() {
+
         return "home";
     }
 
@@ -53,8 +56,14 @@ HomeController {
     @GetMapping("/profile")
     public ModelAndView getUserInitialPage(HttpSession session) {
 
-        UUID userId=(UUID) session.getAttribute("userId");
-        User currentUser = userService.getById(userId);
+
+        AuthenticationUserDetails principal = (AuthenticationUserDetails) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+
+        User currentUser = userService.getById(principal.getId());
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("profile");
@@ -63,11 +72,11 @@ HomeController {
         return modelAndView;
     }
 
-    @GetMapping("/logout")
-    public String logout(HttpSession session) {
-        session.invalidate();
-        return "redirect:/login";
-    }
+//    @GetMapping("/logout")
+//    public String logout(HttpSession session) {
+//        session.invalidate();
+//        return "redirect:/login";
+//    }
 
 //    @PostMapping("/login")
 //    public ModelAndView login(@Valid @ModelAttribute("userLoginRequest") UserLoginRequest loginRequest, BindingResult bindingResult, HttpSession session) {
@@ -90,6 +99,18 @@ HomeController {
 //
 //        return new ModelAndView("redirect:/profile");
 //    }
+
+    @GetMapping("/register")
+    public ModelAndView getRegisterPage() {
+
+        ModelAndView mv = new ModelAndView("register");
+
+        mv.addObject("user",new User());
+//        mv.addObject("userLoginRequest", new UserLoginRequest());
+        mv.addObject("registerRequestUser", new RegisterRequestUser());
+
+        return  mv;
+    }
 
     @PostMapping("/register")
 
