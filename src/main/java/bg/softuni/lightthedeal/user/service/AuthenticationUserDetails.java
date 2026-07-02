@@ -24,7 +24,7 @@ private Role role;
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
 
-        return List.of(new SimpleGrantedAuthority("ROLE"+ role.name()));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
     }
 
     @Override
@@ -36,4 +36,9 @@ private Role role;
     public String getUsername() {
         return this.username;
     }
+
+//    @Override
+//    public boolean isAccountNonLocked() {
+//        return isActive;
+//    }
 }

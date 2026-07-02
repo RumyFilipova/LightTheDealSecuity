@@ -8,6 +8,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import static bg.softuni.lightthedeal.user.entity.Role.ADMIN;
+import static bg.softuni.lightthedeal.user.entity.Role.OWNER;
+
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
@@ -30,6 +33,8 @@ public class WebConfig implements WebMvcConfigurer {
                         .permitAll()
                         .requestMatchers("/", "/home", "/register","/pics/**","/error","/login")
                         .permitAll()
+                        .requestMatchers("/profile/*/edit-staff/**")
+                        .hasAnyRole("OWNER","ADMIN")
                         .anyRequest()
                         .authenticated())
                 .formLogin(form -> form
