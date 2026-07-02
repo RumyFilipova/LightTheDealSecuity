@@ -16,6 +16,7 @@ import bg.softuni.lightthedeal.user.entity.User;
 import bg.softuni.lightthedeal.user.repository.UserRepository;
 import bg.softuni.lightthedeal.web.DTO.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -139,6 +140,12 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
+@PreAuthorize("hasAnyRole('ADMIN','OWNER')")
+    public List<User> getAllUsers() {
+
+        return userRepository.findAll();
+    }
+
     public User getByUsername(String username) {
 
         return userRepository.findByUsername(username)
@@ -172,6 +179,20 @@ public class UserService implements UserDetailsService {
 
       user.setPassword(passwordEncoder.encode(dto.getNewPassword()));
       userRepository.save(user);
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
+    public void switchRole(UUID id) {
+
+        User user = userRepository.findById(id)
+                .orElseThrow(()-> new RuntimeException("User is not found."));
+
+        if(user.getRole().equals(Role.TECH_LEAD)){
+            user.setRole(Role.OWNER);
+        }else {
+            user.setRole(Role.TECH_LEAD);
+        }
+        userRepository.save(user);
     }
 
     @Override
