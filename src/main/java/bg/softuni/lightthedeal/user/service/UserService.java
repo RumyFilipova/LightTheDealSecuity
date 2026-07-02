@@ -135,9 +135,7 @@ public class UserService implements UserDetailsService {
         userRepository.delete(user1);
     }
 
-
     public List<User> getAll() {
-
         return userRepository.findAll();
     }
 
@@ -166,7 +164,7 @@ public class UserService implements UserDetailsService {
     public void updatePassword(ChangePasswordRequest dto,UUID id) {
 
       User user = userRepository.findById(id)
-              .orElseThrow(()-> new RuntimeException("User not found."));
+              .orElseThrow(()-> new RuntimeException("User is not found."));
 
       if(!passwordEncoder.matches(dto.getCurrentPassword(),user.getPassword())){
           throw  new RuntimeException("Passwords do not match");
