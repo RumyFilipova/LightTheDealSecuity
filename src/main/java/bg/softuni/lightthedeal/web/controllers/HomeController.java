@@ -8,6 +8,7 @@ import bg.softuni.lightthedeal.web.DTO.UserLoginRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -54,13 +55,13 @@ HomeController {
 
 
     @GetMapping("/profile")
-    public ModelAndView getUserInitialPage(HttpSession session) {
+    public ModelAndView getUserInitialPage(@AuthenticationPrincipal AuthenticationUserDetails principal) {
 
 
-        AuthenticationUserDetails principal = (AuthenticationUserDetails) SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getPrincipal();
+//        AuthenticationUserDetails principal = (AuthenticationUserDetails) SecurityContextHolder
+//                .getContext()
+//                .getAuthentication()
+//                .getPrincipal();
 
 
         User currentUser = userService.getById(principal.getId());

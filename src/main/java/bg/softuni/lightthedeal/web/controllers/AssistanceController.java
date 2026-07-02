@@ -3,12 +3,14 @@ import bg.softuni.lightthedeal.assistance.entity.Category;
 import bg.softuni.lightthedeal.assistance.entity.Unit;
 import bg.softuni.lightthedeal.assistance.service.AssistanceService;
 import bg.softuni.lightthedeal.user.entity.User;
+import bg.softuni.lightthedeal.user.service.AuthenticationUserDetails;
 import bg.softuni.lightthedeal.user.service.UserService;
 import bg.softuni.lightthedeal.web.DTO.AssistanceServiceRequest;
 import bg.softuni.lightthedeal.web.DTO.AssistanceUpdateRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -30,10 +32,9 @@ public class AssistanceController {
 
     // // GET — empty form + list of existing services
     @GetMapping
-    public ModelAndView getAssistanceInitialPage(HttpSession session) {
+    public ModelAndView getAssistanceInitialPage(@AuthenticationPrincipal AuthenticationUserDetails principal) {
 
-        UUID userId =(UUID) session.getAttribute("userId");
-        User user = userService.getById(userId);
+        User user = userService.getById(principal.getId());
 
         ModelAndView modelAndView = new ModelAndView();
 
